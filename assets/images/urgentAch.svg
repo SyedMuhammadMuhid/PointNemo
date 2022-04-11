@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="25.729" height="29.3" viewBox="0 0 25.729 29.3">
+  <g id="Group_4126" data-name="Group 4126" transform="translate(-172.679 -296.475)">
+    <g id="Group_4075" data-name="Group 4075" transform="translate(-141.488 205.738)">
+      <g id="Group_4046" data-name="Group 4046" transform="translate(314.876 91.351)">
+        <path id="Path_3212" data-name="Path 3212" d="M18.974,0H6.325L0,10.955,6.325,21.91h12.65L25.3,10.955Z" transform="translate(23.111 1.387) rotate(90)" fill="#ae012d" stroke="#3a2c60" stroke-linecap="round" stroke-linejoin="bevel" stroke-width="1"/>
+        <path id="Path_3213" data-name="Path 3213" d="M21.055,0H7.018L0,12.156,7.018,24.312H21.055l7.018-12.156Z" transform="translate(24.312 0) rotate(90)" fill="none" stroke="#ffd7e5" stroke-linecap="round" stroke-linejoin="bevel" stroke-width="1.417"/>
+      </g>
+    </g>
+    <path id="Icon_awesome-angle-double-up" data-name="Icon awesome-angle-double-up" d="M4.632,9.2l3.561,3.561a.626.626,0,0,1,0,.888l-.592.592a.626.626,0,0,1-.888,0L4.187,11.714,1.663,14.238a.626.626,0,0,1-.888,0l-.594-.592a.626.626,0,0,1,0-.888L3.742,9.2A.627.627,0,0,1,4.632,9.2Zm-.89-5.027L.181,7.729a.626.626,0,0,0,0,.888l.592.592a.626.626,0,0,0,.888,0L4.185,6.684,6.709,9.208a.626.626,0,0,0,.888,0l.592-.592a.626.626,0,0,0,0-.888L4.627,4.168a.623.623,0,0,0-.885,0Z" transform="matrix(1, -0.017, 0.017, 1, 181.196, 301.289)" fill="#fff"/>
+  </g>
+</svg>
