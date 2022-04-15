@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:point_nemo/ui/pages/home_screen.dart';
+import 'package:flutter/services.dart';
+import 'package:point_nemo/ui/screens/home.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
+  ]).then((value) => runApp(MyApp()));
+  // runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
