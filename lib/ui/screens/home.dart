@@ -15,6 +15,7 @@ import 'package:point_nemo/ui/screens/leadership_board.dart';
 import 'package:point_nemo/ui/screens/task_profile.dart';
 import 'package:point_nemo/ui/widgets/bounce_avatar.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:slide_countdown/slide_countdown.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -23,23 +24,42 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+List<int> leaderBoardPoints = [232, 198, 170, 166, 160, 150, 140, 130, 180];
+
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  List SideBar = ["", "", "", "", ""];
-  List Bar = ["", "", "", "", "", "", ""];
+  List SideBar = ["", "", ""];
+  List Bar = ["", "", "", "", "", "", "", "", "", ""];
   List<UserAvatars> usersList = [];
+  List<String> SideBarUsers = [
+    "Nicolas Holmes",
+    "Anthony Wallace",
+    "Leanord roberts"
+  ];
   Tween<double> _tween = Tween(begin: 0.75, end: 1);
   bool enterPin = false;
-  List<Map<String, int>> missionTextList = [{ "Clean coffee machine" : 10},{ "Fountain ice stock": 10},{ "Restock coffee supplies" : 50 } ,
-{ "Wipe down counters" : 15}, { "Turn off electronics and other appliances" : 20}, {"Wipe down ice machines out front": 5}, { "Check that all display are in order": 30},
-    {  "Dust off tables": 10 }, { "Physically count all your products if necessary": 5 },
+  List<Map<String, int>> missionTextList = [
+    {"Clean coffee machine": 10},
+    {"Fountain ice stock": 10},
+    {"Restock coffee supplies": 50},
+    {"Wipe down counters": 15},
+    {"Turn off electronics and other appliances": 20},
+    {"Wipe down ice machines out front": 5},
+    {"Check that all display are in order": 30},
+    {"Dust off tables": 10},
+    {"Physically count all your products if necessary": 5},
   ];
-  List<Map<String, int>> accomplishmentTextList = [{ "Turn off electronics and other appliances" : 20},{ "Restock shelves if necessary": 5}, { "Ensure that product tags are in order" : 20}, { "Enter your daily cash float": 15},];
-  List<int> leaderBoardPoints = [232, 198, 170, 166, 160, 150, 140, 130, 180];
+  List<Map<String, int>> accomplishmentTextList = [
+    // {"Turn off electronics and other appliances": 20},
+    {"Restock shelves if necessary": 5},
+    {"Ensure that product tags are in order": 20},
+    {"Enter your daily cash float": 15},
+  ];
 
   final defaultPinTheme = PinTheme(
     width: 90,
     height: 80,
-    textStyle: TextStyle(fontSize: 26, color: Colors.white, fontWeight: FontWeight.w600),
+    textStyle: TextStyle(
+        fontSize: 26, color: Colors.white, fontWeight: FontWeight.w600),
     decoration: BoxDecoration(
       border: Border.all(color: Color(0xFF731B81)),
       borderRadius: BorderRadius.circular(10),
@@ -49,7 +69,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   // Particles
   // ParticleType? _particleType = ParticleType.Image;
   // Image _image = Image.asset('assets/images/star_stroke.png');
-
 
   late final AnimationController _controller = AnimationController(
     duration: const Duration(milliseconds: 1000),
@@ -147,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.only(
-                                    top: 30,
+                                    top: 25,
                                     right: 30,
                                   ),
                                   child: Row(
@@ -163,10 +182,19 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       //   ),
                                       // ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
                                         children: [
-                                          Icon(Icons.volume_mute_sharp, color: Colors.white, size: 35,),
-                                          Icon(Icons.close, color: Colors.white, size: 25,),
+                                          Icon(
+                                            Icons.volume_mute_sharp,
+                                            color: Colors.white,
+                                            size: 35,
+                                          ),
+                                          Icon(
+                                            Icons.close,
+                                            color: Colors.white,
+                                            size: 25,
+                                          ),
                                         ],
                                       ),
                                       SizedBox(
@@ -177,7 +205,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         backgroundColor: Color(0xFFFF006F),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal : 8.0),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 8.0),
                                         child: Text(
                                           'MENU',
                                           style: TextStyle(
@@ -188,7 +217,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                               letterSpacing: 0),
                                         ),
                                       ),
-                                      SvgPicture.asset("assets/images/icons/menuIcon.svg",
+                                      SvgPicture.asset(
+                                        "assets/images/icons/menuIcon.svg",
                                         color: Colors.white,
                                         height: 20,
                                         width: 20,
@@ -223,23 +253,28 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       Container(
                                         height: 150,
                                         width:
-                                            MediaQuery.of(context).size.width - 30,
+                                            MediaQuery.of(context).size.width -
+                                                30,
                                         child: AnimatedList(
                                           key: _userAvatarListKey,
                                           scrollDirection: Axis.horizontal,
-                                          initialItemCount: usersList
-                                              .length + 1, //checkList.length,
+                                          initialItemCount: usersList.length +
+                                              1, //checkList.length,
                                           itemBuilder:
                                               (context, index, animation) {
-                                            return  index == usersList.length ? Container(width: 50,) :
-                                            SlideTransition(
-                                                position: animation.drive(
-                                                  Tween<Offset>(
-                                                    begin: Offset.zero,
-                                                    end: const Offset( 0.5, 0.0),
-                                                  ),
-                                                ),
-                                                child: usersList[index]);
+                                            return index == usersList.length
+                                                ? Container(
+                                                    width: 50,
+                                                  )
+                                                : SlideTransition(
+                                                    position: animation.drive(
+                                                      Tween<Offset>(
+                                                        begin: Offset.zero,
+                                                        end: const Offset(
+                                                            0.5, 0.0),
+                                                      ),
+                                                    ),
+                                                    child: usersList[index]);
                                           },
                                         ),
                                       )
@@ -253,10 +288,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   padding: const EdgeInsets.only(
                                       left: 30, top: 0, right: 30),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Flexible(
-
                                         child: Shimmer.fromColors(
                                           baseColor: Colors.white,
                                           highlightColor: Color(0xff632806),
@@ -277,7 +312,37 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       ),
                                       // Timer Here
                                       Flexible(
-                                          child: Container(),
+                                        child: Row(
+                                          children: [
+                                            Container(
+                                              child: Text(
+                                                "Morning shift:  ",
+                                                style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontFamily: 'Neuropol',
+                                                    color: Colors.white,
+                                                    //fontWeight: FontWeight.bold,
+                                                    letterSpacing: 4),
+                                              ),
+                                            ),
+                                            SlideCountdownSeparated(
+                                              separatorStyle: TextStyle(
+                                                  color: Colors.white),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                  color: Colors.transparent),
+                                              textStyle: TextStyle(
+                                                  fontSize: 15,
+                                                  fontFamily: 'Games',
+                                                  color: Colors.white,
+                                                  //fontWeight: FontWeight.bold,
+                                                  letterSpacing: 4),
+                                              duration:
+                                                  const Duration(hours: 2),
+                                            )
+                                          ],
+                                        ),
                                       ),
                                       Flexible(
                                         child: Shimmer.fromColors(
@@ -333,6 +398,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                             // print("oo");
                                             BarIndex++;
                                           }
+                                          if (index % 4 == 0) {
+                                            SideBarIndex++;
+                                          }
                                           return Padding(
                                             padding: index % 4 == 0
                                                 ? const EdgeInsets.only(
@@ -340,19 +408,27 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                 : const EdgeInsets.only(
                                                     left: 0),
                                             child:
-                                                BarIndex < Bar.length ||
+                                                BarIndex - 1 <
+                                                            missionTextList
+                                                                .length ||
                                                         index % 4 == 0
                                                     ? index % 4 == 0
                                                         ? Container(
-                                                  decoration:  BoxDecoration(
-                                                      borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          15),
-                                                      gradient: LinearGradient(
-                                                          begin: Alignment.bottomLeft,
-                                                          end: Alignment.topRight,
-                                                          colors: [Color(0xff4E1151), Color(0xff632806)])),
+                                                            decoration: BoxDecoration(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            15),
+                                                                gradient: LinearGradient(
+                                                                    begin: Alignment
+                                                                        .bottomLeft,
+                                                                    end: Alignment.topRight,
+                                                                    colors: [
+                                                                      Color(
+                                                                          0xff4E1151),
+                                                                      Color(
+                                                                          0xff632806)
+                                                                    ])),
                                                             child: Column(
                                                               mainAxisAlignment:
                                                                   MainAxisAlignment
@@ -383,40 +459,43 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                               .spaceEvenly,
                                                                       children: [
                                                                         Flexible(
-                                                                          child: Row(
-                                                                            mainAxisAlignment: MainAxisAlignment.end,
+                                                                          child:
+                                                                              Row(
+                                                                            mainAxisAlignment:
+                                                                                MainAxisAlignment.end,
                                                                             children: [
                                                                               Container(
                                                                                 height: 20,
                                                                                 width: 35,
-                                                                                child: Icon(Icons.check, color: Color(0xff3AF40A), size: 35,),// SvgPicture.asset("assets/images/icons/checkDouble.svg", color: Color(0xff3AF40A),),// FaIcon(FontAwesomeIcons.clock, color: Color(0xff3AF40A), size: 20,),
+                                                                                child: Icon(
+                                                                                  Icons.check,
+                                                                                  color: Color(0xff3AF40A),
+                                                                                  size: 25,
+                                                                                ), // SvgPicture.asset("assets/images/icons/checkDouble.svg", color: Color(0xff3AF40A),),// FaIcon(FontAwesomeIcons.clock, color: Color(0xff3AF40A), size: 20,),
                                                                               ),
-
                                                                             ],
                                                                           ),
                                                                         ),
                                                                         Flexible(
-                                                                          child: Padding(    
-                                                                              padding: const EdgeInsets.only(
-                                                                                  left: 15.0,
-                                                                                  right: 5,
-                                                                                  top: 0),
+                                                                          child: Padding(
+                                                                              padding: const EdgeInsets.only(left: 15.0, right: 5, top: 0),
                                                                               child: Text(
-                                                                                "Restock the shelves, if nessesery",
+                                                                                accomplishmentTextList[SideBarIndex - 1 < accomplishmentTextList.length ? SideBarIndex - 1 : 0].keys.toString().replaceAll("(", "").replaceAll(")", ""),
                                                                                 maxLines: 2,
                                                                                 style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: "Meteoric"),
                                                                               )),
                                                                         ),
                                                                         Flexible(
-                                                                          child: Container(
+                                                                          child:
+                                                                              Container(
                                                                             padding: const EdgeInsets.only(
                                                                                 left: 15.0,
                                                                                 bottom: 05,
                                                                                 right: 15),
                                                                             child:
                                                                                 Row(
-                                                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                                                children: [
+                                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                                              children: [
                                                                                 // Row(
                                                                                 //   children: [
                                                                                 //     Image.asset("assets/images/coin.png"),
@@ -431,20 +510,26 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                                 // ),
                                                                                 CircleAvatar(
                                                                                   radius: 18,
-                                                                                  backgroundImage: AssetImage("assets/images/userImages/potrait${index >= 10 ? index % 9 : index }.png"),
+                                                                                  backgroundImage: AssetImage("assets/images/userImages/potrait${SideBarIndex - 1}.png"),
                                                                                   backgroundColor: Colors.transparent,
                                                                                 ),
-                                                                                SizedBox(width: 10,),
+                                                                                SizedBox(
+                                                                                  width: 10,
+                                                                                ),
                                                                                 Text(
-                                                                                  "Anthony Miller",
-                                                                                  style: TextStyle(color: Colors.white, fontSize: 15, fontFamily: "Adelle",),
+                                                                                  SideBarUsers[SideBarIndex - 1 < accomplishmentTextList.length ? SideBarIndex - 1 : 0].toString(),
+                                                                                  style: TextStyle(
+                                                                                    color: Colors.white,
+                                                                                    fontSize: 15,
+                                                                                    fontFamily: "Adelle",
+                                                                                  ),
                                                                                 ),
                                                                                 // Container(
                                                                                 //   height: 40,
                                                                                 //   child: Image.asset("assets/images/doneAch.png"),
                                                                                 // )
-                                                                                ],
-                                                                              ),
+                                                                              ],
+                                                                            ),
                                                                           ),
                                                                         )
                                                                       ],
@@ -461,18 +546,25 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                               8.0),
                                                                       child:
                                                                           Row(
-                                                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.center,
                                                                         children: [
                                                                           Padding(
                                                                               padding: const EdgeInsets.only(right: 10.0, left: 5.0),
                                                                               child: Container(
                                                                                 height: 14,
-                                                                                child: Image.asset("assets/images/coin.png", color: Color(0xFFFED843),),
+                                                                                child: Image.asset(
+                                                                                  "assets/images/coin.png",
+                                                                                  color: Color(0xFFFED843),
+                                                                                ),
                                                                               )),
                                                                           Text(
-                                                                            "5 points earned",
-                                                                            style:
-                                                                                TextStyle(fontSize: 14, fontFamily: "Adelle", color: Color(0xFFFED843), fontWeight: FontWeight.bold),
+                                                                            "${accomplishmentTextList[SideBarIndex - 1 < accomplishmentTextList.length ? SideBarIndex - 1 : 0].values.toString().replaceAll("(", "").replaceAll(")", "")} points earned",
+                                                                            style: TextStyle(
+                                                                                fontSize: 14,
+                                                                                fontFamily: "Adelle",
+                                                                                color: Color(0xFFFED843),
+                                                                                fontWeight: FontWeight.bold),
                                                                           ),
                                                                         ],
                                                                       ),
@@ -492,11 +584,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                         controller
                                                                             .value)
                                                                     : null,
-                                                                child:
-                                                                    InkWell(
-                                                                      onTap: cardTapped,
-                                                                      child: Container(
-                                                                  decoration:
+                                                                child: InkWell(
+                                                                  onTap:
+                                                                      cardTapped,
+                                                                  child:
+                                                                      Container(
+                                                                    decoration:
                                                                         BoxDecoration(
                                                                       color: Color(
                                                                           0xff060a1a),
@@ -506,8 +599,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                       borderRadius:
                                                                           BorderRadius.circular(
                                                                               15),
-                                                                  ),
-                                                                  child: Column(
+                                                                    ),
+                                                                    child:
+                                                                        Column(
                                                                       mainAxisAlignment:
                                                                           MainAxisAlignment
                                                                               .spaceBetween,
@@ -517,20 +611,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                       children: [
                                                                         Padding(
                                                                           padding: const EdgeInsets.only(
-                                                                              left:
-                                                                                  15.0,
-                                                                              right:
-                                                                                  25,
-                                                                              top:
-                                                                                  16),
+                                                                              left: 15.0,
+                                                                              right: 25,
+                                                                              top: 16),
                                                                           child:
                                                                               Text(
-                                                                            "Do a security inspection, perform daily housekeeping",
-                                                                            maxLines: 2,
-                                                                            style: TextStyle(
-                                                                                color: Colors.white,
-                                                                                fontSize: 17,
-                                                                                fontFamily: "Meteoric",
+                                                                            missionTextList[BarIndex - 1 < missionTextList.length ? BarIndex - 1 : 0].keys.toString().replaceAll("(", "").replaceAll(")",
+                                                                                ""),
+                                                                            maxLines:
+                                                                                2,
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Colors.white,
+                                                                              fontSize: 17,
+                                                                              fontFamily: "Meteoric",
                                                                             ),
                                                                           ),
                                                                         ),
@@ -543,8 +637,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                                 right: 15),
                                                                             child:
                                                                                 Row(
-                                                                              mainAxisAlignment:
-                                                                                  MainAxisAlignment.spaceBetween,
+                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                               children: [
                                                                                 Row(
                                                                                   children: [
@@ -552,7 +645,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                                     Padding(
                                                                                       padding: const EdgeInsets.only(left: 8.0),
                                                                                       child: Text(
-                                                                                        "10 points",
+                                                                                        "${missionTextList[BarIndex - 1 < missionTextList.length ? BarIndex - 1 : 0].values.toString().replaceAll("(", "").replaceAll(")", "")} points",
                                                                                         style: TextStyle(color: Color(0xfffabe2c), fontSize: 18, fontFamily: "Adelle", fontWeight: FontWeight.bold),
                                                                                       ),
                                                                                     ),
@@ -567,7 +660,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                                         child: Container(
                                                                                           height: 30,
                                                                                           width: 25,
-                                                                                          decoration: const BoxDecoration(image:  DecorationImage(image: AssetImage("assets/images/flag.png"))),
+                                                                                          decoration: const BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/flag.png"))),
                                                                                         ),
                                                                                         // const Icon(
                                                                                         //   Icons.flag_outlined,
@@ -580,9 +673,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                           ),
                                                                         )
                                                                       ],
+                                                                    ),
                                                                   ),
                                                                 ),
-                                                                    ),
                                                               );
                                                             },
                                                           )
@@ -1047,8 +1140,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-
-  Future<dynamic> cardTapped(){
+  Future<dynamic> cardTapped() {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -1056,63 +1148,81 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               backgroundColor: Colors.transparent,
               scrollable: true,
               content: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    // crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Container(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  // crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Container(
                         height: 50,
-                         margin: EdgeInsets.symmetric( vertical: 15),
-                          child: Text("ENTER YOUR PIN", style: TextStyle(
+                        margin: EdgeInsets.symmetric(vertical: 15),
+                        child: Text(
+                          "ENTER YOUR PIN",
+                          style: TextStyle(
                             color: Colors.white,
                             fontSize: 32,
                             fontFamily: "Roboto",
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1,
-                          ),)),
-                      Pinput(
-                        onCompleted: (pin) => print(pin),
-                        keyboardAppearance: Brightness.dark,
-                        defaultPinTheme: defaultPinTheme,
-                        validator: (pin){
-                          if(pin?.length != 4){
-                            return "Please Enter 4-digit Pin.";
-                          }
-                        },
+                          ),
+                        )),
+                    Pinput(
+                      onCompleted: (pin) => print(pin),
+                      keyboardAppearance: Brightness.dark,
+                      defaultPinTheme: defaultPinTheme,
+                      validator: (pin) {
+                        if (pin?.length != 4) {
+                          return "Please Enter 4-digit Pin.";
+                        }
+                      },
+                    ),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => TaskProfile()));
+                      },
+                      child: Container(
+                        height: 50,
+                        margin: EdgeInsets.symmetric(vertical: 15),
+                        child: Wrap(
+                          //alignment: WrapAlignment.center,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          //mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              "NEXT",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 30,
+                                fontFamily: "Impact",
+                                letterSpacing: 2,
+                                // fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            FaIcon(
+                              FontAwesomeIcons.anglesRight,
+                              color: Colors.white60,
+                              size: 25,
+                            )
+                          ],
+                        ),
                       ),
-                      SizedBox(height: 50,),
-                      InkWell(
-                        onTap: (){
-                          Navigator.pop(context);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => TaskProfile()));
-                        },
-                        child: Container(
-                          height: 50,
-                            margin: EdgeInsets.symmetric( vertical: 15),
-                            child: Wrap(
-                              //alignment: WrapAlignment.center,
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                              //mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text("NEXT", style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 30,
-                                  fontFamily: "Impact",
-                                  letterSpacing: 2,
-                                  // fontWeight: FontWeight.bold,
-                                ),),
-                                SizedBox(width: 10,),
-                                FaIcon(FontAwesomeIcons.anglesRight, color: Colors.white60, size: 25,)
-                              ],
-                            ),),
-                      ),
-                      // IconButton(
-                      //   icon: Icon(Icons.arrow_forward_ios),
-                      //   onPressed: () => Navigator.push(context, MaterialPageRoute( builder: (context) => TaskProfile())),
-                      // ),
-                    ],
-                  ), // Container(color: Colors.yellow,) // UserPinPopup(),
+                    ),
+                    // IconButton(
+                    //   icon: Icon(Icons.arrow_forward_ios),
+                    //   onPressed: () => Navigator.push(context, MaterialPageRoute( builder: (context) => TaskProfile())),
+                    // ),
+                  ],
+                ), // Container(color: Colors.yellow,) // UserPinPopup(),
               ));
         });
   }
@@ -1213,23 +1323,25 @@ class UserAvatars extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: index == 9 ? () =>
-          Navigator.push(context, MaterialPageRoute(builder: (context) => LeadershipBoard()))
+      onTap: index == 9
+          ? () => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => LeadershipBoard()))
           : null,
       child: Column(
         // crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-              padding:
-                  const EdgeInsets.only(left: 8.0, right: 8, top: 10, bottom: 8),
+              padding: const EdgeInsets.only(
+                  left: 8.0, right: 8, top: 10, bottom: 8),
               child: Avatar(
                 index: index,
               )),
           Text(
-            index == 9 ? "View All" : "209 pts",
+            index == 9 ? "View All" : "${leaderBoardPoints[index]} pts",
             style: TextStyle(
                 color: index == 0 ? const Color(0xffc2ab12) : Colors.white,
-                fontWeight: FontWeight.bold, fontFamily: "Adelle"),
+                fontWeight: FontWeight.bold,
+                fontFamily: "Adelle"),
           )
         ],
       ),

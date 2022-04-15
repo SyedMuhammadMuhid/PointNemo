@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_svg: ^1.0.3
   slimy_card: ^1.0.4
+  slide_countdown: ^0.2.3
   animated_background: ^2.0.0
   simple_animations: ^4.0.1
   shimmer: ^2.0.0
@@ -114,6 +115,9 @@ flutter:
     - family: Impact
       fonts:
         - asset: assets/fonts/impact/impact.ttf
+    - family: Digital
+      fonts:
+        - asset: assets/fonts/timer/digital7.ttf
 
 #       - asset: fonts/Schyler-Italic.ttf
 #         style: italic

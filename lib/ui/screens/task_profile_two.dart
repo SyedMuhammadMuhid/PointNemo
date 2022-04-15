@@ -1,5 +1,3 @@
-
-
 import 'dart:math';
 import 'dart:ui';
 
@@ -14,6 +12,7 @@ import 'package:point_nemo/globals/constants.dart';
 import 'package:point_nemo/globals/textStyles.dart';
 import 'package:point_nemo/ui/screens/home.dart';
 import 'package:point_nemo/ui/screens/task_badges_two.dart';
+import 'package:point_nemo/ui/widgets/points_animated.dart';
 import 'package:point_nemo/ui/widgets/scored_progress_bar.dart';
 
 class TaskProfileTwo extends StatefulWidget {
@@ -23,17 +22,19 @@ class TaskProfileTwo extends StatefulWidget {
   _TaskProfileTwoState createState() => _TaskProfileTwoState();
 }
 
-class _TaskProfileTwoState extends State<TaskProfileTwo> with TickerProviderStateMixin{
-
+class _TaskProfileTwoState extends State<TaskProfileTwo>
+    with TickerProviderStateMixin {
   // >> Globals
   // styles
   // static const TextStyle backNavigationTextStyle = TextStyle(color: Colors.white, fontSize: 18, fontFamily: "Adelle");
-  final List<Image> commentsList = [Image.asset("assets/pictures/TaskComments.png"), Image.asset("assets/pictures/TaskComments2.png") ];
+  final List<Image> commentsList = [
+    Image.asset("assets/pictures/TaskComments.png"),
+    Image.asset("assets/pictures/TaskComments2.png")
+  ];
 
   CarouselController buttonCarouselController = CarouselController();
 
   late ConfettiController _controllerTopCenter;
-
 
   @override
   void initState() {
@@ -42,7 +43,7 @@ class _TaskProfileTwoState extends State<TaskProfileTwo> with TickerProviderStat
     _controllerTopCenter =
         ConfettiController(duration: const Duration(seconds: 2));
     _controllerTopCenter.play();
-    Future.delayed(Duration(seconds: 4), (){
+    Future.delayed(Duration(seconds: 4), () {
       _controllerTopCenter.stop();
     });
   }
@@ -57,7 +58,6 @@ class _TaskProfileTwoState extends State<TaskProfileTwo> with TickerProviderStat
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-
       child: Container(
         decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -70,11 +70,15 @@ class _TaskProfileTwoState extends State<TaskProfileTwo> with TickerProviderStat
             foregroundColor: Colors.transparent,
             leading: InkWell(
               onTap: () {
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> HomeScreen()), (Route<dynamic> route) => false);
-              } ,
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                    (Route<dynamic> route) => false);
+              },
               child: Padding(
                 padding: const EdgeInsets.only(left: 10.0),
-                child: SvgPicture.asset("assets/images/icons/backwardTriArrows.svg"),
+                child: SvgPicture.asset(
+                    "assets/images/icons/backwardTriArrows.svg"),
               ),
             ),
             title: Align(
@@ -98,143 +102,207 @@ class _TaskProfileTwoState extends State<TaskProfileTwo> with TickerProviderStat
             child: Stack(
               children: [
                 Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Container(
-                    width: 100,
-                    height: double.infinity,
-                    child: Center(
-                      child: InkWell(
-                        onTap: () => buttonCarouselController.previousPage(
-                            duration: Duration(milliseconds: 600), curve: Curves.linear),
-                        child: Container(
-                          // decoration: const BoxDecoration(
-                          //     gradient: LinearGradient(
-                          //         begin: Alignment.bottomLeft,
-                          //         end: Alignment.topRight,
-                          //         colors: [Color(0xff160647), Color(0xff370647)])),
-                          child: CircleAvatar(
-                            radius: 25,
-                            backgroundColor: Color(0xff730AAF),
-                            child: FaIcon(FontAwesomeIcons.anglesLeft, color: Colors.white, size: 25,),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        // First section
-                        Expanded(
-                          flex: 2,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Container(
+                      width: 100,
+                      height: double.infinity,
+                      child: Center(
+                        child: InkWell(
+                          onTap: () => buttonCarouselController.previousPage(
+                              duration: Duration(milliseconds: 600),
+                              curve: Curves.linear),
                           child: Container(
-                            height: 250,
-                            width: double.maxFinite,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: InkWell(
-                                    onTap: userCardTap,
-                                    child: Container(
-                                      alignment: Alignment.centerLeft,
-                                      child: Image.asset("assets/pictures/user_Details_2.png"),),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Flexible(child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Text("Total Points 80", style: pointsHeaderTextStyle,))),
-                                      // Linear Progress Animator
-                                      Container(
-                                        height: 20,
-                                        width: 200,
-                                        child: LiquidProgressIndicator(),
-                                        // LinearProgressIndicator(
-                                        //   value: 70,
-                                        //   backgroundColor: Colors.black38,
-                                        //   color: Color(0xff632806),
-                                        // ),
-                                      ),
-                                      Flexible(child: Align( alignment: Alignment.centerRight, child: Text("Rank 12", style: pointsHeaderTextStyle,))),
-                                    ],
-                                  ),
-                                ),
-                              ],
+                            // decoration: const BoxDecoration(
+                            //     gradient: LinearGradient(
+                            //         begin: Alignment.bottomLeft,
+                            //         end: Alignment.topRight,
+                            //         colors: [Color(0xff160647), Color(0xff370647)])),
+                            child: CircleAvatar(
+                              radius: 25,
+                              backgroundColor: Color(0xff730AAF),
+                              child: FaIcon(
+                                FontAwesomeIcons.anglesLeft,
+                                color: Colors.white,
+                                size: 25,
+                              ),
                             ),
                           ),
                         ),
-                        // second section table
-                        Expanded(
-                          flex: 6,
-                          child: InkWell(
-                            onTap: noteTapped,
-                            child: Container(
-                              child:
-                              CarouselSlider.builder(
-                                  options: CarouselOptions(
-                                    // height: 400,
-                                    // aspectRatio: 16/9,
-                                    viewportFraction: 1.0,
-                                    initialPage: 0,
-                                    enableInfiniteScroll: false,
-                                    reverse: false,
-                                    autoPlay: false,
-                                    // autoPlayInterval: Duration(seconds: 3),
-                                    // autoPlayAnimationDuration: Duration(milliseconds: 800),
-                                    // autoPlayCurve: Curves.fastOutSlowIn,
-                                    // enlargeCenterPage: true,
-                                    // onPageChanged: callbackFunction,
-                                    scrollDirection: Axis.horizontal,
-                                  ),
-                                  carouselController: buttonCarouselController,
-                                  itemCount: commentsList.length,
-                                  itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
-                                      Container(child: commentsList[itemIndex])
-                                // Image.asset("assets/pictures/TaskComments.png")
-
-                              ),),
-                          ),
-                        ),
-                        SizedBox(height: 10,),
-                        // Input keyboard
-                        Expanded(
-                            flex: 1,
-                            child: SvgPicture.asset("assets/pictures/input.svg")),
-                      ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    width: 100,
-                    height: double.infinity,
-                    child: Center(
-                      child: InkWell(
-                        onTap: () => buttonCarouselController.nextPage(
-                            duration: Duration(milliseconds: 600), curve: Curves.linear),
-                        child: Container(
-                          // decoration: const BoxDecoration(
-                          //     gradient: LinearGradient(
-                          //         begin: Alignment.bottomLeft,
-                          //         end: Alignment.topRight,
-                          //         colors: [Color(0xff160647), Color(0xff370647)])),
-                          child: CircleAvatar(
-                            radius: 25,
-                            backgroundColor: Color(0xff730AAF),
-                            child: FaIcon(FontAwesomeIcons.anglesRight, color: Colors.white, size: 25,),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          // First section
+                          Expanded(
+                            flex: 2,
+                            child: Container(
+                              height: 250,
+                              width: double.maxFinite,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: userCardTap,
+                                      child: Container(
+                                        alignment: Alignment.centerLeft,
+                                        child: Image.asset(
+                                            "assets/pictures/user_Details_2.png"),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Flexible(
+                                            child: Align(
+                                                alignment:
+                                                    Alignment.centerRight,
+                                                child: Text(
+                                                  "Total Points 80",
+                                                  style: pointsHeaderTextStyle,
+                                                ))),
+                                        // Linear Progress Animator
+                                        Container(
+                                          width: 320,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
+                                              color: Colors.black,
+                                              border: Border.all(
+                                                width:
+                                                    5, //                   <--- border width here
+                                              )),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(25),
+                                                  color: Colors.purple,
+                                                ),
+                                                child: const MyAnimatedLoading(
+                                                  offsetSpeed: Offset(1, 0),
+                                                  width: 220,
+                                                  height: 20,
+                                                  colors: [
+                                                    Color(0xffff2500),
+                                                    Color(0xffff2500),
+                                                    Color(0xffff6600),
+                                                    Color(0xffff6600),
+                                                    Colors.orange,
+                                                    Colors.orange,
+                                                    Color(0xffF361AC),
+                                                    Color(0xffF361AC),
+                                                    Colors.purple,
+                                                    Colors.purple,
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Flexible(
+                                            child: Align(
+                                                alignment:
+                                                    Alignment.centerRight,
+                                                child: Text(
+                                                  "Rank 12",
+                                                  style: pointsHeaderTextStyle,
+                                                ))),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          // second section table
+                          Expanded(
+                            flex: 6,
+                            child: InkWell(
+                              onTap: noteTapped,
+                              child: Container(
+                                child: CarouselSlider.builder(
+                                    options: CarouselOptions(
+                                      // height: 400,
+                                      // aspectRatio: 16/9,
+                                      viewportFraction: 1.0,
+                                      initialPage: 0,
+                                      enableInfiniteScroll: false,
+                                      reverse: false,
+                                      autoPlay: false,
+                                      // autoPlayInterval: Duration(seconds: 3),
+                                      // autoPlayAnimationDuration: Duration(milliseconds: 800),
+                                      // autoPlayCurve: Curves.fastOutSlowIn,
+                                      // enlargeCenterPage: true,
+                                      // onPageChanged: callbackFunction,
+                                      scrollDirection: Axis.horizontal,
+                                    ),
+                                    carouselController:
+                                        buttonCarouselController,
+                                    itemCount: commentsList.length,
+                                    itemBuilder: (BuildContext context,
+                                            int itemIndex, int pageViewIndex) =>
+                                        Container(
+                                            child: commentsList[itemIndex])
+                                    // Image.asset("assets/pictures/TaskComments.png")
+
+                                    ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          // Input keyboard
+                          Expanded(
+                              flex: 1,
+                              child: SvgPicture.asset(
+                                  "assets/pictures/input.svg")),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: 100,
+                      height: double.infinity,
+                      child: Center(
+                        child: InkWell(
+                          onTap: () => buttonCarouselController.nextPage(
+                              duration: Duration(milliseconds: 600),
+                              curve: Curves.linear),
+                          child: Container(
+                            // decoration: const BoxDecoration(
+                            //     gradient: LinearGradient(
+                            //         begin: Alignment.bottomLeft,
+                            //         end: Alignment.topRight,
+                            //         colors: [Color(0xff160647), Color(0xff370647)])),
+                            child: CircleAvatar(
+                              radius: 25,
+                              backgroundColor: Color(0xff730AAF),
+                              child: FaIcon(
+                                FontAwesomeIcons.anglesRight,
+                                color: Colors.white,
+                                size: 25,
+                              ),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
                 Align(
                   alignment: Alignment.topCenter,
                   child: ConfettiWidget(
@@ -242,7 +310,7 @@ class _TaskProfileTwoState extends State<TaskProfileTwo> with TickerProviderStat
                     blastDirectionality: BlastDirectionality
                         .explosive, // don't specify a direction, blast randomly
                     shouldLoop:
-                    true, // start again as soon as the animation is finished
+                        true, // start again as soon as the animation is finished
                     colors: const [
                       Colors.green,
                       Colors.blue,
@@ -253,7 +321,7 @@ class _TaskProfileTwoState extends State<TaskProfileTwo> with TickerProviderStat
                     createParticlePath: drawStar, // define a custom shape/path.
                   ),
                 ),
-            ],
+              ],
             ),
           ),
         ),
@@ -261,7 +329,7 @@ class _TaskProfileTwoState extends State<TaskProfileTwo> with TickerProviderStat
     );
   }
 
-  Future<dynamic> noteTapped(){
+  Future<dynamic> noteTapped() {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -272,13 +340,16 @@ class _TaskProfileTwoState extends State<TaskProfileTwo> with TickerProviderStat
                 filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                 child: InkWell(
                     onTap: () => Navigator.pop(context),
-                    child: Center(child: Image.asset("assets/pictures/note_to_manager.png"))), // Container(color: Colors.yellow,) // UserPinPopup(),
+                    child: Center(
+                        child: Image.asset(
+                            "assets/pictures/note_to_manager.png"))), // Container(color: Colors.yellow,) // UserPinPopup(),
               ));
         });
   }
 
-  void userCardTap(){
-    Navigator.push(context, MaterialPageRoute( builder: (context) => TaskBadgesTwo()));
+  void userCardTap() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => TaskBadgesTwo()));
   }
 
   /// A custom Path to paint stars.
@@ -306,4 +377,3 @@ class _TaskProfileTwoState extends State<TaskProfileTwo> with TickerProviderStat
     return path;
   }
 }
-
