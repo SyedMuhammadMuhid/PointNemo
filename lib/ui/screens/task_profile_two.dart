@@ -28,8 +28,8 @@ class _TaskProfileTwoState extends State<TaskProfileTwo>
   // styles
   // static const TextStyle backNavigationTextStyle = TextStyle(color: Colors.white, fontSize: 18, fontFamily: "Adelle");
   final List<Image> commentsList = [
-    Image.asset("assets/pictures/TaskComments.png"),
-    Image.asset("assets/pictures/TaskComments2.png")
+    Image.asset("assets/pictures/TaskComments2.png"),
+    Image.asset("assets/pictures/TaskComments.png")
   ];
 
   CarouselController buttonCarouselController = CarouselController();
@@ -120,7 +120,8 @@ class _TaskProfileTwoState extends State<TaskProfileTwo>
                         ),
                       ),
                     ),
-                    Expanded(
+                  ),
+                  Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
@@ -251,15 +252,13 @@ class _TaskProfileTwoState extends State<TaskProfileTwo>
                               ),
                             ),
                           ),
-
-                        ),
-                        SizedBox(height: 10,),
+                  SizedBox(height: 10,),
                         // Input keyboard
-                        Expanded(
+                  Expanded(
                             flex: 1,
-                            child: SvgPicture.asset("assets/pictures/input_keyboard_with_message.svg")),
+                            child: SvgPicture.asset("assets/pictures/input_Keyboard.svg")),
                       ],
-                    ),
+                    ),),
                     Container(
                       width: 100,
                       height: double.infinity,
@@ -287,8 +286,6 @@ class _TaskProfileTwoState extends State<TaskProfileTwo>
                         ),
                       ),
                     ),
-
-                  ),
                 ],
               ),
           ),
@@ -310,7 +307,7 @@ class _TaskProfileTwoState extends State<TaskProfileTwo>
                     onTap: () => Navigator.pop(context),
                     child: Center(
                         child: Image.asset(
-                            "assets/pictures/note_to_manager.png"))), // Container(color: Colors.yellow,) // UserPinPopup(),
+                            "assets/pictures/note_to_manager.png", scale: 1.5))), // Container(color: Colors.yellow,) // UserPinPopup(),
               ));
         });
   }

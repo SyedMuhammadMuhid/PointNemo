@@ -12,8 +12,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pinput/pinput.dart';
 import 'package:point_nemo/globals/constants.dart';
 import 'package:point_nemo/globals/textStyles.dart';
+import 'package:point_nemo/globals/variabes.dart';
 import 'package:point_nemo/ui/screens/leadership_board.dart';
 import 'package:point_nemo/ui/screens/task_profile.dart';
+import 'package:point_nemo/ui/screens/task_profile_two.dart';
 import 'package:point_nemo/ui/widgets/bounce_avatar.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:slide_countdown/slide_countdown.dart';
@@ -32,14 +34,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   List Bar = ["", "", "", "", "", "", "", "", "", ""];
   List<UserAvatars> usersList = [];
   List<String> SideBarUsers = [
-    "Nicolas Holmes",
-    "Anthony Wallace",
-    "Leanord roberts"
+    "Nicolas ",
+    "Anthony ",
+    "Leanord "
   ];
   Tween<double> _tween = Tween(begin: 0.75, end: 1);
   bool enterPin = false;
   List<Map<String, int>> missionTextList = [
-    {"Clean coffee machine": 10},
+    {"Wipe down counters": 10},
     {"Fountain ice stock": 10},
     {"Restock coffee supplies": 50},
     {"Wipe down counters": 15},
@@ -311,6 +313,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Flexible(
+                                        flex:1,
                                         child: Shimmer.fromColors(
                                           baseColor: Colors.white,
                                           highlightColor: Color(0xff632806),
@@ -326,18 +329,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           ),
                                         ),
                                       ),
-                                      Flexible(
-                                        child: Container(),
-                                      ),
                                       // Timer Here
                                       Flexible(
+                                        flex: 2,
                                         child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.end,
                                           children: [
                                             Container(
                                               child: Text(
                                                 "Morning shift:  ",
                                                 style: TextStyle(
-                                                    fontSize: 15,
+                                                    fontSize: 18,
                                                     fontFamily: 'Neuropol',
                                                     color: Colors.white,
                                                     //fontWeight: FontWeight.bold,
@@ -345,6 +347,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                               ),
                                             ),
                                             SlideCountdownSeparated(
+                                              height: 35,
+                                              width: 35,
                                               separatorStyle: TextStyle(
                                                   color: Colors.white),
                                               decoration: BoxDecoration(
@@ -352,8 +356,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                       BorderRadius.circular(5),
                                                   color: Colors.transparent),
                                               textStyle: TextStyle(
-                                                  fontSize: 15,
-                                                  fontFamily: 'Games',
+                                                  fontSize: 26,
+                                                  fontFamily: 'Digital',
                                                   color: Colors.white,
                                                   //fontWeight: FontWeight.bold,
                                                   letterSpacing: 4),
@@ -364,6 +368,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         ),
                                       ),
                                       Flexible(
+                                        flex: 1,
                                         child: Shimmer.fromColors(
                                           baseColor: Colors.white,
                                           highlightColor: Color(0xFFFED843),
@@ -502,7 +507,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                               child: Text(
                                                                                 accomplishmentTextList[SideBarIndex - 1 < accomplishmentTextList.length ? SideBarIndex - 1 : 0].keys.toString().replaceAll("(", "").replaceAll(")", ""),
                                                                                 maxLines: 2,
-                                                                                style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: "Meteoric"),
+                                                                                style: TextStyle(color: Colors.white, fontSize: 15, fontFamily: "Meteoric"),
                                                                               )),
                                                                         ),
                                                                         Flexible(
@@ -592,21 +597,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                               ],
                                                             ),
                                                           )
-                                                        : AnimatedBuilder(
+                                                        : BarIndex -1 == 4 && taskDone == true ? null : AnimatedBuilder(
                                                             animation:
                                                                 animation,
                                                             builder: (context,
                                                                 child) {
                                                               return CustomPaint(
-                                                                foregroundPainter: index ==
-                                                                        1
+                                                                foregroundPainter: ( BarIndex -1)  ==
+                                                                        4
                                                                     ? BorderPainter(
                                                                         controller
                                                                             .value)
                                                                     : null,
                                                                 child: InkWell(
-                                                                  onTap:
-                                                                      cardTapped,
+                                                                  onTap: () =>
+                                                                      cardTapped(index),
                                                                   child:
                                                                       Container(
                                                                     decoration:
@@ -671,11 +676,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                                     ),
                                                                                   ],
                                                                                 ),
-                                                                                index == 1
+                                                                                ( BarIndex -1)  ==
+                                                                                    4
                                                                                     ? SvgPicture.asset(
                                                                                         "assets/images/urgentAch.svg",
                                                                                       )
-                                                                                    : ScaleTransition(
+                                                                                    : index == 1 ?  ScaleTransition(
                                                                                         scale: _animation,
                                                                                         child: Container(
                                                                                           height: 30,
@@ -687,7 +693,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                                         //   color: Colors.red,
                                                                                         //   size: 30,
                                                                                         // ),
-                                                                                      )
+                                                                                      ): SizedBox(),
                                                                               ],
                                                                             ),
                                                                           ),
@@ -1160,7 +1166,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  Future<dynamic> cardTapped() {
+  Future<dynamic> cardTapped(@required int index) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -1200,7 +1206,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       InkWell(
                         onTap: (){
                           Navigator.pop(context);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => TaskProfile()));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => index == 1 ? TaskProfileTwo() : TaskProfile()));
                         },
                         child: Container(
                           height: 50,
@@ -1222,7 +1228,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               ],
                             ),),
                       ),
-                    ),
                     // IconButton(
                     //   icon: Icon(Icons.arrow_forward_ios),
                     //   onPressed: () => Navigator.push(context, MaterialPageRoute( builder: (context) => TaskProfile())),

@@ -116,9 +116,6 @@ flutter:
     - family: Impact
       fonts:
         - asset: assets/fonts/impact/impact.ttf
-    - family: Digital
-      fonts:
-        - asset: assets/fonts/timer/digital7.ttf
 
 #       - asset: fonts/Schyler-Italic.ttf
 #         style: italic

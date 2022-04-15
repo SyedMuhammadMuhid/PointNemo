@@ -84,7 +84,7 @@ class _Avatar extends State<Avatar> with TickerProviderStateMixin {
                     child: Container(
                       height: 35,
                       width: 35,
-                      margin: const EdgeInsets.only(right: 7, bottom: 7),
+                      margin: const EdgeInsets.only(right: 1, bottom: 1),
                       decoration: BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage(

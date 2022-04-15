@@ -82,7 +82,9 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
               paint: particlePaint,
             ),
             vsync: this,
-            child: Container(
+            child: Stack(
+            children: [
+            Container(
               padding: EdgeInsets.symmetric(horizontal: 100),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -164,30 +166,30 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
                                         ))),
                               ],
 
-                            ),
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Flexible(child: Align(
-                                      alignment: Alignment.centerRight,
-                                      child: Text("Total Points 80", style: pointsHeaderTextStyle,))),
-                                  // Linear Progress Animator
-                                  Container(
-                                    height: 20,
-                                    width: 200,
-                                    child: LiquidProgressIndicator(),
-                                    // child: LinearProgressIndicator(
-                                    //   value: 70,
-                                    //   backgroundColor: Colors.black38,
-                                    //   color: Color(0xff632806),
-                                    // ),
-                                  ),
-                                  Flexible(child: Align( alignment: Alignment.centerRight, child: Text("Rank 12", style: pointsHeaderTextStyle,))),
-                                ],
-                              ),
-                            ),
+                            ),),
+                          // Expanded(
+                          //     child: Column(
+                          //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          //       crossAxisAlignment: CrossAxisAlignment.end,
+                          //       children: [
+                          //         Flexible(child: Align(
+                          //             alignment: Alignment.centerRight,
+                          //             child: Text("Total Points 80", style: pointsHeaderTextStyle,))),
+                          //         // Linear Progress Animator
+                          //         Container(
+                          //           height: 20,
+                          //           width: 200,
+                          //           child: LiquidProgressIndicator(),
+                          //           // child: LinearProgressIndicator(
+                          //           //   value: 70,
+                          //           //   backgroundColor: Colors.black38,
+                          //           //   color: Color(0xff632806),
+                          //           // ),
+                          //         ),
+                          //         Flexible(child: Align( alignment: Alignment.centerRight, child: Text("Rank 12", style: pointsHeaderTextStyle,))),
+                          //       ],
+                          //     ),
+                          //   ),
                           ],
                         ),
                       ),

@@ -9,6 +9,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:point_nemo/globals/constants.dart';
 import 'package:point_nemo/globals/textStyles.dart';
+import 'package:point_nemo/ui/screens/home.dart';
 import 'package:point_nemo/ui/screens/task_badges_two.dart';
 import 'package:point_nemo/ui/screens/task_profile_two.dart';
 import 'package:point_nemo/ui/widgets/points_animated.dart';
@@ -197,9 +198,10 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin{
                     onTap: (){
                       // Navigator.pop(context);
                       // // Navigate to Next User Screen
-                      // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> TaskProfileTwo()), (Route<dynamic> route) => false);
+                       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> HomeScreen()), (Route<dynamic> route) => false);
                       // Navigator.push(context, MaterialPageRoute(builder: (context) => TaskBadgesTwo()));
                     },
+
                     child: Container(
                         decoration: BoxDecoration(
                           color: Color(0xFF370647),
