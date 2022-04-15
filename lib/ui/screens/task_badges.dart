@@ -80,7 +80,7 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin{
                           Expanded(
                             child: Container(
                               //alignment: Alignment.centerLeft,
-                              child: Image.asset("assets/pictures/userDetailsWithoutArrow.png", fit: BoxFit.cover,),),
+                              child: Image.asset("assets/pictures/user_one_badge_profile.png", fit: BoxFit.cover,),),
                           ),
                           Expanded(
                             child: Column(
@@ -165,7 +165,7 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin{
                         alignment: Alignment.centerRight,
                         child: InkWell(
                             onTap: awardTapped,
-                            child: Image.asset("assets/pictures/praise_crews.png")),
+                            child: Image.asset("assets/pictures/praise_your_crewmates.png")),
                       ),
                     ],
                   ),
@@ -173,7 +173,7 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin{
                   Expanded(
                     flex: 6,
                     child: Container(
-                      child: Image.asset("assets/pictures/badges.png", fit: BoxFit.cover,),),
+                      child: Image.asset("assets/pictures/user_one_badges.png", fit: BoxFit.cover,),),
                   ),
                   SizedBox(height: 50,),
                 ],

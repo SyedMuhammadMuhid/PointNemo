@@ -28,8 +28,8 @@ class _TaskProfileTwoState extends State<TaskProfileTwo>
   // styles
   // static const TextStyle backNavigationTextStyle = TextStyle(color: Colors.white, fontSize: 18, fontFamily: "Adelle");
   final List<Image> commentsList = [
-    Image.asset("assets/pictures/TaskComments2.png"),
-    Image.asset("assets/pictures/TaskComments.png")
+    Image.asset("assets/pictures/user_two_task_comment_1.png"),
+    Image.asset("assets/pictures/user_one_task_comment1.png")
   ];
 
   CarouselController buttonCarouselController = CarouselController();
@@ -141,7 +141,7 @@ class _TaskProfileTwoState extends State<TaskProfileTwo>
                                       child: Container(
                                         alignment: Alignment.centerLeft,
                                         child: Image.asset(
-                                            "assets/pictures/user_Details_2.png"),
+                                            "assets/pictures/user_two_task_profile.png"),
                                       ),
                                     ),
                                   ),

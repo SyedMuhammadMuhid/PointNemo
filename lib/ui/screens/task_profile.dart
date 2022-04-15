@@ -30,12 +30,12 @@ class _TaskProfileState extends State<TaskProfile>
   // static const TextStyle backNavigationTextStyle = TextStyle(color: Colors.white, fontSize: 18, fontFamily: "Adelle");
 
   final List<Image> taskComments = [
-    Image.asset("assets/pictures/TaskComments.png"),
-    Image.asset("assets/pictures/TaskComments2.png")
+    Image.asset("assets/pictures/user_one_task_comment1.png"),
+    Image.asset("assets/pictures/user_two_task_comment_1.png")
   ];
   final List<Image> newTaskComments = [
-    Image.asset("assets/pictures/task_comments_brandey.png"),
-    Image.asset("assets/pictures/TaskComments2.png")
+    Image.asset("assets/pictures/user_one_task_comment2.png"),
+    Image.asset("assets/pictures/user_two_task_comment_1.png")
   ];
   final SvgPicture simpleKeyboard =
       SvgPicture.asset("assets/pictures/input_Keyboard.svg");
@@ -155,7 +155,7 @@ class _TaskProfileState extends State<TaskProfile>
                                           // padding: EdgeInsets.only(right: 100),
                                           // alignment: Alignment.centerLeft,
                                           child: Image.asset(
-                                    "assets/pictures/userDetails.png",
+                                    "assets/pictures/user_one_task_profile.png",
                                     fit: BoxFit.cover,
                                   )),
                                 ),

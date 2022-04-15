@@ -102,7 +102,7 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
                             child: Container(
                               alignment: Alignment.centerLeft,
                               child: Image.asset(
-                                  "assets/pictures/user_Details_without_Arrow_2.png"),
+                                  "assets/pictures/user_two_badge_profile.png"),
                             ),
                           ),
                           Expanded(
@@ -220,7 +220,7 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
                           alignment: Alignment.centerRight,
                           child: InkWell(
                               onTap: awardTapped,
-                              child: Image.asset("assets/pictures/praise_crews.png")),
+                              child: Image.asset("assets/pictures/praise_your_crewmates.png")),
                         ),
                       ],
                     ),
@@ -228,7 +228,7 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
                     Expanded(
                       flex: 6,
                       child: Container(
-                        child: Image.asset("assets/pictures/badges.png", fit: BoxFit.cover,),),
+                        child: Image.asset("assets/pictures/user_one_badges.png", fit: BoxFit.cover,),),
                     ),
                     SizedBox(height: 50,),
                   ],
