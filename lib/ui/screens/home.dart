@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -29,11 +30,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   List<UserAvatars> usersList = [];
   Tween<double> _tween = Tween(begin: 0.75, end: 1);
   bool enterPin = false;
-  List<Map<String, int>> missionTextList = [{ "Clean coffee machine" : 10},{ "Fountain ice stock": 10},{ "Restock coffee supplies" : 50 } ,
-{ "Wipe down counters" : 15}, { "Turn off electronics and other appliances" : 20}, {"Wipe down ice machines out front": 5}, { "Check that all display are in order": 30},
-    {  "Dust off tables": 10 }, { "Physically count all your products if necessary": 5 },
+//   List<Map<String, int>> _missionTextList = [{ "Clean coffee machine" : 10},{ "Fountain ice stock": 10},{ "Restock coffee supplies" : 50 } ,
+// { "Wipe down counters" : 15}, { "Turn off electronics and other appliances" : 20}, {"Wipe down ice machines out front": 5}, { "Check that all display are in order": 30},
+//     {  "Dust off tables": 10 }, { "Physically count all your products if necessary": 5 },
+//   ];
+//   List<Map<String, int>> _accomplishmentTextList = [ { "Turn off electronics and other appliances" : 20},{ "Restock shelves if necessary": 5}, { "Ensure that product tags are in order" : 20}, { "Enter your daily cash float": 15},];
+
+  List<String> missionTextList = [ "Clean coffee machine" , "Fountain ice stock", "Restock coffee supplies",
+  "Wipe down counters", "Turn off electronics and other appliances", "Wipe down ice machines out front", "Check that all display are in order",
+     "Dust off tables", "Physically count all your products if necessary",
   ];
-  List<Map<String, int>> accomplishmentTextList = [{ "Turn off electronics and other appliances" : 20},{ "Restock shelves if necessary": 5}, { "Ensure that product tags are in order" : 20}, { "Enter your daily cash float": 15},];
+
+  List<String> accomplishmentTextList = [ "Turn off electronics and other appliances" , "Restock shelves if necessary", "Ensure that product tags are in order" , "Enter your daily cash float","Dust off tables","Fountain ice stock" ];
+
+  List<int> missionPointsList = [10, 30, 50, 15, 20, 5, 30, 10, 5];
+  List<int> accomplishmentPointsList = [ 20, 5, 20, 15];
+
   List<int> leaderBoardPoints = [232, 198, 170, 166, 160, 150, 140, 130, 180];
 
   final defaultPinTheme = PinTheme(
@@ -172,9 +184,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       SizedBox(
                                         width: 35,
                                       ),
-                                      CircleAvatar(
-                                        radius: 8,
-                                        backgroundColor: Color(0xFFFF006F),
+                                      InkWell(
+                                        onTap: (){
+                                          showToastWidget(
+                                              Image.asset("assets/pictures/manager_toast_message.png", width: MediaQuery.of(context).size.width/2, height: 200,),
+                                              position: StyledToastPosition.top,
+                                              // alignment: Alignment.centerRight,
+                                              animDuration: Duration(seconds: 1),
+                                              duration: Duration(seconds: 5),
+                                              curve: Curves.easeInOut,
+                                              context:context,
+                                          );
+                                        },
+                                        child: CircleAvatar(
+                                          radius: 8,
+                                          backgroundColor: Color(0xFFFF006F),
+                                        ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(horizontal : 8.0),
@@ -380,7 +405,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                         Column(
                                                                       mainAxisAlignment:
                                                                           MainAxisAlignment
-                                                                              .spaceEvenly,
+                                                                              .spaceBetween,
                                                                       children: [
                                                                         Flexible(
                                                                           child: Row(
@@ -389,22 +414,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                               Container(
                                                                                 height: 20,
                                                                                 width: 35,
-                                                                                child: Icon(Icons.check, color: Color(0xff3AF40A), size: 35,),// SvgPicture.asset("assets/images/icons/checkDouble.svg", color: Color(0xff3AF40A),),// FaIcon(FontAwesomeIcons.clock, color: Color(0xff3AF40A), size: 20,),
+                                                                                child: Icon(Icons.check, color: Color(0xff3AF40A), size: 22,),// SvgPicture.asset("assets/images/icons/checkDouble.svg", color: Color(0xff3AF40A),),// FaIcon(FontAwesomeIcons.clock, color: Color(0xff3AF40A), size: 20,),
                                                                               ),
 
                                                                             ],
                                                                           ),
                                                                         ),
-                                                                        Flexible(
-                                                                          child: Padding(    
+                                                                        Expanded(
+                                                                          child: Container(
+                                                                          height: 50,
                                                                               padding: const EdgeInsets.only(
                                                                                   left: 15.0,
                                                                                   right: 5,
                                                                                   top: 0),
                                                                               child: Text(
+                                                                                // accomplishmentTextList[(index/4).toInt()],
                                                                                 "Restock the shelves, if nessesery",
                                                                                 maxLines: 2,
-                                                                                style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: "Meteoric"),
+                                                                                style: TextStyle(color: Colors.white, fontSize: 14, fontFamily: "Meteoric"),
                                                                               )),
                                                                         ),
                                                                         Flexible(
@@ -470,7 +497,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                                 child: Image.asset("assets/images/coin.png", color: Color(0xFFFED843),),
                                                                               )),
                                                                           Text(
-                                                                            "5 points earned",
+                                                                            "10 points earned",
                                                                             style:
                                                                                 TextStyle(fontSize: 14, fontFamily: "Adelle", color: Color(0xFFFED843), fontWeight: FontWeight.bold),
                                                                           ),
@@ -1074,6 +1101,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       Pinput(
                         onCompleted: (pin) => print(pin),
                         keyboardAppearance: Brightness.dark,
+                        keyboardType: TextInputType.number,
                         defaultPinTheme: defaultPinTheme,
                         validator: (pin){
                           if(pin?.length != 4){
