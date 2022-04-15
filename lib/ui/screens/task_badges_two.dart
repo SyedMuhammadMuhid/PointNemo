@@ -1,5 +1,4 @@
 
-
 import 'dart:math';
 import 'dart:ui';
 
@@ -9,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:point_nemo/globals/constants.dart';
 import 'package:point_nemo/globals/textStyles.dart';
+import 'package:point_nemo/ui/widgets/points_animated.dart';
 import 'package:point_nemo/ui/widgets/scored_progress_bar.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -18,6 +18,7 @@ class TaskBadgesTwo extends StatefulWidget {
   @override
   _TaskBadgesTwoState createState() => _TaskBadgesTwoState();
 }
+
 
 class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateMixin{
 
@@ -45,7 +46,6 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-
       child: Container(
         decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -60,7 +60,8 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
               onTap: () => Navigator.pop(context),
               child: Padding(
                 padding: const EdgeInsets.only(left: 10.0),
-                child: SvgPicture.asset("assets/images/icons/backwardTriArrows.svg"),
+                child: SvgPicture.asset(
+                    "assets/images/icons/backwardTriArrows.svg"),
               ),
             ),
             title: Align(
@@ -81,27 +82,88 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
               paint: particlePaint,
             ),
             vsync: this,
-            child: Stack(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 100),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // First section
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      height: 250,
+                      width: double.maxFinite,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Container(
+                              alignment: Alignment.centerLeft,
+                              child: Image.asset(
+                                  "assets/pictures/user_Details_without_Arrow_2.png"),
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Flexible(
+                                    child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                          "Total Points 80",
+                                          style: pointsHeaderTextStyle,
+                                        ))),
+                                // Linear Progress Animator
+                                Container(
+                                  width: 320,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(25),
+                                      color: Colors.black,
+                                      border: Border.all(
+                                        width:
+                                            5, //                   <--- border width here
+                                      )),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                          color: Colors.purple,
+                                        ),
+                                        child: const MyAnimatedLoading(
+                                          offsetSpeed: Offset(1, 0),
+                                          width: 220,
+                                          height: 20,
+                                          colors: [
+                                            Color(0xffff2500),
+                                            Color(0xffff2500),
+                                            Color(0xffff6600),
+                                            Color(0xffff6600),
+                                            Colors.orange,
+                                            Colors.orange,
+                                            Color(0xffF361AC),
+                                            Color(0xffF361AC),
+                                            Colors.purple,
+                                            Colors.purple,
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Flexible(
+                                    child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                          "Rank 12",
+                                          style: pointsHeaderTextStyle,
+                                        ))),
+                              ],
 
-              children: [
-                Container(
-                padding: EdgeInsets.symmetric(horizontal: 100),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // First section
-                    Expanded(
-                      flex: 2,
-                      child: Container(
-                        height: 250,
-                        width: double.maxFinite,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Container(
-                                alignment: Alignment.centerLeft,
-                                child: Image.asset("assets/pictures/user_Details_without_Arrow_2.png"),),
                             ),
                             Expanded(
                               child: Column(
@@ -151,6 +213,7 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
                             ),
                           ),
                         ),
+
                         Container(
                           alignment: Alignment.centerRight,
                           child: InkWell(
@@ -195,6 +258,7 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
     );
   }
 
+
   /// A custom Path to paint stars.
   Path drawStar(Size size) {
     // Method to convert degree to radians
@@ -230,7 +294,7 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
               content: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                 child: InkWell(
-                    onTap: (){
+                    onTap: () {
                       Navigator.pop(context);
                       // Navigate to Next User Screen
                       // Navigator.push(context, MaterialPageRoute(builder: (context) => ()));
@@ -243,7 +307,10 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
                           //     end: Alignment.topRight,
                           //     colors: [Color(0xff160647), Color(0xff370647)])
                         ),
-                        child: Image.asset("assets/pictures/award_recog_popup.png", scale: 1.75))), // Container(color: Colors.yellow,) // UserPinPopup(),
+                        child: Image.asset(
+                            "assets/pictures/award_recog_popup.png",
+                            scale:
+                                1.75))), // Container(color: Colors.yellow,) // UserPinPopup(),
               ));
         });
   }

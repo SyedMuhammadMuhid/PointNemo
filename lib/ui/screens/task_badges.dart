@@ -11,6 +11,7 @@ import 'package:point_nemo/globals/constants.dart';
 import 'package:point_nemo/globals/textStyles.dart';
 import 'package:point_nemo/ui/screens/task_badges_two.dart';
 import 'package:point_nemo/ui/screens/task_profile_two.dart';
+import 'package:point_nemo/ui/widgets/points_animated.dart';
 import 'package:point_nemo/ui/widgets/scored_progress_bar.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -90,14 +91,45 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin{
                                     child: Text("Total Points 50", style: pointsHeaderTextStyle,))),
                                 // Linear Progress Animator
                                 Container(
-                                   height: 20,
-                                    width: 200,
-                                    child: LiquidProgressIndicator(),
-                                  // child: LinearProgressIndicator(
-                                  //   value: 70,
-                                  //   backgroundColor: Colors.black38,
-                                  //   color: Color(0xff632806),
-                                  // ),
+                                  width: 320,
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                      BorderRadius.circular(25),
+                                      color: Colors.black,
+                                      border: Border.all(
+                                        width:
+                                        5, //                   <--- border width here
+                                      )),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                          BorderRadius.circular(25),
+                                          color: Colors.purple,
+                                        ),
+                                        child: const MyAnimatedLoading(
+                                          offsetSpeed: Offset(1, 0),
+                                          width: 220,
+                                          height: 20,
+                                          colors: [
+                                            Color(0xffff2500),
+                                            Color(0xffff2500),
+                                            Color(0xffff6600),
+                                            Color(0xffff6600),
+                                            Colors.orange,
+                                            Colors.orange,
+                                            Color(0xffF361AC),
+                                            Color(0xffF361AC),
+                                            Colors.purple,
+                                            Colors.purple,
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                                 Flexible(child: Align( alignment: Alignment.centerRight, child: Text("Rank 20", style: pointsHeaderTextStyle,))),
                               ],
