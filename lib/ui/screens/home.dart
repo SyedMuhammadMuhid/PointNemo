@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -54,6 +55,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     {"Ensure that product tags are in order": 20},
     {"Enter your daily cash float": 15},
   ];
+
+
+  List<int> missionPointsList = [10, 30, 50, 15, 20, 5, 30, 10, 5];
+  List<int> accomplishmentPointsList = [ 20, 5, 20, 15];
+
 
   final defaultPinTheme = PinTheme(
     width: 90,
@@ -200,9 +206,22 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       SizedBox(
                                         width: 35,
                                       ),
-                                      CircleAvatar(
-                                        radius: 8,
-                                        backgroundColor: Color(0xFFFF006F),
+                                      InkWell(
+                                        onTap: (){
+                                          showToastWidget(
+                                              Image.asset("assets/pictures/manager_toast_message.png", width: MediaQuery.of(context).size.width/2, height: 200,),
+                                              position: StyledToastPosition.top,
+                                              // alignment: Alignment.centerRight,
+                                              animDuration: Duration(seconds: 1),
+                                              duration: Duration(seconds: 5),
+                                              curve: Curves.easeInOut,
+                                              context:context,
+                                          );
+                                        },
+                                        child: CircleAvatar(
+                                          radius: 8,
+                                          backgroundColor: Color(0xFFFF006F),
+                                        ),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.symmetric(
@@ -456,7 +475,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                         Column(
                                                                       mainAxisAlignment:
                                                                           MainAxisAlignment
-                                                                              .spaceEvenly,
+                                                                              .spaceBetween,
                                                                       children: [
                                                                         Flexible(
                                                                           child:
@@ -472,11 +491,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                                   color: Color(0xff3AF40A),
                                                                                   size: 25,
                                                                                 ), // SvgPicture.asset("assets/images/icons/checkDouble.svg", color: Color(0xff3AF40A),),// FaIcon(FontAwesomeIcons.clock, color: Color(0xff3AF40A), size: 20,),
+
                                                                               ),
                                                                             ],
                                                                           ),
                                                                         ),
-                                                                        Flexible(
+                                                                         Flexible(
                                                                           child: Padding(
                                                                               padding: const EdgeInsets.only(left: 15.0, right: 5, top: 0),
                                                                               child: Text(
@@ -1164,57 +1184,43 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             fontFamily: "Roboto",
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1,
-                          ),
-                        )),
-                    Pinput(
-                      onCompleted: (pin) => print(pin),
-                      keyboardAppearance: Brightness.dark,
-                      defaultPinTheme: defaultPinTheme,
-                      validator: (pin) {
-                        if (pin?.length != 4) {
-                          return "Please Enter 4-digit Pin.";
-                        }
-                      },
-                    ),
-                    SizedBox(
-                      height: 50,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => TaskProfile()));
-                      },
-                      child: Container(
-                        height: 50,
-                        margin: EdgeInsets.symmetric(vertical: 15),
-                        child: Wrap(
-                          //alignment: WrapAlignment.center,
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          //mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text(
-                              "NEXT",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 30,
-                                fontFamily: "Impact",
-                                letterSpacing: 2,
-                                // fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            FaIcon(
-                              FontAwesomeIcons.anglesRight,
-                              color: Colors.white60,
-                              size: 25,
-                            )
-                          ],
-                        ),
+                          ),)),
+                      Pinput(
+                        onCompleted: (pin) => print(pin),
+                        keyboardAppearance: Brightness.dark,
+                        keyboardType: TextInputType.number,
+                        defaultPinTheme: defaultPinTheme,
+                        validator: (pin){
+                          if(pin?.length != 4){
+                            return "Please Enter 4-digit Pin.";
+                          }
+                        },
+                      ),
+                      SizedBox(height: 50,),
+                      InkWell(
+                        onTap: (){
+                          Navigator.pop(context);
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => TaskProfile()));
+                        },
+                        child: Container(
+                          height: 50,
+                            margin: EdgeInsets.symmetric( vertical: 15),
+                            child: Wrap(
+                              //alignment: WrapAlignment.center,
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              //mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text("NEXT", style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 30,
+                                  fontFamily: "Impact",
+                                  letterSpacing: 2,
+                                  // fontWeight: FontWeight.bold,
+                                ),),
+                                SizedBox(width: 10,),
+                                FaIcon(FontAwesomeIcons.anglesRight, color: Colors.white60, size: 25,)
+                              ],
+                            ),),
                       ),
                     ),
                     // IconButton(

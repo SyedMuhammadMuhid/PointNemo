@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="739" height="56.327" viewBox="0 0 739 56.327">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#1e0324"/>
+      <stop offset="1"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_9690" data-name="Group 9690" transform="translate(-902.5 -2779.72)">
+    <g id="Group_9665" data-name="Group 9665" transform="translate(834.928 2226.72)">
+      <g id="Group_7279" data-name="Group 7279">
+        <g id="Rectangle_3545" data-name="Rectangle 3545" transform="translate(67.572 553)" stroke="#9b009a" stroke-width="1" fill="url(#linear-gradient)">
+          <rect width="739" height="56.327" rx="5" stroke="none"/>
+          <rect x="0.5" y="0.5" width="738" height="55.327" rx="4.5" fill="none"/>
+        </g>
+        <line id="Line_168" data-name="Line 168" y2="25" transform="translate(640.5 568.5)" fill="none" stroke="#fff" stroke-width="0.5" opacity="0.26"/>
+        <line id="Line_170" data-name="Line 170" y2="25" transform="translate(684.5 568.5)" fill="none" stroke="#fff" stroke-width="0.5" opacity="0.26"/>
+        <line id="Line_189" data-name="Line 189" y2="25" transform="translate(741.5 568.5)" fill="none" stroke="#fff" stroke-width="0.5" opacity="0.26"/>
+        <path id="Icon_weather-storm-warning" data-name="Icon weather-storm-warning" d="M11.712,24.7V8.94H12.75V24.7ZM13.494,15V8.94H21.35V15Zm2.168-1.838h3.5v-2.3h-3.5Z" transform="translate(646.288 564.06)" fill="#fff"/>
+        <g id="Icon_feather-camera" data-name="Icon feather-camera" transform="translate(608 575)">
+          <g id="Group_4176" data-name="Group 4176">
+            <path id="Path_3269" data-name="Path 3269" d="M16.5,15.411a1.364,1.364,0,0,1-1.364,1.364H2.864A1.364,1.364,0,0,1,1.5,15.411V7.91A1.364,1.364,0,0,1,2.864,6.546H5.592L6.956,4.5h4.092l1.364,2.046h2.728A1.364,1.364,0,0,1,16.5,7.91Z" transform="translate(-1.5 -4.5)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+            <path id="Path_3270" data-name="Path 3270" d="M17.456,16.228A2.728,2.728,0,1,1,14.728,13.5,2.728,2.728,0,0,1,17.456,16.228Z" transform="translate(-7.226 -9.408)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+          </g>
+        </g>
+        <g id="Group_4175" data-name="Group 4175" transform="translate(702 569.879)">
+          <g id="Rectangle_3547" data-name="Rectangle 3547" transform="translate(1 1)" fill="none" stroke="#ededed" stroke-width="1">
+            <rect width="20" height="20" rx="4" stroke="none"/>
+            <rect x="0.5" y="0.5" width="19" height="19" rx="3.5" fill="none"/>
+          </g>
+          <path id="Icon_awesome-check-double" data-name="Icon awesome-check-double" d="M12.183,4.217l-.956-.956a.577.577,0,0,0-.818,0L4.631,9.04,1.943,6.35a.577.577,0,0,0-.818,0l-.958.958a.58.58,0,0,0,0,.82L4.22,12.184a.577.577,0,0,0,.818,0l7.142-7.147A.582.582,0,0,0,12.183,4.217ZM4.358,6.774a.383.383,0,0,0,.545,0L9.922,1.751a.387.387,0,0,0,0-.545L8.831.112a.383.383,0,0,0-.545,0L4.631,3.768,3.294,2.429a.383.383,0,0,0-.545,0L1.655,3.522a.387.387,0,0,0,0,.545Z" transform="translate(4.827 4.823)" fill="#fff" opacity="0.6"/>
+        </g>
+        <path id="Icon_material-send" data-name="Icon material-send" d="M3.011,24.9,26.8,14.7,3.011,4.5,3,12.434,20,14.7,3,16.968Z" transform="translate(758.437 566.379)" fill="#fff"/>
+        <text id="Enter_comment" data-name="Enter comment" transform="translate(89.8 575)" fill="#fff" font-size="12" font-family="AdellePE, Adelle PE" letter-spacing="0.008em" opacity="0.5"><tspan x="0" y="11">Enter comment</tspan></text>
+      </g>
+    </g>
+  </g>
+</svg>

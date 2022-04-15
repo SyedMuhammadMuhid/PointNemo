@@ -4,6 +4,7 @@ import 'package:animated_background/animated_background.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:point_nemo/globals/constants.dart';
@@ -26,12 +27,23 @@ class _TaskProfileState extends State<TaskProfile>
   // >> Globals
   // styles
   // static const TextStyle backNavigationTextStyle = TextStyle(color: Colors.white, fontSize: 18, fontFamily: "Adelle");
-  final List<Image> commentsList = [
-    Image.asset("assets/pictures/TaskComments.png"),
-    Image.asset("assets/pictures/TaskComments2.png")
-  ];
 
+  final List<Image> taskComments = [Image.asset("assets/pictures/TaskComments.png"), Image.asset("assets/pictures/TaskComments2.png") ];
+  final List<Image> newTaskComments = [Image.asset("assets/pictures/task_comments_brandey.png"), Image.asset("assets/pictures/TaskComments2.png") ];
+  final SvgPicture simpleKeyboard = SvgPicture.asset("assets/pictures/input_Keyboard.svg");
+  final SvgPicture keyboardWithMessage = SvgPicture.asset("assets/pictures/input_keyboard_with_message.svg");
+
+  late SvgPicture keyboard;
+  late List<Image> commentsList;
   CarouselController buttonCarouselController = CarouselController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    keyboard = simpleKeyboard;
+    commentsList = taskComments;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,26 +131,39 @@ class _TaskProfileState extends State<TaskProfile>
                               Expanded(
                                 child: InkWell(
                                   onTap: userCardTap,
+
                                   child: Container(
                                     alignment: Alignment.centerLeft,
                                     child: Image.asset(
                                         "assets/pictures/userDetails.png"),
                                   ),
+
+                                  child:
+                                  // Container(
+                                  //   decoration: BoxDecoration(
+                                  //     image: DecorationImage(image: AssetImage("assets/pictures/userDetails.png") , scale: 2.0),
+                                  //   ),
+                                  // )//
+                                  Container(
+                                    // padding: EdgeInsets.only(right: 100),
+                                    // alignment: Alignment.centerLeft,
+                                      child: Image.asset("assets/pictures/userDetails.png",
+                                        fit: BoxFit.cover,
+                                      )),
+
                                 ),
                               ),
+                               // Expanded(child: Container()),
                               Expanded(
                                 child: Column(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    Flexible(
-                                        child: Align(
-                                            alignment: Alignment.centerRight,
-                                            child: Text(
-                                              "Total Points 80",
-                                              style: pointsHeaderTextStyle,
-                                            ))),
+
+                                    Flexible(child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Text("Total Points 50", style: pointsHeaderTextStyle,))),
                                     // Linear Progress Animator
                                     Container(
                                       width: 320,
@@ -181,13 +206,8 @@ class _TaskProfileState extends State<TaskProfile>
                                         ],
                                       ),
                                     ),
-                                    Flexible(
-                                        child: Align(
-                                            alignment: Alignment.centerRight,
-                                            child: Text(
-                                              "Rank 09",
-                                              style: pointsHeaderTextStyle,
-                                            ))),
+
+                                    Flexible(child: Align( alignment: Alignment.centerRight, child: Text("Rank 20", style: pointsHeaderTextStyle,))),
                                   ],
                                 ),
                               ),
@@ -234,7 +254,8 @@ class _TaskProfileState extends State<TaskProfile>
                       // Input keyboard
                       Expanded(
                           flex: 1,
-                          child: SvgPicture.asset("assets/pictures/input.svg")),
+                          child: InkWell(onTap : toggleKeyboard ,child: keyboard),
+                      ), // SvgPicture.asset("assets/pictures/input.svg")),
                     ],
                   ),
                 ),
@@ -273,7 +294,15 @@ class _TaskProfileState extends State<TaskProfile>
     );
   }
 
-  Future<dynamic> noteTapped() {
+
+  void toggleKeyboard(){
+    setState(() {
+      commentsList = keyboard == keyboardWithMessage ? newTaskComments : taskComments;
+      keyboard = keyboard == simpleKeyboard && commentsList == newTaskComments ? keyboardWithMessage : simpleKeyboard;
+    });
+  }
+
+  Future<dynamic> noteTapped(){
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -284,9 +313,8 @@ class _TaskProfileState extends State<TaskProfile>
                 filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                 child: InkWell(
                     onTap: () => Navigator.pop(context),
-                    child: Center(
-                        child: Image.asset(
-                            "assets/pictures/note_to_manager.png"))), // Container(color: Colors.yellow,) // UserPinPopup(),
+
+                    child: Center(child: Image.asset("assets/pictures/note_to_manager.png", scale: 1.5,))), // Container(color: Colors.yellow,) // UserPinPopup(),
               ));
         });
   }

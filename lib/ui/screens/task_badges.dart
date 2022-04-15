@@ -78,8 +78,8 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin{
                         children: [
                           Expanded(
                             child: Container(
-                              alignment: Alignment.centerLeft,
-                              child: Image.asset("assets/pictures/userDetailsWithoutArrow.png"),),
+                              //alignment: Alignment.centerLeft,
+                              child: Image.asset("assets/pictures/userDetailsWithoutArrow.png", fit: BoxFit.cover,),),
                           ),
                           Expanded(
                             child: Column(
@@ -88,7 +88,7 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin{
                               children: [
                                 Flexible(child: Align(
                                     alignment: Alignment.centerRight,
-                                    child: Text("Total Points 80", style: pointsHeaderTextStyle,))),
+                                    child: Text("Total Points 50", style: pointsHeaderTextStyle,))),
                                 // Linear Progress Animator
                                 Container(
                                   width: 320,
@@ -131,7 +131,7 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin{
                                     ],
                                   ),
                                 ),
-                                Flexible(child: Align( alignment: Alignment.centerRight, child: Text("Rank 09", style: pointsHeaderTextStyle,))),
+                                Flexible(child: Align( alignment: Alignment.centerRight, child: Text("Rank 20", style: pointsHeaderTextStyle,))),
                               ],
                             ),
                           ),
@@ -195,15 +195,15 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin{
                 filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                 child: InkWell(
                     onTap: (){
-                      Navigator.pop(context);
-                      // Navigate to Next User Screen
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> TaskProfileTwo()), (Route<dynamic> route) => false);
-
+                      // Navigator.pop(context);
+                      // // Navigate to Next User Screen
+                      // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> TaskProfileTwo()), (Route<dynamic> route) => false);
                       // Navigator.push(context, MaterialPageRoute(builder: (context) => TaskBadgesTwo()));
                     },
                     child: Container(
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           color: Color(0xFF370647),
+                          borderRadius: BorderRadius.circular(40),
                             // gradient: LinearGradient(
                             //     begin: Alignment.bottomLeft,
                             //     end: Alignment.topRight,
