@@ -1,7 +1,11 @@
 import 'dart:ui';
 
 import 'package:animated_background/animated_background.dart';
+
 import 'package:audioplayers/audioplayers.dart';
+
+import 'package:animated_flip_counter/animated_flip_counter.dart';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,11 +15,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:point_nemo/globals/constants.dart';
 import 'package:point_nemo/globals/textStyles.dart';
+
 import 'package:point_nemo/ui/screens/home.dart';
+
+import 'package:point_nemo/globals/variabes.dart';
+
 import 'package:point_nemo/ui/screens/task_badges.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 import 'package:point_nemo/ui/widgets/points_animated.dart';
 import 'package:point_nemo/ui/widgets/scored_progress_bar.dart';
+import 'package:shimmer/shimmer.dart';
 import "";
 
 class TaskProfile extends StatefulWidget {
@@ -32,12 +41,12 @@ class _TaskProfileState extends State<TaskProfile>
   // static const TextStyle backNavigationTextStyle = TextStyle(color: Colors.white, fontSize: 18, fontFamily: "Adelle");
 
   final List<Image> taskComments = [
-    Image.asset("assets/pictures/TaskComments.png"),
-    Image.asset("assets/pictures/TaskComments2.png")
+    Image.asset("assets/pictures/user_one_task_comment1.png"),
+    Image.asset("assets/pictures/user_two_task_comment1.png")
   ];
   final List<Image> newTaskComments = [
-    Image.asset("assets/pictures/task_comments_brandey.png"),
-    Image.asset("assets/pictures/TaskComments2.png")
+    Image.asset("assets/pictures/user_one_task_comment2.png"),
+    Image.asset("assets/pictures/user_two_task_comment1.png")
   ];
   final SvgPicture simpleKeyboard =
       SvgPicture.asset("assets/pictures/input_Keyboard.svg");
@@ -142,108 +151,126 @@ class _TaskProfileState extends State<TaskProfile>
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        // First section
-                        Expanded(
-                          flex: 2,
-                          child: Container(
-                            height: 250,
-                            width: double.maxFinite,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: InkWell(
-                                    onTap: userCardTap,
-                                    // child: Container(
-                                    //   alignment: Alignment.centerLeft,
-                                    //   child: Image.asset(
-                                    //       "assets/pictures/userDetails.png"),
-                                    // ),
-                                    child:
-                                        // Container(
-                                        //   decoration: BoxDecoration(
-                                        //     image: DecorationImage(image: AssetImage("assets/pictures/userDetails.png") , scale: 2.0),
-                                        //   ),
-                                        // )//
-                                        Container(
-                                            // padding: EdgeInsets.only(right: 100),
-                                            // alignment: Alignment.centerLeft,
-                                            child: Image.asset(
-                                      "assets/pictures/userDetails.png",
-                                      fit: BoxFit.cover,
-                                    )),
-                                  ),
-                                ),
-                                // Expanded(child: Container()),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Flexible(
-                                          child: Align(
-                                              alignment: Alignment.centerRight,
-                                              child: Text(
-                                                "Total Points 50",
-                                                style: pointsHeaderTextStyle,
-                                              ))),
-                                      // Linear Progress Animator
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // First section
+                      Container(height: 25,),
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          height: 250,
+                          width: double.maxFinite,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: InkWell(
+                                  onTap: userCardTap,
+                                  // child: Container(
+                                  //   alignment: Alignment.centerLeft,
+                                  //   child: Image.asset(
+                                  //       "assets/pictures/userDetails.png"),
+                                  // ),
+                                  child:
+                                      // Container(
+                                      //   decoration: BoxDecoration(
+                                      //     image: DecorationImage(image: AssetImage("assets/pictures/userDetails.png") , scale: 2.0),
+                                      //   ),
+                                      // )//
                                       Container(
-                                        width: 320,
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(25),
-                                            color: Colors.black,
-                                            border: Border.all(
-                                              width:
-                                                  5, //                   <--- border width here
-                                            )),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(25),
-                                                color: Colors.purple,
+                                          // padding: EdgeInsets.only(right: 100),
+                                          // alignment: Alignment.centerLeft,
+                                          child: Image.asset(
+                                    "assets/pictures/user_one_task_profile.png",
+                                    // fit: BoxFit.cover,
+                                  )),
+                                ),
+                              ),
+                              // Expanded(child: Container()),
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Flexible(
+                                        child: Align(
+                                            alignment: Alignment.centerRight,
+                                            child: Shimmer.fromColors(
+                                              baseColor: Colors.white,
+                                              highlightColor: Color(0xffff6600),
+                                              period: Duration(seconds: 10),
+                                              child: AnimatedFlipCounter(
+                                                duration: Duration(milliseconds: 1000),
+                                                value: userOnePoints,
+                                                textStyle: pointsHeaderTextStyle,
+                                                prefix: "Total Points ",
+                                                // pass in a value like 2014
                                               ),
-                                              child: const MyAnimatedLoading(
-                                                offsetSpeed: Offset(1, 0),
-                                                width: 220,
-                                                height: 20,
-                                                colors: [
-                                                  Color(0xffff2500),
-                                                  Color(0xffff2500),
-                                                  Color(0xffff6600),
-                                                  Color(0xffff6600),
-                                                  Colors.orange,
-                                                  Colors.orange,
-                                                  Color(0xffF361AC),
-                                                  Color(0xffF361AC),
-                                                  Colors.purple,
-                                                  Colors.purple,
-                                                ],
-                                              ),
+                                            ),
+                                        ),),
+                                    // Linear Progress Animator
+                                    Container(
+                                      width: 320,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                          color: Colors.black,
+                                          border: Border.all(
+                                            width:
+                                                5, //                   <--- border width here
+                                          )),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
+                                              color: Colors.purple,
+                                            ),
+                                            child: const MyAnimatedLoading(
+                                              offsetSpeed: Offset(1, 0),
+                                              width: 220,
+                                              height: 20,
+                                              colors: [
+                                                Color(0xffff2500),
+                                                Color(0xffff2500),
+                                                Color(0xffff6600),
+                                                Color(0xffff6600),
+                                                Colors.orange,
+                                                Colors.orange,
+                                                Color(0xffF361AC),
+                                                Color(0xffF361AC),
+                                                Colors.purple,
+                                                Colors.purple,
+                                              ],
                                             ),
                                           ],
                                         ),
                                       ),
-
-                                      Flexible(
-                                          child: Align(
-                                              alignment: Alignment.centerRight,
-                                              child: Text(
-                                                "Rank 20",
-                                                style: pointsHeaderTextStyle,
-                                              ))),
-                                    ],
-                                  ),
+                                    Flexible(
+                                        child: Align(
+                                          alignment: Alignment.centerRight,
+                                          child: Shimmer.fromColors(
+                                            baseColor: Colors.white,
+                                            highlightColor: Color(0xffff6600),
+                                            period: Duration(seconds: 15),
+                                            child: AnimatedFlipCounter(
+                                              duration: Duration(milliseconds: 500),
+                                              value: userOneRank,
+                                              textStyle: pointsHeaderTextStyle,
+                                              prefix: "Rank ",
+                                              // pass in a value like 2014
+                                            ),
+                                          ),
+                                        ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
@@ -339,20 +366,40 @@ class _TaskProfileState extends State<TaskProfile>
       keyboard = keyboard == simpleKeyboard && commentsList != newTaskComments
           ? keyboardWithMessage
           : simpleKeyboard;
+
+      userOnePoints = keyboard == simpleKeyboard && commentsList == newTaskComments ? userOnePoints + 30 : userOnePoints;
+      userOneRank = keyboard == simpleKeyboard && commentsList == newTaskComments ? userOneRank - 1 : userOneRank;
+
     });
     print("${keyboard},${commentsList}");
     if (keyboard == simpleKeyboard && commentsList == newTaskComments) {
-      player.play("music/wooHoo.wav");
+
+      
+      if(missionTextList.length == 9){
+        player.play("music/wooHoo.wav");
+        // removing mission
+        missionTextList.removeAt(4);
+        // removing and adding user pic in wins column
+        winUserPictures.removeLast();
+        winUserPictures.insert(0, -1);
+        // removing and adding user name in wins column
+        SideBarUsers.removeLast();
+        SideBarUsers.insert(0, "Brandy King");
+        accomplishmentTextList.insert(0, {"Turn off electronics and other appliances": 30});
+        accomplishmentTextList.removeLast();
+      }
+      // Call here music
+
       showToastWidget(
         Image.asset(
           "assets/pictures/points_win_toast_message.png",
           width: MediaQuery.of(context).size.width / 2,
           height: 200,
         ),
-        position: StyledToastPosition.top,
+        position: StyledToastPosition.center,
         // alignment: Alignment.centerRight,
         animDuration: Duration(seconds: 1),
-        duration: Duration(seconds: 5),
+        duration: Duration(seconds: 6),
         curve: Curves.easeInOut,
         context: context,
       );
@@ -370,6 +417,7 @@ class _TaskProfileState extends State<TaskProfile>
                 filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                 child: InkWell(
                     onTap: () {
+
                       final sendPlayer = AudioCache();
                       sendPlayer.play("music/sendingMessage.wav");
                       Navigator.pop(context);

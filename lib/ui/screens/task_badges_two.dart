@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:point_nemo/globals/constants.dart';
 import 'package:point_nemo/globals/textStyles.dart';
+import 'package:point_nemo/globals/variabes.dart';
 import 'package:point_nemo/ui/widgets/points_animated.dart';
 import 'package:point_nemo/ui/widgets/scored_progress_bar.dart';
 import 'package:shimmer/shimmer.dart';
@@ -83,45 +84,56 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo>
             ),
             vsync: this,
             child: Stack(
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 100),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      // First section
-                      Expanded(
-                        flex: 2,
-                        child: Container(
-                          height: 250,
-                          width: double.maxFinite,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  alignment: Alignment.centerLeft,
-                                  child: Image.asset(
-                                      "assets/pictures/user_Details_without_Arrow_2.png"),
-                                ),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Flexible(
-                                        child: Align(
-                                            alignment: Alignment.centerRight,
-                                            child: Text(
-                                              "Total Points 80",
-                                              style: pointsHeaderTextStyle,
-                                            ))),
-                                    // Linear Progress Animator
-                                    Container(
-                                      width: 320,
-                                      decoration: BoxDecoration(
+            children: [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 100),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(height: 25,),
+                  // First section
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      height: 250,
+                      width: double.maxFinite,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Container(
+                              alignment: Alignment.centerLeft,
+                              child: Image.asset(
+                                  "assets/pictures/user_two_badge_profile.png"),
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Flexible(
+                                    child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                          "Total Points ${userTwoPoints}",
+                                          style: pointsHeaderTextStyle,
+                                        ))),
+                                // Linear Progress Animator
+                                Container(
+                                  width: 320,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(25),
+                                      color: Colors.black,
+                                      border: Border.all(
+                                        width:
+                                            5, //                   <--- border width here
+                                      )),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(25),
                                           color: Colors.black,
@@ -169,53 +181,63 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo>
                                             ))),
                                   ],
                                 ),
-                              ),
-                              // Expanded(
-                              //     child: Column(
-                              //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              //       crossAxisAlignment: CrossAxisAlignment.end,
-                              //       children: [
-                              //         Flexible(child: Align(
-                              //             alignment: Alignment.centerRight,
-                              //             child: Text("Total Points 80", style: pointsHeaderTextStyle,))),
-                              //         // Linear Progress Animator
-                              //         Container(
-                              //           height: 20,
-                              //           width: 200,
-                              //           child: LiquidProgressIndicator(),
-                              //           // child: LinearProgressIndicator(
-                              //           //   value: 70,
-                              //           //   backgroundColor: Colors.black38,
-                              //           //   color: Color(0xff632806),
-                              //           // ),
-                              //         ),
-                              //         Flexible(child: Align( alignment: Alignment.centerRight, child: Text("Rank 12", style: pointsHeaderTextStyle,))),
-                              //       ],
-                              //     ),
-                              //   ),
-                            ],
-                          ),
+                                Flexible(
+                                    child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                          "Rank ${userTwoRank}",
+                                          style: pointsHeaderTextStyle,
+                                        ))),
+                              ],
+
+                            ),),
+                          // Expanded(
+                          //     child: Column(
+                          //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          //       crossAxisAlignment: CrossAxisAlignment.end,
+                          //       children: [
+                          //         Flexible(child: Align(
+                          //             alignment: Alignment.centerRight,
+                          //             child: Text("Total Points 80", style: pointsHeaderTextStyle,))),
+                          //         // Linear Progress Animator
+                          //         Container(
+                          //           height: 20,
+                          //           width: 200,
+                          //           child: LiquidProgressIndicator(),
+                          //           // child: LinearProgressIndicator(
+                          //           //   value: 70,
+                          //           //   backgroundColor: Colors.black38,
+                          //           //   color: Color(0xff632806),
+                          //           // ),
+                          //         ),
+                          //         Flexible(child: Align( alignment: Alignment.centerRight, child: Text("Rank 12", style: pointsHeaderTextStyle,))),
+                          //       ],
+                          //     ),
+                          //   ),
+                          ],
                         ),
                       ),
-                      // second section
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(left: 55),
-                            child: Shimmer.fromColors(
-                              baseColor: Colors.white,
-                              highlightColor: Color(0xff632806),
-                              period: Duration(seconds: 4),
-                              child: Text(
-                                "BADGES",
-                                style: TextStyle(
-                                    fontSize: 28,
-                                    fontFamily: 'Games',
-                                    color: Colors.white,
-                                    //fontWeight: FontWeight.bold,
-                                    letterSpacing: 1),
-                              ),
+                    ),
+                  SizedBox(height: 25,),
+                    // second section
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(left: 30),
+                          child: Shimmer.fromColors(
+                            baseColor: Colors.white,
+                            highlightColor: Color(0xff632806),
+                            period: Duration(seconds: 4),
+                            child: Text(
+                              "BADGES",
+                              style: TextStyle(
+                                  fontSize: 28,
+                                  fontFamily: 'Games',
+                                  color: Colors.white,
+                                  //fontWeight: FontWeight.bold,
+                                  letterSpacing: 1),
+
                             ),
                           ),
                           Container(
@@ -236,12 +258,22 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo>
                             fit: BoxFit.cover,
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 50,
-                      ),
-                    ],
-                  ),
+                        Container(
+                          alignment: Alignment.centerRight,
+                          child: InkWell(
+                              onTap: awardTapped,
+                              child: Image.asset("assets/pictures/praise_your_crewmates.png", width: 280,)),
+                        ),
+                      ],
+                    ),
+                    // third section table
+                    Expanded(
+                      flex: 6,
+                      child: Container(
+                        child: Image.asset("assets/pictures/user_two_badges.png", fit: BoxFit.cover,),),
+                    ),
+                    SizedBox(height: 50,),
+                  ],
                 ),
                 Align(
                   alignment: Alignment.topCenter,

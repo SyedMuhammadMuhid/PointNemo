@@ -156,23 +156,33 @@ class _LeadershipBoardState extends State<LeadershipBoard>
                                             Color(0xff010101)
                                           ])),
                                   child: AnimatedBuilder(
-                                      animation: animation,
-                                      builder: (context, child) {
-                                        return CustomPaint(
-                                          foregroundPainter:
-                                              BorderPainter(controller.value),
-                                          child: Container(
-                                              alignment: Alignment.topCenter,
-                                              padding: EdgeInsets.symmetric(
-                                                  horizontal: 10, vertical: 15),
-                                              child: Center(
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  children: [
-                                                    Text(
-                                                      "Total Team Points",
+                                    animation: animation,
+                                    builder: (context, child) {
+                                      return CustomPaint(
+                                        foregroundPainter: BorderPainter(controller.value),
+                                        child: Container(
+                                            alignment: Alignment.topCenter,
+                                            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                                            child: Center(
+                                              child: Column(
+                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                children: [
+                                                  Text(
+                                                    "Morning Shift",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16,
+                                                      fontFamily: "Meteoric",
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  Shimmer.fromColors(
+                                                    baseColor: Colors.white,
+                                                    highlightColor: Color(0xFFFED843),
+                                                    period: Duration(seconds: 2),
+                                                    child: Text(
+                                                      "1420",
+                                                      textAlign: TextAlign.center,
                                                       style: TextStyle(
                                                         color: Colors.white,
                                                         fontSize: 16,
@@ -181,25 +191,15 @@ class _LeadershipBoardState extends State<LeadershipBoard>
                                                             FontWeight.bold,
                                                       ),
                                                     ),
-                                                    Shimmer.fromColors(
-                                                      baseColor: Colors.white,
-                                                      highlightColor:
-                                                          Color(0xFFFED843),
-                                                      period:
-                                                          Duration(seconds: 2),
-                                                      child: Text(
-                                                        "1420",
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 32,
-                                                          fontFamily:
-                                                              "Meteoric",
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
-                                                      ),
+                                                  ),
+                                                  Text(
+                                                    "Total Team Points",
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 12,
+                                                      fontFamily: "Meteoric",
+                                                      fontWeight: FontWeight.bold,
                                                     ),
                                                     Text(
                                                       "Morning Shift",

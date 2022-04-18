@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+import 'package:point_nemo/globals/variabes.dart';
+
 class Avatar extends StatefulWidget {
   final int index;
   const Avatar({required this.index, Key? key});
@@ -77,7 +79,7 @@ class _Avatar extends State<Avatar> with TickerProviderStateMixin {
               ),
             ),
           ),
-          widget.index % 4 == 0
+          widget.index % 4 == 0 || ( widget.index == 3 && philipBadgeWon )
               ? Positioned.fill(
                   child: Align(
                     alignment: Alignment.bottomRight,
@@ -88,7 +90,7 @@ class _Avatar extends State<Avatar> with TickerProviderStateMixin {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage(
-                                'assets/images/badges/${imagesName[widget.index % 3]}.png'),
+                                'assets/images/badges/${ widget.index == 3 ? "tall_man" : imagesName[widget.index % 3]}.png'),
                             scale: 1.0),
                       ),
                       // child: CircleAvatar(

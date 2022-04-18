@@ -1,13 +1,18 @@
 import 'dart:ui';
 
 import 'package:animated_background/animated_background.dart';
+
 import 'package:audioplayers/audioplayers.dart';
+
+import 'package:animated_flip_counter/animated_flip_counter.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:point_nemo/globals/constants.dart';
 import 'package:point_nemo/globals/textStyles.dart';
+import 'package:point_nemo/globals/variabes.dart';
 import 'package:point_nemo/ui/screens/home.dart';
 import 'package:point_nemo/ui/screens/task_badges_two.dart';
 import 'package:point_nemo/ui/screens/task_profile_two.dart';
@@ -75,6 +80,7 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  Container(height: 25,),
                   // First section
                   Expanded(
                     flex: 2,
@@ -87,24 +93,27 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin {
                           Expanded(
                             child: Container(
                               //alignment: Alignment.centerLeft,
-                              child: Image.asset(
-                                "assets/pictures/userDetailsWithoutArrow.png",
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                              child: Image.asset("assets/pictures/user_one_badge_profile.png"),),
                           ),
                           Expanded(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                Flexible(
-                                    child: Align(
-                                        alignment: Alignment.centerRight,
-                                        child: Text(
-                                          "Total Points 50",
-                                          style: pointsHeaderTextStyle,
-                                        ))),
+                                Flexible(child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Shimmer.fromColors(
+                                      baseColor: Colors.white,
+                                      highlightColor: Color(0xffff6600),
+                                      period: Duration(seconds: 15),
+                                      child: AnimatedFlipCounter(
+                                        duration: Duration(milliseconds: 500),
+                                        value: userOnePoints,
+                                        textStyle: pointsHeaderTextStyle,
+                                        prefix: "Total Points ",
+                                        // pass in a value like 2014
+                                      ),
+                                    ),)),
                                 // Linear Progress Animator
                                 Container(
                                   width: 320,
@@ -145,13 +154,18 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin {
                                     ],
                                   ),
                                 ),
-                                Flexible(
-                                    child: Align(
-                                        alignment: Alignment.centerRight,
-                                        child: Text(
-                                          "Rank 20",
-                                          style: pointsHeaderTextStyle,
-                                        ))),
+                                Flexible(child: Align( alignment: Alignment.centerRight, child: Shimmer.fromColors(
+                                  baseColor: Colors.white,
+                                  highlightColor: Color(0xffff6600),
+                                  period: Duration(seconds: 15),
+                                  child: AnimatedFlipCounter(
+                                    duration: Duration(milliseconds: 500),
+                                    value: userOneRank,
+                                    textStyle: pointsHeaderTextStyle,
+                                    prefix: "Rank ",
+                                    // pass in a value like 2014
+                                  ),
+                                ),)),
                               ],
                             ),
                           ),
@@ -159,12 +173,13 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin {
                       ),
                     ),
                   ),
+                  SizedBox(height: 10,),
                   // second section
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        padding: EdgeInsets.only(left: 55),
+                        padding: EdgeInsets.only(left: 30),
                         child: Shimmer.fromColors(
                           baseColor: Colors.white,
                           highlightColor: Color(0xff632806),
@@ -184,8 +199,7 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin {
                         alignment: Alignment.centerRight,
                         child: InkWell(
                             onTap: awardTapped,
-                            child: Image.asset(
-                                "assets/pictures/praise_crews.png")),
+                            child: Image.asset("assets/pictures/praise_your_crewmates.png", width: 280,)),
                       ),
                     ],
                   ),
@@ -193,14 +207,7 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin {
                   Expanded(
                     flex: 6,
                     child: Container(
-                      child: Image.asset(
-                        "assets/pictures/badges.png",
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 50,
+                      child: Image.asset("assets/pictures/user_one_badges.png", fit: BoxFit.cover,),),
                   ),
                 ],
               ),
@@ -225,7 +232,9 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin {
                     onTap: () {
                       // Navigator.pop(context);
                       // // Navigate to Next User Screen
+
                       sendPlayer.play("music/sendBadge.wav");
+                      philipBadgeWon = true;
                       Future.delayed(Duration(seconds: 2), () {
                         Navigator.pushAndRemoveUntil(
                             context,
@@ -233,7 +242,6 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin {
                                 builder: (context) => HomeScreen()),
                             (Route<dynamic> route) => false);
                       });
-
                       // Navigator.push(context, MaterialPageRoute(builder: (context) => TaskBadgesTwo()));
                     },
                     child: Container(

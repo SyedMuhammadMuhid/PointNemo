@@ -48,6 +48,8 @@ dependencies:
   confetti: ^0.6.0
   flutter_styled_toast: ^2.0.0
   audioplayers: ^0.20.1
+  animated_flip_counter: ^0.2.4
+
 
 
 dev_dependencies:
