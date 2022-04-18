@@ -641,6 +641,42 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                               ],
                                                                             ),
                                                                           ),
+//<<<<<<< dev_three
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                Expanded(
+                                                                    flex: 1,
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: const EdgeInsets
+                                                                              .symmetric(
+                                                                          horizontal:
+                                                                              8.0),
+                                                                      child:
+                                                                          Row(
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.center,
+                                                                        children: [
+                                                                          Padding(
+                                                                              padding: const EdgeInsets.only(right: 10.0, left: 5.0),
+                                                                              child: Container(
+                                                                                height: 14,
+                                                                                child: Image.asset(
+                                                                                  "assets/images/coin.png",
+                                                                                  color: Color(0xFFFED843),
+                                                                                ),
+                                                                              )),
+                                                                          Text(
+                                                                            "${accomplishmentTextList[SideBarIndex - 1 < accomplishmentTextList.length ? SideBarIndex - 1 : 0].values.toString().replaceAll("(", "").replaceAll(")", "")} points earned",
+                                                                            style: TextStyle(
+                                                                                fontSize: 14,
+                                                                                fontFamily: "Adelle",
+                                                                                color: Color(0xFFFED843),
+                                                                                fontWeight: FontWeight.bold),
+//=======
                                                                           Flexible(
                                                                             child: Padding(
                                                                                 padding: const EdgeInsets.only(left: 15.0, right: 5, top: 0),
@@ -649,6 +685,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                                   maxLines: 2,
                                                                                   style: TextStyle(color: Colors.white, fontSize: 15, fontFamily: "Meteoric"),
                                                                                 )),
+//>>>>>>> dev_two
                                                                           ),
                                                                           Flexible(
                                                                             child:
