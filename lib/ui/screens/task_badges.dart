@@ -1,8 +1,7 @@
-
-
 import 'dart:ui';
 
 import 'package:animated_background/animated_background.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -23,11 +22,18 @@ class TaskBadges extends StatefulWidget {
   _TaskBadgesState createState() => _TaskBadgesState();
 }
 
-class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin{
+class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin {
+  final playerBadges = AudioCache();
+  @override
+  void initState() {
+    playerBadges.play("music/badgesScreen.wav");
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-
       child: Container(
         decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -42,7 +48,8 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin{
               onTap: () => Navigator.pop(context),
               child: Padding(
                 padding: const EdgeInsets.only(left: 10.0),
-                child: SvgPicture.asset("assets/images/icons/backwardTriArrows.svg"),
+                child: SvgPicture.asset(
+                    "assets/images/icons/backwardTriArrows.svg"),
               ),
             ),
             title: Align(
@@ -80,35 +87,41 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin{
                           Expanded(
                             child: Container(
                               //alignment: Alignment.centerLeft,
-                              child: Image.asset("assets/pictures/userDetailsWithoutArrow.png", fit: BoxFit.cover,),),
+                              child: Image.asset(
+                                "assets/pictures/userDetailsWithoutArrow.png",
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
                           Expanded(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                Flexible(child: Align(
-                                    alignment: Alignment.centerRight,
-                                    child: Text("Total Points 50", style: pointsHeaderTextStyle,))),
+                                Flexible(
+                                    child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                          "Total Points 50",
+                                          style: pointsHeaderTextStyle,
+                                        ))),
                                 // Linear Progress Animator
                                 Container(
                                   width: 320,
                                   decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.circular(25),
+                                      borderRadius: BorderRadius.circular(25),
                                       color: Colors.black,
                                       border: Border.all(
                                         width:
-                                        5, //                   <--- border width here
+                                            5, //                   <--- border width here
                                       )),
                                   child: Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Container(
                                         decoration: BoxDecoration(
                                           borderRadius:
-                                          BorderRadius.circular(25),
+                                              BorderRadius.circular(25),
                                           color: Colors.purple,
                                         ),
                                         child: const MyAnimatedLoading(
@@ -132,7 +145,13 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin{
                                     ],
                                   ),
                                 ),
-                                Flexible(child: Align( alignment: Alignment.centerRight, child: Text("Rank 20", style: pointsHeaderTextStyle,))),
+                                Flexible(
+                                    child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                          "Rank 20",
+                                          style: pointsHeaderTextStyle,
+                                        ))),
                               ],
                             ),
                           ),
@@ -151,13 +170,13 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin{
                           highlightColor: Color(0xff632806),
                           period: Duration(seconds: 4),
                           child: Text(
-                              "BADGES",
+                            "BADGES",
                             style: TextStyle(
-                          fontSize: 28,
-                          fontFamily: 'Games',
-                          color: Colors.white,
-                          //fontWeight: FontWeight.bold,
-                          letterSpacing: 1),
+                                fontSize: 28,
+                                fontFamily: 'Games',
+                                color: Colors.white,
+                                //fontWeight: FontWeight.bold,
+                                letterSpacing: 1),
                           ),
                         ),
                       ),
@@ -165,7 +184,8 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin{
                         alignment: Alignment.centerRight,
                         child: InkWell(
                             onTap: awardTapped,
-                            child: Image.asset("assets/pictures/praise_crews.png")),
+                            child: Image.asset(
+                                "assets/pictures/praise_crews.png")),
                       ),
                     ],
                   ),
@@ -173,9 +193,15 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin{
                   Expanded(
                     flex: 6,
                     child: Container(
-                      child: Image.asset("assets/pictures/badges.png", fit: BoxFit.cover,),),
+                      child: Image.asset(
+                        "assets/pictures/badges.png",
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
-                  SizedBox(height: 50,),
+                  SizedBox(
+                    height: 50,
+                  ),
                 ],
               ),
             ),
@@ -185,7 +211,8 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin{
     );
   }
 
-  Future<dynamic> awardTapped(){
+  Future<dynamic> awardTapped() {
+    final sendPlayer = AudioCache();
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -195,23 +222,33 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin{
               content: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                 child: InkWell(
-                    onTap: (){
+                    onTap: () {
                       // Navigator.pop(context);
                       // // Navigate to Next User Screen
-                       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> HomeScreen()), (Route<dynamic> route) => false);
+                      sendPlayer.play("music/sendBadge.wav");
+                      Future.delayed(Duration(seconds: 2), () {
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => HomeScreen()),
+                            (Route<dynamic> route) => false);
+                      });
+
                       // Navigator.push(context, MaterialPageRoute(builder: (context) => TaskBadgesTwo()));
                     },
-
                     child: Container(
                         decoration: BoxDecoration(
                           color: Color(0xFF370647),
                           borderRadius: BorderRadius.circular(40),
-                            // gradient: LinearGradient(
-                            //     begin: Alignment.bottomLeft,
-                            //     end: Alignment.topRight,
-                            //     colors: [Color(0xff160647), Color(0xff370647)])
-               ),
-                        child: Image.asset("assets/pictures/award_recog_popup.png", scale: 1.75))), // Container(color: Colors.yellow,) // UserPinPopup(),
+                          // gradient: LinearGradient(
+                          //     begin: Alignment.bottomLeft,
+                          //     end: Alignment.topRight,
+                          //     colors: [Color(0xff160647), Color(0xff370647)])
+                        ),
+                        child: Image.asset(
+                            "assets/pictures/award_recog_popup.png",
+                            scale:
+                                1.75))), // Container(color: Colors.yellow,) // UserPinPopup(),
               ));
         });
   }

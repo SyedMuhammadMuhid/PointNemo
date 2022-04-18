@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:animated_background/animated_background.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -28,16 +29,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 List<int> leaderBoardPoints = [232, 198, 170, 166, 160, 150, 140, 130, 180];
+final advancePlayer = AudioPlayer();
+AudioCache player = AudioCache(fixedPlayer: advancePlayer);
+bool isPlaying = true;
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   List SideBar = ["", "", ""];
   List Bar = ["", "", "", "", "", "", "", "", "", ""];
   List<UserAvatars> usersList = [];
-  List<String> SideBarUsers = [
-    "Nicolas ",
-    "Anthony ",
-    "Leanord "
-  ];
+  List<String> SideBarUsers = ["Nicolas ", "Anthony ", "Leanord "];
   Tween<double> _tween = Tween(begin: 0.75, end: 1);
   bool enterPin = false;
   List<Map<String, int>> missionTextList = [
@@ -58,10 +58,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     {"Enter your daily cash float": 15},
   ];
 
-
   List<int> missionPointsList = [10, 30, 50, 15, 20, 5, 30, 10, 5];
-  List<int> accomplishmentPointsList = [ 20, 5, 20, 15];
-
+  List<int> accomplishmentPointsList = [20, 5, 20, 15];
 
   final defaultPinTheme = PinTheme(
     width: 90,
@@ -92,6 +90,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late AnimationController controller;
   late Animation<double> animation;
   final _userAvatarListKey = GlobalKey<AnimatedListState>();
+
+  final newPlayer = AudioCache();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -123,7 +124,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         _userAvatarListKey.currentState?.insertItem(i);
       });
     }
-
+    if (isPlaying) {
+      player.loop("music/homeMusic.mp3", volume: 0.2);
+    }
     super.initState();
   }
 
@@ -193,31 +196,74 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceAround,
                                         children: [
-                                          Icon(
-                                            Icons.volume_mute_sharp,
-                                            color: Colors.white,
-                                            size: 35,
-                                          ),
-                                          Icon(
-                                            Icons.close,
-                                            color: Colors.white,
-                                            size: 25,
-                                          ),
+                                          isPlaying
+                                              ? InkWell(
+                                                  onTap: () {
+                                                    advancePlayer.pause();
+                                                    setState(() {
+                                                      isPlaying = false;
+                                                    });
+                                                  },
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.volume_mute_sharp,
+                                                        color: Colors.white,
+                                                        size: 35,
+                                                      ),
+                                                      Icon(
+                                                        Icons.waves_rounded,
+                                                        size: 25,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )
+                                              : InkWell(
+                                                  onTap: () {
+                                                    advancePlayer.resume();
+                                                    setState(() {
+                                                      isPlaying = true;
+                                                    });
+                                                  },
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(
+                                                        Icons.volume_mute_sharp,
+                                                        color: Colors.white,
+                                                        size: 35,
+                                                      ),
+                                                      Icon(
+                                                        Icons.close,
+                                                        color: Colors.white,
+                                                        size: 25,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
                                         ],
                                       ),
                                       SizedBox(
                                         width: 35,
                                       ),
                                       InkWell(
-                                        onTap: (){
+                                        onTap: () {
+                                          newPlayer.play("music/message.wav");
                                           showToastWidget(
-                                              Image.asset("assets/pictures/manager_toast_message.png", width: MediaQuery.of(context).size.width/2, height: 200,),
-                                              position: StyledToastPosition.top,
-                                              // alignment: Alignment.centerRight,
-                                              animDuration: Duration(seconds: 1),
-                                              duration: Duration(seconds: 5),
-                                              curve: Curves.easeInOut,
-                                              context:context,
+                                            Image.asset(
+                                              "assets/pictures/manager_toast_message.png",
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  2,
+                                              height: 200,
+                                            ),
+                                            position: StyledToastPosition.top,
+                                            // alignment: Alignment.centerRight,
+                                            animDuration: Duration(seconds: 1),
+                                            duration: Duration(seconds: 5),
+                                            curve: Curves.easeInOut,
+                                            context: context,
                                           );
                                         },
                                         child: CircleAvatar(
@@ -313,7 +359,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Flexible(
-                                        flex:1,
+                                        flex: 1,
                                         child: Shimmer.fromColors(
                                           baseColor: Colors.white,
                                           highlightColor: Color(0xff632806),
@@ -333,7 +379,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       Flexible(
                                         flex: 2,
                                         child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
                                           children: [
                                             Container(
                                               child: Text(
@@ -496,12 +543,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                                   color: Color(0xff3AF40A),
                                                                                   size: 25,
                                                                                 ), // SvgPicture.asset("assets/images/icons/checkDouble.svg", color: Color(0xff3AF40A),),// FaIcon(FontAwesomeIcons.clock, color: Color(0xff3AF40A), size: 20,),
-
                                                                               ),
                                                                             ],
                                                                           ),
                                                                         ),
-                                                                         Flexible(
+                                                                        Flexible(
                                                                           child: Padding(
                                                                               padding: const EdgeInsets.only(left: 15.0, right: 5, top: 0),
                                                                               child: Text(
@@ -597,114 +643,106 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                               ],
                                                             ),
                                                           )
-                                                        : BarIndex -1 == 4 && taskDone == true ? null : AnimatedBuilder(
-                                                            animation:
-                                                                animation,
-                                                            builder: (context,
-                                                                child) {
-                                                              return CustomPaint(
-                                                                foregroundPainter: ( BarIndex -1)  ==
-                                                                        4
-                                                                    ? BorderPainter(
-                                                                        controller
-                                                                            .value)
-                                                                    : null,
-                                                                child: InkWell(
-                                                                  onTap: () =>
-                                                                      cardTapped(index),
-                                                                  child:
-                                                                      Container(
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      color: Color(
-                                                                          0xff060a1a),
-                                                                      // border: Border.all(
-                                                                      //
-                                                                      // ),
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              15),
-                                                                    ),
+                                                        : BarIndex - 1 == 4 &&
+                                                                taskDone == true
+                                                            ? null
+                                                            : AnimatedBuilder(
+                                                                animation:
+                                                                    animation,
+                                                                builder:
+                                                                    (context,
+                                                                        child) {
+                                                                  return CustomPaint(
+                                                                    foregroundPainter: (BarIndex -
+                                                                                1) ==
+                                                                            4
+                                                                        ? BorderPainter(
+                                                                            controller.value)
+                                                                        : null,
                                                                     child:
-                                                                        Column(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .spaceBetween,
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .start,
-                                                                      children: [
-                                                                        Padding(
-                                                                          padding: const EdgeInsets.only(
-                                                                              left: 15.0,
-                                                                              right: 25,
-                                                                              top: 16),
-                                                                          child:
-                                                                              Text(
-                                                                            missionTextList[BarIndex - 1 < missionTextList.length ? BarIndex - 1 : 0].keys.toString().replaceAll("(", "").replaceAll(")",
-                                                                                ""),
-                                                                            maxLines:
-                                                                                2,
-                                                                            style:
-                                                                                TextStyle(
-                                                                              color: Colors.white,
-                                                                              fontSize: 17,
-                                                                              fontFamily: "Meteoric",
-                                                                            ),
-                                                                          ),
+                                                                        InkWell(
+                                                                      onTap: () =>
+                                                                          cardTapped(
+                                                                              index),
+                                                                      child:
+                                                                          Container(
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          color:
+                                                                              Color(0xff060a1a),
+                                                                          // border: Border.all(
+                                                                          //
+                                                                          // ),
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(15),
                                                                         ),
-                                                                        Container(
-                                                                          child:
-                                                                              Padding(
-                                                                            padding: const EdgeInsets.only(
-                                                                                left: 15.0,
-                                                                                bottom: 15,
-                                                                                right: 15),
-                                                                            child:
-                                                                                Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                              children: [
-                                                                                Row(
+                                                                        child:
+                                                                            Column(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.spaceBetween,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.only(left: 15.0, right: 25, top: 16),
+                                                                              child: Text(
+                                                                                missionTextList[BarIndex - 1 < missionTextList.length ? BarIndex - 1 : 0].keys.toString().replaceAll("(", "").replaceAll(")", ""),
+                                                                                maxLines: 2,
+                                                                                style: TextStyle(
+                                                                                  color: Colors.white,
+                                                                                  fontSize: 17,
+                                                                                  fontFamily: "Meteoric",
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            Container(
+                                                                              child: Padding(
+                                                                                padding: const EdgeInsets.only(left: 15.0, bottom: 15, right: 15),
+                                                                                child: Row(
+                                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                                   children: [
-                                                                                    Image.asset("assets/images/coin.png"),
-                                                                                    Padding(
-                                                                                      padding: const EdgeInsets.only(left: 8.0),
-                                                                                      child: Text(
-                                                                                        "${missionTextList[BarIndex - 1 < missionTextList.length ? BarIndex - 1 : 0].values.toString().replaceAll("(", "").replaceAll(")", "")} points",
-                                                                                        style: TextStyle(color: Color(0xfffabe2c), fontSize: 18, fontFamily: "Adelle", fontWeight: FontWeight.bold),
-                                                                                      ),
+                                                                                    Row(
+                                                                                      children: [
+                                                                                        Image.asset("assets/images/coin.png"),
+                                                                                        Padding(
+                                                                                          padding: const EdgeInsets.only(left: 8.0),
+                                                                                          child: Text(
+                                                                                            "${missionTextList[BarIndex - 1 < missionTextList.length ? BarIndex - 1 : 0].values.toString().replaceAll("(", "").replaceAll(")", "")} points",
+                                                                                            style: TextStyle(color: Color(0xfffabe2c), fontSize: 18, fontFamily: "Adelle", fontWeight: FontWeight.bold),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ],
                                                                                     ),
+                                                                                    (BarIndex - 1) == 4
+                                                                                        ? SvgPicture.asset(
+                                                                                            "assets/images/urgentAch.svg",
+                                                                                          )
+                                                                                        : index == 1
+                                                                                            ? ScaleTransition(
+                                                                                                scale: _animation,
+                                                                                                child: Container(
+                                                                                                  height: 30,
+                                                                                                  width: 25,
+                                                                                                  decoration: const BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/flag.png"))),
+                                                                                                ),
+                                                                                                // const Icon(
+                                                                                                //   Icons.flag_outlined,
+                                                                                                //   color: Colors.red,
+                                                                                                //   size: 30,
+                                                                                                // ),
+                                                                                              )
+                                                                                            : SizedBox(),
                                                                                   ],
                                                                                 ),
-                                                                                ( BarIndex -1)  ==
-                                                                                    4
-                                                                                    ? SvgPicture.asset(
-                                                                                        "assets/images/urgentAch.svg",
-                                                                                      )
-                                                                                    : index == 1 ?  ScaleTransition(
-                                                                                        scale: _animation,
-                                                                                        child: Container(
-                                                                                          height: 30,
-                                                                                          width: 25,
-                                                                                          decoration: const BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/flag.png"))),
-                                                                                        ),
-                                                                                        // const Icon(
-                                                                                        //   Icons.flag_outlined,
-                                                                                        //   color: Colors.red,
-                                                                                        //   size: 30,
-                                                                                        // ),
-                                                                                      ): SizedBox(),
-                                                                              ],
-                                                                            ),
-                                                                          ),
-                                                                        )
-                                                                      ],
+                                                                              ),
+                                                                            )
+                                                                          ],
+                                                                        ),
+                                                                      ),
                                                                     ),
-                                                                  ),
-                                                                ),
-                                                              );
-                                                            },
-                                                          )
+                                                                  );
+                                                                },
+                                                              )
                                                     : Container(
                                                         color:
                                                             Colors.transparent,
@@ -1190,44 +1228,62 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             fontFamily: "Roboto",
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1,
-                          ),)),
-                      Pinput(
-                        onCompleted: (pin) => print(pin),
-                        keyboardAppearance: Brightness.dark,
-                        keyboardType: TextInputType.number,
-                        defaultPinTheme: defaultPinTheme,
-                        validator: (pin){
-                          if(pin?.length != 4){
-                            return "Please Enter 4-digit Pin.";
-                          }
-                        },
+                          ),
+                        )),
+                    Pinput(
+                      onCompleted: (pin) => print(pin),
+                      keyboardAppearance: Brightness.dark,
+                      keyboardType: TextInputType.number,
+                      defaultPinTheme: defaultPinTheme,
+                      validator: (pin) {
+                        if (pin?.length != 4) {
+                          return "Please Enter 4-digit Pin.";
+                        }
+                      },
+                    ),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => index == 1
+                                    ? TaskProfileTwo()
+                                    : TaskProfile()));
+                      },
+                      child: Container(
+                        height: 50,
+                        margin: EdgeInsets.symmetric(vertical: 15),
+                        child: Wrap(
+                          //alignment: WrapAlignment.center,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          //mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              "NEXT",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 30,
+                                fontFamily: "Impact",
+                                letterSpacing: 2,
+                                // fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            FaIcon(
+                              FontAwesomeIcons.anglesRight,
+                              color: Colors.white60,
+                              size: 25,
+                            )
+                          ],
+                        ),
                       ),
-                      SizedBox(height: 50,),
-                      InkWell(
-                        onTap: (){
-                          Navigator.pop(context);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => index == 1 ? TaskProfileTwo() : TaskProfile()));
-                        },
-                        child: Container(
-                          height: 50,
-                            margin: EdgeInsets.symmetric( vertical: 15),
-                            child: Wrap(
-                              //alignment: WrapAlignment.center,
-                              crossAxisAlignment: WrapCrossAlignment.center,
-                              //mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text("NEXT", style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 30,
-                                  fontFamily: "Impact",
-                                  letterSpacing: 2,
-                                  // fontWeight: FontWeight.bold,
-                                ),),
-                                SizedBox(width: 10,),
-                                FaIcon(FontAwesomeIcons.anglesRight, color: Colors.white60, size: 25,)
-                              ],
-                            ),),
-                      ),
+                    ),
                     // IconButton(
                     //   icon: Icon(Icons.arrow_forward_ios),
                     //   onPressed: () => Navigator.push(context, MaterialPageRoute( builder: (context) => TaskProfile())),

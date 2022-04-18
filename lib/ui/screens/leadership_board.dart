@@ -1,4 +1,5 @@
 import 'package:animated_background/animated_background.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,22 +18,25 @@ class LeadershipBoard extends StatefulWidget {
 
 class _LeadershipBoardState extends State<LeadershipBoard>
     with TickerProviderStateMixin {
-
   late AnimationController controller;
   late Animation<double> animation;
 
-  final List<Image> leaderBoardResultsList = [Image.asset(
-  "assets/pictures/leaderboard_user_results.png",
-  // fit: BoxFit.cover,
-  ), Image.asset(
-    "assets/pictures/leaderboard_shift_results.png",
-    // fit: BoxFit.cover,
-  ), ];
+  final List<Image> leaderBoardResultsList = [
+    Image.asset(
+      "assets/pictures/leaderboard_user_results.png",
+      // fit: BoxFit.cover,
+    ),
+    Image.asset(
+      "assets/pictures/leaderboard_shift_results.png",
+      // fit: BoxFit.cover,
+    ),
+  ];
 
   CarouselController buttonCarouselController = CarouselController();
-
+  final leaderPlayer = AudioCache();
   @override
   void initState() {
+    leaderPlayer.play("music/loadLeader.wav");
     // TODO: implement initState
     super.initState();
     controller = AnimationController(
@@ -43,8 +47,7 @@ class _LeadershipBoardState extends State<LeadershipBoard>
     );
     animation = controller
       ..addListener(() {
-        setState(() {}
-        );
+        setState(() {});
       })
       ..addStatusListener((status) {
         if (status == AnimationStatus.completed) {
@@ -55,6 +58,7 @@ class _LeadershipBoardState extends State<LeadershipBoard>
       });
     controller.forward();
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -76,9 +80,10 @@ class _LeadershipBoardState extends State<LeadershipBoard>
             backgroundColor: Colors.transparent,
             foregroundColor: Colors.transparent,
             leading: InkWell(
-              onTap: (){
+              onTap: () {
                 controller.dispose();
-                Navigator.pop(context);},
+                Navigator.pop(context);
+              },
               child: Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: SvgPicture.asset(
@@ -118,87 +123,101 @@ class _LeadershipBoardState extends State<LeadershipBoard>
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Flexible(
-                            flex: 1,
+                              flex: 1,
                               child: Container(
                                   //alignment: Alignment.centerRight,
                                   // child: Text(
                                   //   "Total Points 50",
                                   //   style: pointsHeaderTextStyle,
                                   // )
-                              )),
+                                  )),
                           // Linear Progress Animator
                           Expanded(
                             flex: 1,
                             child: Container(
-                              child: Image.asset("assets/pictures/leaderboard_cup.png"),
+                              child: Image.asset(
+                                  "assets/pictures/leaderboard_cup.png"),
                             ),
                           ),
                           Flexible(
-                            flex: 1,
+                              flex: 1,
                               child: Center(
                                 child: Container(
                                   height: 110,
                                   width: 220,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(15)),
                                       gradient: LinearGradient(
                                           begin: Alignment.topLeft,
                                           end: Alignment.bottomRight,
-                                          colors: [Color(0xff071B2B), Color(0xff010101)])
-                                  ),
+                                          colors: [
+                                            Color(0xff071B2B),
+                                            Color(0xff010101)
+                                          ])),
                                   child: AnimatedBuilder(
-                                    animation: animation,
-                                    builder: (context, child) {
-                                      return CustomPaint(
-                                        foregroundPainter: BorderPainter(controller.value),
-                                        child: Container(
-                                            alignment: Alignment.topCenter,
-                                            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                                            child: Center(
-                                              child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                children: [
-                                                  Text(
-                                                    "Total Team Points",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 16,
-                                                      fontFamily: "Meteoric",
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                  Shimmer.fromColors(
-                                                    baseColor: Colors.white,
-                                                    highlightColor: Color(0xFFFED843),
-                                                    period: Duration(seconds: 2),
-                                                    child: Text(
-                                                      "1420",
-                                                      textAlign: TextAlign.center,
+                                      animation: animation,
+                                      builder: (context, child) {
+                                        return CustomPaint(
+                                          foregroundPainter:
+                                              BorderPainter(controller.value),
+                                          child: Container(
+                                              alignment: Alignment.topCenter,
+                                              padding: EdgeInsets.symmetric(
+                                                  horizontal: 10, vertical: 15),
+                                              child: Center(
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceEvenly,
+                                                  children: [
+                                                    Text(
+                                                      "Total Team Points",
                                                       style: TextStyle(
                                                         color: Colors.white,
-                                                        fontSize: 32,
+                                                        fontSize: 16,
                                                         fontFamily: "Meteoric",
-                                                        fontWeight: FontWeight.bold,
+                                                        fontWeight:
+                                                            FontWeight.bold,
                                                       ),
                                                     ),
-                                                  ),
-                                                  Text(
-                                                    "Morning Shift",
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 12,
-                                                      fontFamily: "Meteoric",
-                                                      fontWeight: FontWeight.bold,
+                                                    Shimmer.fromColors(
+                                                      baseColor: Colors.white,
+                                                      highlightColor:
+                                                          Color(0xFFFED843),
+                                                      period:
+                                                          Duration(seconds: 2),
+                                                      child: Text(
+                                                        "1420",
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 32,
+                                                          fontFamily:
+                                                              "Meteoric",
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            )
-                                        ),
-                                      );
-                                    }
-                                  ),
+                                                    Text(
+                                                      "Morning Shift",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 12,
+                                                        fontFamily: "Meteoric",
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )),
+                                        );
+                                      }),
                                 ),
                               )),
                         ],
@@ -216,8 +235,10 @@ class _LeadershipBoardState extends State<LeadershipBoard>
                           height: double.infinity,
                           child: Center(
                             child: InkWell(
-                              onTap: () => buttonCarouselController.previousPage(
-                                  duration: Duration(milliseconds: 600), curve: Curves.linear),
+                              onTap: () =>
+                                  buttonCarouselController.previousPage(
+                                      duration: Duration(milliseconds: 600),
+                                      curve: Curves.linear),
                               child: Container(
                                 // decoration: const BoxDecoration(
                                 //     gradient: LinearGradient(
@@ -227,7 +248,11 @@ class _LeadershipBoardState extends State<LeadershipBoard>
                                 child: CircleAvatar(
                                   radius: 25,
                                   backgroundColor: Color(0xff730AAF),
-                                  child: FaIcon(FontAwesomeIcons.anglesLeft, color: Colors.white, size: 25,),
+                                  child: FaIcon(
+                                    FontAwesomeIcons.anglesLeft,
+                                    color: Colors.white,
+                                    size: 25,
+                                  ),
                                 ),
                               ),
                             ),
@@ -236,7 +261,7 @@ class _LeadershipBoardState extends State<LeadershipBoard>
                         Expanded(
                           child: Container(
                             padding: EdgeInsets.symmetric(horizontal: 20),
-                            child:CarouselSlider.builder(
+                            child: CarouselSlider.builder(
                                 options: CarouselOptions(
                                   // height: 400,
                                   // aspectRatio: 16/9,
@@ -254,11 +279,14 @@ class _LeadershipBoardState extends State<LeadershipBoard>
                                 ),
                                 carouselController: buttonCarouselController,
                                 itemCount: leaderBoardResultsList.length,
-                                itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
-                                    Container(child: leaderBoardResultsList[itemIndex])
-                              // Image.asset("assets/pictures/TaskComments.png")
+                                itemBuilder: (BuildContext context,
+                                        int itemIndex, int pageViewIndex) =>
+                                    Container(
+                                        child:
+                                            leaderBoardResultsList[itemIndex])
+                                // Image.asset("assets/pictures/TaskComments.png")
 
-                            ),
+                                ),
                           ),
                         ),
                         Container(
@@ -267,7 +295,8 @@ class _LeadershipBoardState extends State<LeadershipBoard>
                           child: Center(
                             child: InkWell(
                               onTap: () => buttonCarouselController.nextPage(
-                                  duration: Duration(milliseconds: 600), curve: Curves.linear),
+                                  duration: Duration(milliseconds: 600),
+                                  curve: Curves.linear),
                               child: Container(
                                 // decoration: const BoxDecoration(
                                 //     gradient: LinearGradient(
@@ -277,7 +306,11 @@ class _LeadershipBoardState extends State<LeadershipBoard>
                                 child: CircleAvatar(
                                   radius: 25,
                                   backgroundColor: Color(0xff730AAF),
-                                  child: FaIcon(FontAwesomeIcons.anglesRight, color: Colors.white, size: 25,),
+                                  child: FaIcon(
+                                    FontAwesomeIcons.anglesRight,
+                                    color: Colors.white,
+                                    size: 25,
+                                  ),
                                 ),
                               ),
                             ),
@@ -366,8 +399,8 @@ class BorderPainter extends CustomPainter {
           _sh * _c2 + _line > _sh
               ? _sh
               : _sw * _c1 + _line >= _sw
-              ? _sw * _c1 + _line - _sw
-              : _sh * _c2);
+                  ? _sw * _c1 + _line - _sw
+                  : _sh * _c2);
 
     Path _bottom = Path()
       ..moveTo(_sw * _c2, _sh)
@@ -375,8 +408,8 @@ class BorderPainter extends CustomPainter {
           _sw * _c2 + _line > _sw
               ? _sw
               : _sh * _c1 + _line >= _sh
-              ? _sh * _c1 + _line - _sh
-              : _sw * _c2,
+                  ? _sh * _c1 + _line - _sh
+                  : _sw * _c2,
           _sh);
 
     canvas.drawPath(_top, paint1);
