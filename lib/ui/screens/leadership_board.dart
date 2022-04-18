@@ -159,7 +159,7 @@ class _LeadershipBoardState extends State<LeadershipBoard>
                                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                                 children: [
                                                   Text(
-                                                    "Total Team Points",
+                                                    "Morning Shift",
                                                     style: TextStyle(
                                                       color: Colors.white,
                                                       fontSize: 16,
@@ -183,7 +183,7 @@ class _LeadershipBoardState extends State<LeadershipBoard>
                                                     ),
                                                   ),
                                                   Text(
-                                                    "Morning Shift",
+                                                    "Total Team Points",
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       color: Colors.white,

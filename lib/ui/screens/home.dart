@@ -27,40 +27,18 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-List<int> leaderBoardPoints = [232, 198, 170, 166, 160, 150, 140, 130, 180];
+List<int> leaderBoardPoints = [232, 198, 170, userTwoPoints, 160, 150, 140, 130, 124];
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   List SideBar = ["", "", ""];
   List Bar = ["", "", "", "", "", "", "", "", "", ""];
   List<UserAvatars> usersList = [];
-  List<String> SideBarUsers = [
-    "Nicolas ",
-    "Anthony ",
-    "Leanord "
-  ];
+
   Tween<double> _tween = Tween(begin: 0.75, end: 1);
   bool enterPin = false;
-  List<Map<String, int>> missionTextList = [
-    {"Wipe down counters": 10},
-    {"Fountain ice stock": 10},
-    {"Restock coffee supplies": 50},
-    {"Wipe down counters": 15},
-    {"Turn off electronics and other appliances": 20},
-    {"Wipe down ice machines out front": 5},
-    {"Check that all display are in order": 30},
-    {"Dust off tables": 10},
-    {"Physically count all your products if necessary": 5},
-  ];
-  List<Map<String, int>> accomplishmentTextList = [
-    // {"Turn off electronics and other appliances": 20},
-    {"Restock shelves if necessary": 5},
-    {"Ensure that product tags are in order": 20},
-    {"Enter your daily cash float": 15},
-  ];
 
 
-  List<int> missionPointsList = [10, 30, 50, 15, 20, 5, 30, 10, 5];
-  List<int> accomplishmentPointsList = [ 20, 5, 20, 15];
+
 
 
   final defaultPinTheme = PinTheme(
@@ -210,12 +188,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       ),
                                       InkWell(
                                         onTap: (){
+
+                                          // call music here
                                           showToastWidget(
                                               Image.asset("assets/pictures/manager_toast_message.png", width: MediaQuery.of(context).size.width/2, height: 200,),
                                               position: StyledToastPosition.top,
                                               // alignment: Alignment.centerRight,
                                               animDuration: Duration(seconds: 1),
-                                              duration: Duration(seconds: 5),
+                                              duration: Duration(seconds: 10),
                                               curve: Curves.easeInOut,
                                               context:context,
                                           );
@@ -331,57 +311,63 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       ),
                                       // Timer Here
                                       Flexible(
-                                        flex: 2,
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.end,
-                                          children: [
-                                            Container(
-                                              child: Text(
-                                                "Morning shift:  ",
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontFamily: 'Neuropol',
+                                        flex: 3,
+                                        child: Container(
+                                          padding: EdgeInsets.only(right: 45),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              Container(
+                                                child: Text(
+                                                  "Morning shift  ",
+                                                  style: TextStyle(
+                                                      fontSize: 18,
+                                                      fontFamily: 'Neuropol',
+                                                      color: Colors.white,
+                                                      //fontWeight: FontWeight.bold,
+                                                      letterSpacing: 4),
+                                                ),
+                                              ),
+                                              SlideCountdownSeparated(
+                                                height: 35,
+                                                width: 35,
+                                                separatorStyle: TextStyle(
+                                                    color: Colors.white),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(5),
+                                                    color: Colors.transparent),
+                                                textStyle: TextStyle(
+                                                    fontSize: 26,
+                                                    fontFamily: 'Digital',
                                                     color: Colors.white,
                                                     //fontWeight: FontWeight.bold,
                                                     letterSpacing: 4),
-                                              ),
-                                            ),
-                                            SlideCountdownSeparated(
-                                              height: 35,
-                                              width: 35,
-                                              separatorStyle: TextStyle(
-                                                  color: Colors.white),
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(5),
-                                                  color: Colors.transparent),
-                                              textStyle: TextStyle(
-                                                  fontSize: 26,
-                                                  fontFamily: 'Digital',
-                                                  color: Colors.white,
-                                                  //fontWeight: FontWeight.bold,
-                                                  letterSpacing: 4),
-                                              duration:
-                                                  const Duration(hours: 2),
-                                            )
-                                          ],
+                                                duration:
+                                                    const Duration(hours: 2),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ),
                                       Flexible(
                                         flex: 1,
-                                        child: Shimmer.fromColors(
-                                          baseColor: Colors.white,
-                                          highlightColor: Color(0xFFFED843),
-                                          period: Duration(seconds: 3),
-                                          child: Text(
-                                            "ACCOMPLISHMENTS",
-                                            maxLines: 1,
-                                            style: TextStyle(
-                                                fontSize: 24,
-                                                fontFamily: 'Games',
-                                                color: Colors.white,
-                                                // fontWeight: FontWeight.bold,
-                                                letterSpacing: 1),
+                                        child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Shimmer.fromColors(
+                                            baseColor: Colors.white,
+                                            highlightColor: Color(0xFFFED843),
+                                            period: Duration(seconds: 3),
+                                            child: Text(
+                                              "Wins",
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                  fontSize: 28,
+                                                  fontFamily: 'Games',
+                                                  color: Colors.white,
+                                                  // fontWeight: FontWeight.bold,
+                                                  letterSpacing: 1),
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -507,6 +493,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                               child: Text(
                                                                                 accomplishmentTextList[SideBarIndex - 1 < accomplishmentTextList.length ? SideBarIndex - 1 : 0].keys.toString().replaceAll("(", "").replaceAll(")", ""),
                                                                                 maxLines: 2,
+                                                                                overflow: TextOverflow.ellipsis,
                                                                                 style: TextStyle(color: Colors.white, fontSize: 15, fontFamily: "Meteoric"),
                                                                               )),
                                                                         ),
@@ -535,7 +522,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                                 // ),
                                                                                 CircleAvatar(
                                                                                   radius: 18,
-                                                                                  backgroundImage: AssetImage("assets/images/userImages/potrait${SideBarIndex - 1}.png"),
+                                                                                  backgroundImage: AssetImage("assets/images/userImages/potrait${ winUserPictures[SideBarIndex - 1] }.png"),
                                                                                   backgroundColor: Colors.transparent,
                                                                                 ),
                                                                                 SizedBox(
@@ -604,7 +591,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                 child) {
                                                               return CustomPaint(
                                                                 foregroundPainter: ( BarIndex -1)  ==
-                                                                        4
+                                                                        4 && missionTextList.length == 9
                                                                     ? BorderPainter(
                                                                         controller
                                                                             .value)
@@ -645,7 +632,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                                 ""),
                                                                             maxLines:
                                                                                 2,
-                                                                            style:
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                                style:
                                                                                 TextStyle(
                                                                               color: Colors.white,
                                                                               fontSize: 17,
@@ -677,11 +665,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                                   ],
                                                                                 ),
                                                                                 ( BarIndex -1)  ==
-                                                                                    4
+                                                                                    4 && missionTextList.length == 9
                                                                                     ? SvgPicture.asset(
                                                                                         "assets/images/urgentAch.svg",
                                                                                       )
-                                                                                    : index == 1 ?  ScaleTransition(
+                                                                                    : index == 3 ?  ScaleTransition(
                                                                                         scale: _animation,
                                                                                         child: Container(
                                                                                           height: 30,
@@ -1206,6 +1194,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       InkWell(
                         onTap: (){
                           Navigator.pop(context);
+                          print("This is ${missionTextList.length}");
+                          print("This is $index");
                           Navigator.push(context, MaterialPageRoute(builder: (context) => index == 1 ? TaskProfileTwo() : TaskProfile()));
                         },
                         child: Container(
@@ -1224,7 +1214,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   // fontWeight: FontWeight.bold,
                                 ),),
                                 SizedBox(width: 10,),
-                                FaIcon(FontAwesomeIcons.anglesRight, color: Colors.white60, size: 25,)
+                                Image.asset("assets/images/icons/forward_tri_arrow.png", width: 50, height: 50,),
+                                // FaIcon(FontAwesomeIcons.anglesRight, color: Colors.white60, size: 25,)
                               ],
                             ),),
                       ),

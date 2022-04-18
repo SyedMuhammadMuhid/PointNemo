@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:animated_background/animated_background.dart';
+import 'package:animated_flip_counter/animated_flip_counter.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:confetti/confetti.dart';
@@ -10,10 +11,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:point_nemo/globals/constants.dart';
 import 'package:point_nemo/globals/textStyles.dart';
+import 'package:point_nemo/globals/variabes.dart';
 import 'package:point_nemo/ui/screens/home.dart';
 import 'package:point_nemo/ui/screens/task_badges_two.dart';
 import 'package:point_nemo/ui/widgets/points_animated.dart';
 import 'package:point_nemo/ui/widgets/scored_progress_bar.dart';
+import 'package:shimmer/shimmer.dart';
 
 class TaskProfileTwo extends StatefulWidget {
   const TaskProfileTwo({Key? key}) : super(key: key);
@@ -28,7 +31,7 @@ class _TaskProfileTwoState extends State<TaskProfileTwo>
   // styles
   // static const TextStyle backNavigationTextStyle = TextStyle(color: Colors.white, fontSize: 18, fontFamily: "Adelle");
   final List<Image> commentsList = [
-    Image.asset("assets/pictures/user_two_task_comment_1.png"),
+    Image.asset("assets/pictures/user_two_task_comment1.png"),
     Image.asset("assets/pictures/user_one_task_comment1.png")
   ];
 
@@ -125,6 +128,7 @@ class _TaskProfileTwoState extends State<TaskProfileTwo>
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
+                          SizedBox(height: 25,),
                           // First section
                           Expanded(
                             flex: 2,
@@ -156,10 +160,18 @@ class _TaskProfileTwoState extends State<TaskProfileTwo>
                                             child: Align(
                                                 alignment:
                                                     Alignment.centerRight,
-                                                child: Text(
-                                                  "Total Points 80",
-                                                  style: pointsHeaderTextStyle,
-                                                ))),
+                                                child: Shimmer.fromColors(
+                                                  baseColor: Colors.white,
+                                                  highlightColor: Color(0xffff6600),
+                                                  period: Duration(seconds: 15),
+                                                  child: AnimatedFlipCounter(
+                                                    duration: Duration(milliseconds: 500),
+                                                    value: userTwoPoints,
+                                                    textStyle: pointsHeaderTextStyle,
+                                                    prefix: "Total Points ",
+                                                    // pass in a value like 2014
+                                                  ),
+                                                ),)),
                                         // Linear Progress Animator
                                         Container(
                                           width: 320,
@@ -206,10 +218,18 @@ class _TaskProfileTwoState extends State<TaskProfileTwo>
                                             child: Align(
                                                 alignment:
                                                     Alignment.centerRight,
-                                                child: Text(
-                                                  "Rank 12",
-                                                  style: pointsHeaderTextStyle,
-                                                ))),
+                                                child: Shimmer.fromColors(
+                                                  baseColor: Colors.white,
+                                                  highlightColor: Color(0xffff6600),
+                                                  period: Duration(seconds: 15),
+                                                  child: AnimatedFlipCounter(
+                                                    duration: Duration(milliseconds: 500),
+                                                    value: userTwoRank,
+                                                    textStyle: pointsHeaderTextStyle,
+                                                    prefix: "Rank ",
+                                                    // pass in a value like 2014
+                                                  ),
+                                                ),)),
                                       ],
                                     ),
                                   ),

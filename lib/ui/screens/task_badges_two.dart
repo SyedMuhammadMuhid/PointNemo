@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:point_nemo/globals/constants.dart';
 import 'package:point_nemo/globals/textStyles.dart';
+import 'package:point_nemo/globals/variabes.dart';
 import 'package:point_nemo/ui/widgets/points_animated.dart';
 import 'package:point_nemo/ui/widgets/scored_progress_bar.dart';
 import 'package:shimmer/shimmer.dart';
@@ -89,6 +90,7 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  SizedBox(height: 25,),
                   // First section
                   Expanded(
                     flex: 2,
@@ -114,7 +116,7 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
                                     child: Align(
                                         alignment: Alignment.centerRight,
                                         child: Text(
-                                          "Total Points 80",
+                                          "Total Points ${userTwoPoints}",
                                           style: pointsHeaderTextStyle,
                                         ))),
                                 // Linear Progress Animator
@@ -161,7 +163,7 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
                                     child: Align(
                                         alignment: Alignment.centerRight,
                                         child: Text(
-                                          "Rank 12",
+                                          "Rank ${userTwoRank}",
                                           style: pointsHeaderTextStyle,
                                         ))),
                               ],
@@ -194,12 +196,13 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
                         ),
                       ),
                     ),
+                  SizedBox(height: 25,),
                     // second section
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          padding: EdgeInsets.only(left: 55),
+                          padding: EdgeInsets.only(left: 30),
                           child: Shimmer.fromColors(
                             baseColor: Colors.white,
                             highlightColor: Color(0xff632806),
@@ -220,7 +223,7 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
                           alignment: Alignment.centerRight,
                           child: InkWell(
                               onTap: awardTapped,
-                              child: Image.asset("assets/pictures/praise_your_crewmates.png")),
+                              child: Image.asset("assets/pictures/praise_your_crewmates.png", width: 280,)),
                         ),
                       ],
                     ),
@@ -228,7 +231,7 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
                     Expanded(
                       flex: 6,
                       child: Container(
-                        child: Image.asset("assets/pictures/user_one_badges.png", fit: BoxFit.cover,),),
+                        child: Image.asset("assets/pictures/user_two_badges.png", fit: BoxFit.cover,),),
                     ),
                     SizedBox(height: 50,),
                   ],

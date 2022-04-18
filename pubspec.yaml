@@ -47,6 +47,7 @@ dependencies:
   liquid_progress_indicator: ^0.4.0
   confetti: ^0.6.0
   flutter_styled_toast: ^2.0.0
+  animated_flip_counter: ^0.2.4
 
 
 dev_dependencies:
