@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:animated_background/animated_background.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -27,19 +28,24 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
+
+
+final advancePlayer = AudioPlayer();
+AudioCache player = AudioCache(fixedPlayer: advancePlayer);
+bool isPlaying = true;
+bool screen = false;
+
 List<int> leaderBoardPoints = [232, 198, 170, userTwoPoints, 160, 150, 140, 130, 124];
+
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   List SideBar = ["", "", ""];
   List Bar = ["", "", "", "", "", "", "", "", "", ""];
   List<UserAvatars> usersList = [];
 
+
   Tween<double> _tween = Tween(begin: 0.75, end: 1);
   bool enterPin = false;
-
-
-
-
 
   final defaultPinTheme = PinTheme(
     width: 90,
@@ -70,6 +76,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late AnimationController controller;
   late Animation<double> animation;
   final _userAvatarListKey = GlobalKey<AnimatedListState>();
+
+  final newPlayer = AudioCache();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -101,7 +110,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         _userAvatarListKey.currentState?.insertItem(i);
       });
     }
-
+    if (isPlaying) {
+      player.loop("music/homeMusic.mp3", volume: 0.2);
+    }
     super.initState();
   }
 
@@ -115,6 +126,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration(seconds: 4), () {
+      if (mounted) {
+        setState(() {
+          screen = true;
+        });
+      }
+    });
     // print("Build");
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.black,
@@ -126,96 +144,194 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     int SideBarIndex = 0;
     int BarIndex = 0;
 
-    return SafeArea(
-      child: Container(
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.bottomLeft,
-                  end: Alignment.topRight,
-                  colors: [Color(0xff160647), Color(0xff370647)])),
-          child: true
-              ? Scaffold(
-                  backgroundColor: Colors.transparent,
-                  body: AnimatedBackground(
-                    behaviour: RandomParticleBehaviour(
-                      options: particleOptions,
-                      paint: particlePaint,
-                    ),
-                    vsync: this,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          // Header
-                          Container(
-                            height: 300,
+    return screen == false
+        ? Scaffold(
+            body: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/splash.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: null /* add child content here */,
+            ),
+          )
+        : SafeArea(
+            child: Container(
+                decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                        begin: Alignment.bottomLeft,
+                        end: Alignment.topRight,
+                        colors: [Color(0xff160647), Color(0xff370647)])),
+                child: true
+                    ? Scaffold(
+                        backgroundColor: Colors.transparent,
+                        body: AnimatedBackground(
+                          behaviour: RandomParticleBehaviour(
+                            options: particleOptions,
+                            paint: particlePaint,
+                          ),
+                          vsync: this,
+                          child: SingleChildScrollView(
                             child: Column(
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 25,
-                                    right: 30,
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
+                                // Header
+                                Container(
+                                  height: 300,
+                                  child: Column(
                                     children: [
-                                      // Padding(
-                                      //   padding: const EdgeInsets.only(
-                                      //       right: 15.0),
-                                      //   child: const Icon(
-                                      //     Icons.notifications_none_rounded,
-                                      //     size: 35,
-                                      //     color: Colors.white,
-                                      //   ),
-                                      // ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Icon(
-                                            Icons.volume_mute_sharp,
-                                            color: Colors.white,
-                                            size: 35,
-                                          ),
-                                          Icon(
-                                            Icons.close,
-                                            color: Colors.white,
-                                            size: 25,
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        width: 35,
-                                      ),
-                                      InkWell(
-                                        onTap: (){
 
-                                          // call music here
-                                          showToastWidget(
-                                              Image.asset("assets/pictures/manager_toast_message.png", width: MediaQuery.of(context).size.width/2, height: 200,),
-                                              position: StyledToastPosition.top,
-                                              // alignment: Alignment.centerRight,
-                                              animDuration: Duration(seconds: 1),
-                                              duration: Duration(seconds: 10),
-                                              curve: Curves.easeInOut,
-                                              context:context,
-                                          );
-                                        },
-                                        child: CircleAvatar(
-                                          radius: 8,
-                                          backgroundColor: Color(0xFFFF006F),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          top: 25,
+                                          right: 30,
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            // Padding(
+                                            //   padding: const EdgeInsets.only(
+                                            //       right: 15.0),
+                                            //   child: const Icon(
+                                            //     Icons.notifications_none_rounded,
+                                            //     size: 35,
+                                            //     color: Colors.white,
+                                            //   ),
+                                            // ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                isPlaying
+                                                    ? InkWell(
+                                                        onTap: () {
+                                                          advancePlayer.pause();
+                                                          setState(() {
+                                                            isPlaying = false;
+                                                          });
+                                                        },
+                                                        child: Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons
+                                                                  .volume_mute_sharp,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 35,
+                                                            ),
+                                                            Icon(
+                                                              Icons
+                                                                  .waves_rounded,
+                                                              size: 25,
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      )
+                                                    : InkWell(
+                                                        onTap: () {
+                                                          advancePlayer
+                                                              .resume();
+                                                          setState(() {
+                                                            isPlaying = true;
+                                                          });
+                                                        },
+                                                        child: Row(
+                                                          children: [
+                                                            Icon(
+                                                              Icons
+                                                                  .volume_mute_sharp,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 35,
+                                                            ),
+                                                            Icon(
+                                                              Icons.close,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 25,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                              ],
+                                            ),
+                                            SizedBox(
+                                              width: 35,
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                newPlayer
+                                                    .play("music/message.wav");
+                                                showToastWidget(
+                                                  Image.asset(
+                                                    "assets/pictures/manager_toast_message.png",
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            2,
+                                                    height: 200,
+                                                  ),
+                                                  position:
+                                                      StyledToastPosition.top,
+                                                  // alignment: Alignment.centerRight,
+                                                  animDuration:
+                                                      Duration(seconds: 1),
+                                                  duration:
+                                                      Duration(seconds: 5),
+                                                  curve: Curves.easeInOut,
+                                                  context: context,
+                                                );
+                                              },
+                                              child: CircleAvatar(
+                                                radius: 8,
+                                                backgroundColor:
+                                                    Color(0xFFFF006F),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8.0),
+                                              child: Text(
+                                                'MENU',
+                                                style: TextStyle(
+                                                    fontSize: 26,
+                                                    color: Colors.white,
+                                                    // fontWeight: FontWeight.bold,
+                                                    fontFamily: 'Neuropol',
+                                                    letterSpacing: 0),
+                                              ),
+                                            ),
+                                            SvgPicture.asset(
+                                              "assets/images/icons/menuIcon.svg",
+                                              color: Colors.white,
+                                              height: 20,
+                                              width: 20,
+                                            ),
+                                            // Icon(
+                                            //   Icons.menu_rounded,
+                                            //   size: 35,
+                                            //   color: Colors.white,
+                                            // )
+                                          ],
                                         ),
                                       ),
-                                      Padding(
+                                      Container(
                                         padding: const EdgeInsets.symmetric(
-                                            horizontal: 8.0),
+                                            horizontal: 30),
+                                        alignment: Alignment.centerLeft,
                                         child: Text(
-                                          'MENU',
+                                          "LEADERBOARD",
                                           style: TextStyle(
-                                              fontSize: 26,
+                                              fontSize: 24,
                                               color: Colors.white,
                                               // fontWeight: FontWeight.bold,
-                                              fontFamily: 'Neuropol',
-                                              letterSpacing: 0),
+                                              fontFamily: 'Games',
+                                              letterSpacing: 1),
                                         ),
                                       ),
                                       SvgPicture.asset(
@@ -374,94 +490,80 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     ],
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 30.0, vertical: 25),
-                            child: Container(
-                              // height: MediaQuery.of(context).size.height - 325,
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  //
-                                  Expanded(
-                                    // flex: 2,
-                                    child: GridView.builder(
-                                        shrinkWrap: true,
-                                        physics: NeverScrollableScrollPhysics(),
-                                        itemCount:
-                                            SideBar.length * 4 > Bar.length
-                                                ? SideBar.length * 4
-                                                : Bar.length,
-                                        gridDelegate:
-                                            SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisSpacing: 12,
-                                                mainAxisSpacing: 12,
-                                                crossAxisCount: 4,
-                                                childAspectRatio: 1.8),
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          index = index + 1;
-                                          if (index % 4 != 0) {
-                                            // print("oo");
-                                            BarIndex++;
-                                          }
-                                          if (index % 4 == 0) {
-                                            SideBarIndex++;
-                                          }
-                                          return Padding(
-                                            padding: index % 4 == 0
-                                                ? const EdgeInsets.only(
-                                                    left: 40.0)
-                                                : const EdgeInsets.only(
-                                                    left: 0),
-                                            child:
-                                                BarIndex - 1 <
-                                                            missionTextList
-                                                                .length ||
-                                                        index % 4 == 0
-                                                    ? index % 4 == 0
-                                                        ? Container(
-                                                            decoration: BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            15),
-                                                                gradient: LinearGradient(
-                                                                    begin: Alignment
-                                                                        .bottomLeft,
-                                                                    end: Alignment.topRight,
-                                                                    colors: [
-                                                                      Color(
-                                                                          0xff4E1151),
-                                                                      Color(
-                                                                          0xff632806)
-                                                                    ])),
-                                                            child: Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Expanded(
-                                                                  flex: 5,
-                                                                  child:
-                                                                      Container(
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      color: Color(
-                                                                          0xff060a1a),
-                                                                      // border: Border.all(
-                                                                      //
-                                                                      // ),
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 30.0, vertical: 25),
+                                  child: Container(
+                                    // height: MediaQuery.of(context).size.height - 325,
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        //
+                                        Expanded(
+                                          // flex: 2,
+                                          child: GridView.builder(
+                                              shrinkWrap: true,
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
+                                              itemCount: SideBar.length * 4 >
+                                                      Bar.length
+                                                  ? SideBar.length * 4
+                                                  : Bar.length,
+                                              gridDelegate:
+                                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                                      crossAxisSpacing: 12,
+                                                      mainAxisSpacing: 12,
+                                                      crossAxisCount: 4,
+                                                      childAspectRatio: 1.8),
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                index = index + 1;
+                                                if (index % 4 != 0) {
+                                                  // print("oo");
+                                                  BarIndex++;
+                                                }
+                                                if (index % 4 == 0) {
+                                                  SideBarIndex++;
+                                                }
+                                                return Padding(
+                                                  padding: index % 4 == 0
+                                                      ? const EdgeInsets.only(
+                                                          left: 40.0)
+                                                      : const EdgeInsets.only(
+                                                          left: 0),
+                                                  child: BarIndex - 1 <
+                                                              missionTextList
+                                                                  .length ||
+                                                          index % 4 == 0
+                                                      ? index % 4 == 0
+                                                          ? Container(
+                                                              decoration: BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
                                                                               15),
-                                                                    ),
+                                                                  gradient: LinearGradient(
+                                                                      begin: Alignment
+                                                                          .bottomLeft,
+                                                                      end: Alignment.topRight,
+                                                                      colors: [
+                                                                        Color(
+                                                                            0xff4E1151),
+                                                                        Color(
+                                                                            0xff632806)
+                                                                      ])),
+                                                              child: Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                children: [
+                                                                  Expanded(
+                                                                    flex: 5,
                                                                     child:
                                                                         Column(
                                                                       mainAxisAlignment:
@@ -506,7 +608,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                                 right: 15),
                                                                             child:
                                                                                 Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                                              mainAxisAlignment: MainAxisAlignment.end,
                                                                               children: [
                                                                                 // Row(
                                                                                 //   children: [
@@ -536,13 +638,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                                     fontFamily: "Adelle",
                                                                                   ),
                                                                                 ),
-                                                                                // Container(
-                                                                                //   height: 40,
-                                                                                //   child: Image.asset("assets/images/doneAch.png"),
-                                                                                // )
                                                                               ],
                                                                             ),
                                                                           ),
+//<<<<<<< dev_three
                                                                         ),
                                                                       ],
                                                                     ),
@@ -577,7 +676,60 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                                 fontFamily: "Adelle",
                                                                                 color: Color(0xFFFED843),
                                                                                 fontWeight: FontWeight.bold),
+//=======
+                                                                          Flexible(
+                                                                            child: Padding(
+                                                                                padding: const EdgeInsets.only(left: 15.0, right: 5, top: 0),
+                                                                                child: Text(
+                                                                                  accomplishmentTextList[SideBarIndex - 1 < accomplishmentTextList.length ? SideBarIndex - 1 : 0].keys.toString().replaceAll("(", "").replaceAll(")", ""),
+                                                                                  maxLines: 2,
+                                                                                  style: TextStyle(color: Colors.white, fontSize: 15, fontFamily: "Meteoric"),
+                                                                                )),
+//>>>>>>> dev_two
                                                                           ),
+                                                                          Flexible(
+                                                                            child:
+                                                                                Container(
+                                                                              padding: const EdgeInsets.only(left: 15.0, bottom: 05, right: 15),
+                                                                              child: Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                                                children: [
+                                                                                  // Row(
+                                                                                  //   children: [
+                                                                                  //     Image.asset("assets/images/coin.png"),
+                                                                                  //     Padding(
+                                                                                  //       padding: const EdgeInsets.only(left: 8.0),
+                                                                                  //       child: Text(
+                                                                                  //         "10 pts",
+                                                                                  //         style: TextStyle(color: Color(0xfffabe2c), fontSize: 18, fontFamily: "Adelle", fontWeight: FontWeight.bold),
+                                                                                  //       ),
+                                                                                  //     ),
+                                                                                  //   ],
+                                                                                  // ),
+                                                                                  CircleAvatar(
+                                                                                    radius: 18,
+                                                                                    backgroundImage: AssetImage("assets/images/userImages/potrait${SideBarIndex - 1}.png"),
+                                                                                    backgroundColor: Colors.transparent,
+                                                                                  ),
+                                                                                  SizedBox(
+                                                                                    width: 10,
+                                                                                  ),
+                                                                                  Text(
+                                                                                    SideBarUsers[SideBarIndex - 1 < accomplishmentTextList.length ? SideBarIndex - 1 : 0].toString(),
+                                                                                    style: TextStyle(
+                                                                                      color: Colors.white,
+                                                                                      fontSize: 15,
+                                                                                      fontFamily: "Adelle",
+                                                                                    ),
+                                                                                  ),
+                                                                                  // Container(
+                                                                                  //   height: 40,
+                                                                                  //   child: Image.asset("assets/images/doneAch.png"),
+                                                                                  // )
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          )
                                                                         ],
                                                                       ),
                                                                     ))
@@ -639,30 +791,102 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                               fontSize: 17,
                                                                               fontFamily: "Meteoric",
                                                                             ),
-                                                                          ),
+                                                                          ],
                                                                         ),
-                                                                        Container(
+                                                                      ))
+                                                                ],
+                                                              ),
+                                                            )
+                                                          : BarIndex - 1 == 4 &&
+                                                                  taskDone ==
+                                                                      true
+                                                              ? null
+                                                              : AnimatedBuilder(
+                                                                  animation:
+                                                                      animation,
+                                                                  builder:
+                                                                      (context,
+                                                                          child) {
+                                                                    return CustomPaint(
+                                                                      foregroundPainter: (BarIndex - 1) ==
+                                                                              4
+                                                                          ? BorderPainter(
+                                                                              controller.value)
+                                                                          : null,
+                                                                      child:
+                                                                          InkWell(
+                                                                        onTap: () =>
+                                                                            cardTapped(index),
+                                                                        child:
+                                                                            Container(
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            color:
+                                                                                Color(0xff060a1a),
+                                                                            // border: Border.all(
+                                                                            //
+                                                                            // ),
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(15),
+                                                                          ),
                                                                           child:
+                                                                              Column(
+                                                                            mainAxisAlignment:
+                                                                                MainAxisAlignment.spaceBetween,
+                                                                            crossAxisAlignment:
+                                                                                CrossAxisAlignment.start,
+                                                                            children: [
                                                                               Padding(
-                                                                            padding: const EdgeInsets.only(
-                                                                                left: 15.0,
-                                                                                bottom: 15,
-                                                                                right: 15),
-                                                                            child:
-                                                                                Row(
-                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                                              children: [
-                                                                                Row(
-                                                                                  children: [
-                                                                                    Image.asset("assets/images/coin.png"),
-                                                                                    Padding(
-                                                                                      padding: const EdgeInsets.only(left: 8.0),
-                                                                                      child: Text(
-                                                                                        "${missionTextList[BarIndex - 1 < missionTextList.length ? BarIndex - 1 : 0].values.toString().replaceAll("(", "").replaceAll(")", "")} points",
-                                                                                        style: TextStyle(color: Color(0xfffabe2c), fontSize: 18, fontFamily: "Adelle", fontWeight: FontWeight.bold),
+                                                                                padding: const EdgeInsets.only(left: 15.0, right: 25, top: 16),
+                                                                                child: Text(
+                                                                                  missionTextList[BarIndex - 1 < missionTextList.length ? BarIndex - 1 : 0].keys.toString().replaceAll("(", "").replaceAll(")", ""),
+                                                                                  maxLines: 2,
+                                                                                  style: TextStyle(
+                                                                                    color: Colors.white,
+                                                                                    fontSize: 17,
+                                                                                    fontFamily: "Meteoric",
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                              Container(
+                                                                                child: Padding(
+                                                                                  padding: const EdgeInsets.only(left: 15.0, bottom: 15, right: 15),
+                                                                                  child: Row(
+                                                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                    children: [
+                                                                                      Row(
+                                                                                        children: [
+                                                                                          Image.asset("assets/images/coin.png"),
+                                                                                          Padding(
+                                                                                            padding: const EdgeInsets.only(left: 8.0),
+                                                                                            child: Text(
+                                                                                              "${missionTextList[BarIndex - 1 < missionTextList.length ? BarIndex - 1 : 0].values.toString().replaceAll("(", "").replaceAll(")", "")} points",
+                                                                                              style: TextStyle(color: Color(0xfffabe2c), fontSize: 18, fontFamily: "Adelle", fontWeight: FontWeight.bold),
+                                                                                            ),
+                                                                                          ),
+                                                                                        ],
                                                                                       ),
-                                                                                    ),
-                                                                                  ],
+                                                                                      (BarIndex - 1) == 4
+                                                                                          ? SvgPicture.asset(
+                                                                                              "assets/images/urgentAch.svg",
+                                                                                            )
+                                                                                          : index == 1
+                                                                                              ? ScaleTransition(
+                                                                                                  scale: _animation,
+                                                                                                  child: Container(
+                                                                                                    height: 30,
+                                                                                                    width: 25,
+                                                                                                    decoration: const BoxDecoration(image: DecorationImage(image: AssetImage("assets/images/flag.png"))),
+                                                                                                  ),
+                                                                                                  // const Icon(
+                                                                                                  //   Icons.flag_outlined,
+                                                                                                  //   color: Colors.red,
+                                                                                                  //   size: 30,
+                                                                                                  // ),
+                                                                                                )
+                                                                                              : SizedBox(),
+                                                                                    ],
+                                                                                  ),
                                                                                 ),
                                                                                 ( BarIndex -1)  ==
                                                                                     4 && missionTextList.length == 9
@@ -685,473 +909,470 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                                                               ],
                                                                             ),
                                                                           ),
-                                                                        )
-                                                                      ],
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              );
-                                                            },
-                                                          )
-                                                    : Container(
-                                                        color:
-                                                            Colors.transparent,
-                                                      ),
-                                          );
-                                        }),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ))
-              : Scaffold(
-                  backgroundColor: Colors.transparent,
-                  body: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 300,
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 30.0, left: 30, right: 30, bottom: 30),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        // CircleAvatar(
-                                        //   radius: 22,
-                                        //   backgroundColor: Colors.pinkAccent.shade400,
-                                        //   child: Container(
-                                        //       height: 30,
-                                        //       child:
-                                        //           Image.asset("assets/images/trophy.png")),
-                                        // ),
-                                        Text(
-                                          "TOP PERFORMERS",
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                              letterSpacing: 2),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: 15.0),
-                                          child: Icon(
-                                            Icons.notifications_none_rounded,
-                                            size: 35,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        Icon(
-                                          Icons.menu_rounded,
-                                          size: 35,
-                                          color: Colors.white,
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 30),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      height: 150,
-                                      width: MediaQuery.of(context).size.width -
-                                          30,
-                                      child: ListView.builder(
-                                        scrollDirection: Axis.horizontal,
-                                        itemCount: 10, //checkList.length,
-                                        itemBuilder: (context, index) {
-                                          return Column(
-                                            children: [
-                                              index == 0
-                                                  ? Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8),
-                                                      child: Stack(
-                                                        children: [
-                                                          Container(
-                                                            height: 100,
-                                                            width: 100,
-                                                            child: SvgPicture
-                                                                .asset(
-                                                              "assets/images/crownAvatar.svg",
-                                                            ),
-                                                          ),
-                                                          Positioned(
-                                                            child: CircleAvatar(
-                                                              radius: 38,
-                                                              backgroundImage:
-                                                                  AssetImage(
-                                                                      "assets/images/potrait${index + 1}.jpg"),
-                                                              backgroundColor:
-                                                                  Colors
-                                                                      .transparent,
-                                                            ),
-                                                            left: 15,
-                                                            top: 20,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    )
-                                                  :
-                                                  // return
-                                                  Padding(
-                                                      padding:
-                                                          const EdgeInsets.only(
-                                                              left: 8.0,
-                                                              right: 8,
-                                                              top: 25,
-                                                              bottom: 8),
-                                                      child: CircleAvatar(
-                                                        backgroundColor:
-                                                            Color(0xffc2ab12),
-                                                        radius: 42,
-                                                        child: CircleAvatar(
-                                                          radius: 41,
-                                                          backgroundColor:
-                                                              Colors.black,
-                                                          child: CircleAvatar(
-                                                            radius: 38,
-                                                            backgroundImage:
-                                                                AssetImage(
-                                                                    "assets/images/potrait${index + 1}.jpg"),
-                                                            backgroundColor:
-                                                                Colors
-                                                                    .transparent,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                              Text(
-                                                "209 pts",
-                                                style: TextStyle(
-                                                    color: index == 0
-                                                        ? Color(0xffc2ab12)
-                                                        : Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              )
-                                            ],
-                                          );
-                                        },
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 30, top: 25, right: 30),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        "MISSIONS",
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            letterSpacing: 2),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      flex: 1,
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 150.0),
-                                        child: Text(
-                                          "ACCOMPLISHMENTS",
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                              letterSpacing: 2),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 30.0, vertical: 25),
-                          child: Container(
-                            // height: MediaQuery.of(context).size.height - 325,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  // flex: 2,
-                                  child: GridView.builder(
-                                      shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      itemCount: SideBar.length * 4 > Bar.length
-                                          ? SideBar.length * 4
-                                          : Bar.length,
-                                      gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisSpacing: 12,
-                                              mainAxisSpacing: 8,
-                                              crossAxisCount: 4,
-                                              childAspectRatio: 1.8),
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        index = index + 1;
-                                        if (index % 4 != 0) {
-                                          print("oo");
-                                          BarIndex++;
-                                        }
-                                        return Padding(
-                                          padding: index % 4 == 0
-                                              ? const EdgeInsets.only(
-                                                  left: 40.0)
-                                              : const EdgeInsets.only(left: 0),
-                                          child:
-                                              BarIndex < Bar.length ||
-                                                      index % 4 == 0
-                                                  ? index % 4 == 0
-                                                      ? Container(
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors.green,
-                                                            // border: Border.all(
-                                                            //
-                                                            // ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        15),
-                                                          ),
-                                                          child: Column(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Expanded(
-                                                                flex: 5,
-                                                                child:
-                                                                    Container(
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    color: Color(
-                                                                        0xff060a1a),
-                                                                    // border: Border.all(
-                                                                    //
-                                                                    // ),
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            15),
-                                                                  ),
-                                                                  child: Column(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    children: [
-                                                                      Padding(
-                                                                          padding: const EdgeInsets.only(
-                                                                              left: 15.0,
-                                                                              right: 25,
-                                                                              top: 25),
-                                                                          child: Text(
-                                                                            "Restock the shelves, if nessesery",
-                                                                            style:
-                                                                                TextStyle(color: Colors.white, fontSize: 15),
-                                                                          )),
-                                                                      Container(
-                                                                        child:
-                                                                            Padding(
-                                                                          padding: const EdgeInsets.only(
-                                                                              left: 15.0,
-                                                                              bottom: 15,
-                                                                              right: 15),
-                                                                          child:
-                                                                              Row(
-                                                                            mainAxisAlignment:
-                                                                                MainAxisAlignment.spaceBetween,
-                                                                            children: [
-                                                                              Row(
-                                                                                children: [
-                                                                                  Image.asset("assets/images/coin.png"),
-                                                                                  Padding(
-                                                                                    padding: const EdgeInsets.only(left: 8.0),
-                                                                                    child: Text(
-                                                                                      "10 pts",
-                                                                                      style: TextStyle(color: Color(0xfffabe2c), fontSize: 18, fontWeight: FontWeight.bold),
-                                                                                    ),
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                              CircleAvatar(
-                                                                                radius: 18,
-                                                                                backgroundImage: AssetImage("assets/images/potrait9.jpg"),
-                                                                                backgroundColor: Colors.transparent,
-                                                                              ),
-                                                                              Container(
-                                                                                height: 40,
-                                                                                child: Image.asset("assets/images/doneAch.png"),
-                                                                              )
-                                                                            ],
-                                                                          ),
                                                                         ),
-                                                                      )
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Expanded(
-                                                                  flex: 1,
-                                                                  child:
-                                                                      Padding(
-                                                                    padding: const EdgeInsets
-                                                                            .symmetric(
-                                                                        horizontal:
-                                                                            8.0),
-                                                                    child: Row(
-                                                                      children: [
-                                                                        Padding(
-                                                                            padding:
-                                                                                const EdgeInsets.only(right: 5.0),
-                                                                            child: Container(
-                                                                              height: 14,
-                                                                              child: Image.asset("assets/images/lilCrown.png"),
-                                                                            )),
-                                                                        Text(
-                                                                          "10 points earned by barndy king",
-                                                                          style: TextStyle(
-                                                                              fontSize: 13,
-                                                                              color: Colors.white),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                  ))
-                                                            ],
-                                                          ),
-                                                        )
-                                                      : Container(
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Color(
-                                                                0xff060a1a),
-                                                            // border: Border.all(
-                                                            //
-                                                            // ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        15),
-                                                          ),
-                                                          child: Column(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left:
-                                                                            15.0,
-                                                                        right:
-                                                                            25,
-                                                                        top:
-                                                                            25),
-                                                                child: Text(
-                                                                  "Do a security inspection, perform daily housekeeping",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      fontSize:
-                                                                          15),
-                                                                ),
-                                                              ),
-                                                              Container(
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .only(
-                                                                      left:
-                                                                          15.0,
-                                                                      bottom:
-                                                                          15,
-                                                                      right:
-                                                                          15),
-                                                                  child: Row(
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .spaceBetween,
-                                                                    children: [
-                                                                      Row(
-                                                                        children: [
-                                                                          Image.asset(
-                                                                              "assets/images/coin.png"),
-                                                                          Padding(
-                                                                            padding:
-                                                                                const EdgeInsets.only(left: 8.0),
-                                                                            child:
-                                                                                Text(
-                                                                              "10 pts",
-                                                                              style: TextStyle(color: Color(0xfffabe2c), fontSize: 18, fontWeight: FontWeight.bold),
-                                                                            ),
-                                                                          ),
-                                                                        ],
                                                                       ),
-                                                                      index == 1
-                                                                          ? SvgPicture
-                                                                              .asset(
-                                                                              "assets/images/urgentAch.svg",
-                                                                            )
-                                                                          : Icon(
-                                                                              Icons.flag_outlined,
-                                                                              color: Colors.red,
-                                                                              size: 30,
-                                                                            )
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            ],
-                                                          ),
-                                                        )
-                                                  : Container(
-                                                      color: Colors.transparent,
-                                                    ),
-                                        );
-                                      }),
-                                ),
+                                                                    );
+                                                                  },
+                                                                )
+                                                      : Container(
+                                                          color: Colors
+                                                              .transparent,
+                                                        ),
+                                                );
+                                              }),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
                               ],
                             ),
                           ),
-                        )
-                      ],
-                    ),
-                  ))),
-    );
+                        ))
+                    : Scaffold(
+                        backgroundColor: Colors.transparent,
+                        body: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 300,
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 30.0,
+                                          left: 30,
+                                          right: 30,
+                                          bottom: 30),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              // CircleAvatar(
+                                              //   radius: 22,
+                                              //   backgroundColor: Colors.pinkAccent.shade400,
+                                              //   child: Container(
+                                              //       height: 30,
+                                              //       child:
+                                              //           Image.asset("assets/images/trophy.png")),
+                                              // ),
+                                              Text(
+                                                "TOP PERFORMERS",
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    letterSpacing: 2),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    right: 15.0),
+                                                child: Icon(
+                                                  Icons
+                                                      .notifications_none_rounded,
+                                                  size: 35,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                              Icon(
+                                                Icons.menu_rounded,
+                                                size: 35,
+                                                color: Colors.white,
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 30),
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            height: 150,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width -
+                                                30,
+                                            child: ListView.builder(
+                                              scrollDirection: Axis.horizontal,
+                                              itemCount: 10, //checkList.length,
+                                              itemBuilder: (context, index) {
+                                                return Column(
+                                                  children: [
+                                                    index == 0
+                                                        ? Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8),
+                                                            child: Stack(
+                                                              children: [
+                                                                Container(
+                                                                  height: 100,
+                                                                  width: 100,
+                                                                  child:
+                                                                      SvgPicture
+                                                                          .asset(
+                                                                    "assets/images/crownAvatar.svg",
+                                                                  ),
+                                                                ),
+                                                                Positioned(
+                                                                  child:
+                                                                      CircleAvatar(
+                                                                    radius: 38,
+                                                                    backgroundImage:
+                                                                        AssetImage(
+                                                                            "assets/images/potrait${index + 1}.jpg"),
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .transparent,
+                                                                  ),
+                                                                  left: 15,
+                                                                  top: 20,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          )
+                                                        :
+                                                        // return
+                                                        Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .only(
+                                                                    left: 8.0,
+                                                                    right: 8,
+                                                                    top: 25,
+                                                                    bottom: 8),
+                                                            child: CircleAvatar(
+                                                              backgroundColor:
+                                                                  Color(
+                                                                      0xffc2ab12),
+                                                              radius: 42,
+                                                              child:
+                                                                  CircleAvatar(
+                                                                radius: 41,
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .black,
+                                                                child:
+                                                                    CircleAvatar(
+                                                                  radius: 38,
+                                                                  backgroundImage:
+                                                                      AssetImage(
+                                                                          "assets/images/potrait${index + 1}.jpg"),
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .transparent,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                    Text(
+                                                      "209 pts",
+                                                      style: TextStyle(
+                                                          color: index == 0
+                                                              ? Color(
+                                                                  0xffc2ab12)
+                                                              : Colors.white,
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    )
+                                                  ],
+                                                );
+                                              },
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 30, top: 25, right: 30),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            flex: 2,
+                                            child: Text(
+                                              "MISSIONS",
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  letterSpacing: 2),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            flex: 1,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 150.0),
+                                              child: Text(
+                                                "ACCOMPLISHMENTS",
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    letterSpacing: 2),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 30.0, vertical: 25),
+                                child: Container(
+                                  // height: MediaQuery.of(context).size.height - 325,
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        // flex: 2,
+                                        child: GridView.builder(
+                                            shrinkWrap: true,
+                                            physics:
+                                                NeverScrollableScrollPhysics(),
+                                            itemCount:
+                                                SideBar.length * 4 > Bar.length
+                                                    ? SideBar.length * 4
+                                                    : Bar.length,
+                                            gridDelegate:
+                                                SliverGridDelegateWithFixedCrossAxisCount(
+                                                    crossAxisSpacing: 12,
+                                                    mainAxisSpacing: 8,
+                                                    crossAxisCount: 4,
+                                                    childAspectRatio: 1.8),
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              index = index + 1;
+                                              if (index % 4 != 0) {
+                                                print("oo");
+                                                BarIndex++;
+                                              }
+                                              return Padding(
+                                                padding: index % 4 == 0
+                                                    ? const EdgeInsets.only(
+                                                        left: 40.0)
+                                                    : const EdgeInsets.only(
+                                                        left: 0),
+                                                child:
+                                                    BarIndex < Bar.length ||
+                                                            index % 4 == 0
+                                                        ? index % 4 == 0
+                                                            ? Container(
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: Colors
+                                                                      .green,
+                                                                  // border: Border.all(
+                                                                  //
+                                                                  // ),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              15),
+                                                                ),
+                                                                child: Column(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Expanded(
+                                                                      flex: 5,
+                                                                      child:
+                                                                          Container(
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          color:
+                                                                              Color(0xff060a1a),
+                                                                          // border: Border.all(
+                                                                          //
+                                                                          // ),
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(15),
+                                                                        ),
+                                                                        child:
+                                                                            Column(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.spaceBetween,
+                                                                          children: [
+                                                                            Padding(
+                                                                                padding: const EdgeInsets.only(left: 15.0, right: 25, top: 25),
+                                                                                child: Text(
+                                                                                  "Restock the shelves, if nessesery",
+                                                                                  style: TextStyle(color: Colors.white, fontSize: 15),
+                                                                                )),
+                                                                            Container(
+                                                                              child: Padding(
+                                                                                padding: const EdgeInsets.only(left: 15.0, bottom: 15, right: 15),
+                                                                                child: Row(
+                                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                  children: [
+                                                                                    Row(
+                                                                                      children: [
+                                                                                        Image.asset("assets/images/coin.png"),
+                                                                                        Padding(
+                                                                                          padding: const EdgeInsets.only(left: 8.0),
+                                                                                          child: Text(
+                                                                                            "10 pts",
+                                                                                            style: TextStyle(color: Color(0xfffabe2c), fontSize: 18, fontWeight: FontWeight.bold),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                                    CircleAvatar(
+                                                                                      radius: 18,
+                                                                                      backgroundImage: AssetImage("assets/images/potrait9.jpg"),
+                                                                                      backgroundColor: Colors.transparent,
+                                                                                    ),
+                                                                                    Container(
+                                                                                      height: 40,
+                                                                                      child: Image.asset("assets/images/doneAch.png"),
+                                                                                    )
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                            )
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                    Expanded(
+                                                                        flex: 1,
+                                                                        child:
+                                                                            Padding(
+                                                                          padding:
+                                                                              const EdgeInsets.symmetric(horizontal: 8.0),
+                                                                          child:
+                                                                              Row(
+                                                                            children: [
+                                                                              Padding(
+                                                                                  padding: const EdgeInsets.only(right: 5.0),
+                                                                                  child: Container(
+                                                                                    height: 14,
+                                                                                    child: Image.asset("assets/images/lilCrown.png"),
+                                                                                  )),
+                                                                              Text(
+                                                                                "10 points earned by barndy king",
+                                                                                style: TextStyle(fontSize: 13, color: Colors.white),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ))
+                                                                  ],
+                                                                ),
+                                                              )
+                                                            : Container(
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: Color(
+                                                                      0xff060a1a),
+                                                                  // border: Border.all(
+                                                                  //
+                                                                  // ),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              15),
+                                                                ),
+                                                                child: Column(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .start,
+                                                                  children: [
+                                                                    Padding(
+                                                                      padding: const EdgeInsets
+                                                                              .only(
+                                                                          left:
+                                                                              15.0,
+                                                                          right:
+                                                                              25,
+                                                                          top:
+                                                                              25),
+                                                                      child:
+                                                                          Text(
+                                                                        "Do a security inspection, perform daily housekeeping",
+                                                                        style: TextStyle(
+                                                                            color:
+                                                                                Colors.white,
+                                                                            fontSize: 15),
+                                                                      ),
+                                                                    ),
+                                                                    Container(
+                                                                      child:
+                                                                          Padding(
+                                                                        padding: const EdgeInsets.only(
+                                                                            left:
+                                                                                15.0,
+                                                                            bottom:
+                                                                                15,
+                                                                            right:
+                                                                                15),
+                                                                        child:
+                                                                            Row(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.spaceBetween,
+                                                                          children: [
+                                                                            Row(
+                                                                              children: [
+                                                                                Image.asset("assets/images/coin.png"),
+                                                                                Padding(
+                                                                                  padding: const EdgeInsets.only(left: 8.0),
+                                                                                  child: Text(
+                                                                                    "10 pts",
+                                                                                    style: TextStyle(color: Color(0xfffabe2c), fontSize: 18, fontWeight: FontWeight.bold),
+                                                                                  ),
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                            index == 1
+                                                                                ? SvgPicture.asset(
+                                                                                    "assets/images/urgentAch.svg",
+                                                                                  )
+                                                                                : Icon(
+                                                                                    Icons.flag_outlined,
+                                                                                    color: Colors.red,
+                                                                                    size: 30,
+                                                                                  )
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                              )
+                                                        : Container(
+                                                            color: Colors
+                                                                .transparent,
+                                                          ),
+                                              );
+                                            }),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ))),
+          );
   }
 
   Future<dynamic> cardTapped(@required int index) {
@@ -1219,6 +1440,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               ],
                             ),),
                       ),
+                    ),
                     // IconButton(
                     //   icon: Icon(Icons.arrow_forward_ios),
                     //   onPressed: () => Navigator.push(context, MaterialPageRoute( builder: (context) => TaskProfile())),

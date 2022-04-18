@@ -2,7 +2,11 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:animated_background/animated_background.dart';
+
+import 'package:audioplayers/audioplayers.dart';
+
 import 'package:animated_flip_counter/animated_flip_counter.dart';
+
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:confetti/confetti.dart';
@@ -36,14 +40,13 @@ class _TaskProfileTwoState extends State<TaskProfileTwo>
   ];
 
   CarouselController buttonCarouselController = CarouselController();
-
-
-
+  final leaderPlayer = AudioCache();
   @override
   void initState() {
     // TODO: implement initState
+    advancePlayer.pause();
+    leaderPlayer.play("music/loadLeader.wav");
     super.initState();
-
   }
 
   @override
@@ -91,14 +94,21 @@ class _TaskProfileTwoState extends State<TaskProfileTwo>
             ),
           ),
           backgroundColor: Colors.transparent,
-          body: AnimatedBackground(
-            behaviour: RandomParticleBehaviour(
-              options: particleOptions,
-              paint: particlePaint,
-            ),
-            vsync: this,
-
-            child: Row(
+          body: WillPopScope(
+            onWillPop: () {
+              if (isPlaying) {
+                advancePlayer.resume();
+              }
+              Navigator.pop(context);
+              return Future.value(true);
+            },
+            child: AnimatedBackground(
+              behaviour: RandomParticleBehaviour(
+                options: particleOptions,
+                paint: particlePaint,
+              ),
+              vsync: this,
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -108,7 +118,8 @@ class _TaskProfileTwoState extends State<TaskProfileTwo>
                     child: Center(
                       child: InkWell(
                         onTap: () => buttonCarouselController.previousPage(
-                            duration: Duration(milliseconds: 600), curve: Curves.linear),
+                            duration: Duration(milliseconds: 600),
+                            curve: Curves.linear),
                         child: Container(
                           // decoration: const BoxDecoration(
                           //     gradient: LinearGradient(
@@ -118,7 +129,11 @@ class _TaskProfileTwoState extends State<TaskProfileTwo>
                           child: CircleAvatar(
                             radius: 25,
                             backgroundColor: Color(0xff730AAF),
-                            child: FaIcon(FontAwesomeIcons.anglesLeft, color: Colors.white, size: 25,),
+                            child: FaIcon(
+                              FontAwesomeIcons.anglesLeft,
+                              color: Colors.white,
+                              size: 25,
+                            ),
                           ),
                         ),
                       ),
@@ -211,8 +226,25 @@ class _TaskProfileTwoState extends State<TaskProfileTwo>
                                                   ],
                                                 ),
                                               ),
-                                            ],
-                                          ),
+                                              child: const MyAnimatedLoading(
+                                                offsetSpeed: Offset(1, 0),
+                                                width: 220,
+                                                height: 20,
+                                                colors: [
+                                                  Color(0xffff2500),
+                                                  Color(0xffff2500),
+                                                  Color(0xffff6600),
+                                                  Color(0xffff6600),
+                                                  Colors.orange,
+                                                  Colors.orange,
+                                                  Color(0xffF361AC),
+                                                  Color(0xffF361AC),
+                                                  Colors.purple,
+                                                  Colors.purple,
+                                                ],
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                         Flexible(
                                             child: Align(
@@ -232,82 +264,87 @@ class _TaskProfileTwoState extends State<TaskProfileTwo>
                                                 ),)),
                                       ],
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          // second section table
-                          Expanded(
-                            flex: 6,
-                            child: InkWell(
-                              onTap: noteTapped,
-                              child: Container(
-                                child: CarouselSlider.builder(
-                                    options: CarouselOptions(
-                                      // height: 400,
-                                      // aspectRatio: 16/9,
-                                      viewportFraction: 1.0,
-                                      initialPage: 0,
-                                      enableInfiniteScroll: false,
-                                      reverse: false,
-                                      autoPlay: false,
-                                      // autoPlayInterval: Duration(seconds: 3),
-                                      // autoPlayAnimationDuration: Duration(milliseconds: 800),
-                                      // autoPlayCurve: Curves.fastOutSlowIn,
-                                      // enlargeCenterPage: true,
-                                      // onPageChanged: callbackFunction,
-                                      scrollDirection: Axis.horizontal,
-                                    ),
-                                    carouselController:
-                                        buttonCarouselController,
-                                    itemCount: commentsList.length,
-                                    itemBuilder: (BuildContext context,
-                                            int itemIndex, int pageViewIndex) =>
-                                        Container(
-                                            child: commentsList[itemIndex])
-                                    // Image.asset("assets/pictures/TaskComments.png")
 
-                                    ),
-                              ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                  SizedBox(height: 10,),
+                        ),
+                        // second section table
+                        Expanded(
+                          flex: 6,
+                          child: InkWell(
+                            onTap: noteTapped,
+                            child: Container(
+                              child: CarouselSlider.builder(
+                                  options: CarouselOptions(
+                                    // height: 400,
+                                    // aspectRatio: 16/9,
+                                    viewportFraction: 1.0,
+                                    initialPage: 0,
+                                    enableInfiniteScroll: false,
+                                    reverse: false,
+                                    autoPlay: false,
+                                    // autoPlayInterval: Duration(seconds: 3),
+                                    // autoPlayAnimationDuration: Duration(milliseconds: 800),
+                                    // autoPlayCurve: Curves.fastOutSlowIn,
+                                    // enlargeCenterPage: true,
+                                    // onPageChanged: callbackFunction,
+                                    scrollDirection: Axis.horizontal,
+                                  ),
+                                  carouselController: buttonCarouselController,
+                                  itemCount: commentsList.length,
+                                  itemBuilder: (BuildContext context,
+                                          int itemIndex, int pageViewIndex) =>
+                                      Container(child: commentsList[itemIndex])
+                                  // Image.asset("assets/pictures/TaskComments.png")
+
+                                  ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
                         // Input keyboard
-                  Expanded(
+                        Expanded(
                             flex: 1,
-                            child: SvgPicture.asset("assets/pictures/input_Keyboard.svg")),
+                            child: SvgPicture.asset(
+                                "assets/pictures/input_Keyboard.svg")),
                       ],
-                    ),),
-                    Container(
-                      width: 100,
-                      height: double.infinity,
-                      child: Center(
-                        child: InkWell(
-                          onTap: () => buttonCarouselController.nextPage(
-                              duration: Duration(milliseconds: 600),
-                              curve: Curves.linear),
-                          child: Container(
-                            // decoration: const BoxDecoration(
-                            //     gradient: LinearGradient(
-                            //         begin: Alignment.bottomLeft,
-                            //         end: Alignment.topRight,
-                            //         colors: [Color(0xff160647), Color(0xff370647)])),
-                            child: CircleAvatar(
-                              radius: 25,
-                              backgroundColor: Color(0xff730AAF),
-                              child: FaIcon(
-                                FontAwesomeIcons.anglesRight,
-                                color: Colors.white,
-                                size: 25,
-                              ),
+                    ),
+                  ),
+                  Container(
+                    width: 100,
+                    height: double.infinity,
+                    child: Center(
+                      child: InkWell(
+                        onTap: () => buttonCarouselController.nextPage(
+                            duration: Duration(milliseconds: 600),
+                            curve: Curves.linear),
+                        child: Container(
+                          // decoration: const BoxDecoration(
+                          //     gradient: LinearGradient(
+                          //         begin: Alignment.bottomLeft,
+                          //         end: Alignment.topRight,
+                          //         colors: [Color(0xff160647), Color(0xff370647)])),
+                          child: CircleAvatar(
+                            radius: 25,
+                            backgroundColor: Color(0xff730AAF),
+                            child: FaIcon(
+                              FontAwesomeIcons.anglesRight,
+                              color: Colors.white,
+                              size: 25,
                             ),
                           ),
                         ),
                       ),
                     ),
+                  ),
                 ],
               ),
+            ),
           ),
         ),
       ),
@@ -324,10 +361,16 @@ class _TaskProfileTwoState extends State<TaskProfileTwo>
               content: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                 child: InkWell(
-                    onTap: () => Navigator.pop(context),
+                    onTap: () {
+                      final sendPlayer = AudioCache();
+                      sendPlayer.play("music/sendingMessage.wav");
+                      Navigator.pop(context);
+                    },
                     child: Center(
                         child: Image.asset(
-                            "assets/pictures/note_to_manager.png", scale: 1.5))), // Container(color: Colors.yellow,) // UserPinPopup(),
+                            "assets/pictures/note_to_manager.png",
+                            scale:
+                                1.5))), // Container(color: Colors.yellow,) // UserPinPopup(),
               ));
         });
   }
@@ -336,6 +379,4 @@ class _TaskProfileTwoState extends State<TaskProfileTwo>
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => TaskBadgesTwo()));
   }
-
-
 }

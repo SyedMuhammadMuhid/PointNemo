@@ -1,8 +1,8 @@
-
 import 'dart:math';
 import 'dart:ui';
 
 import 'package:animated_background/animated_background.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,19 +20,19 @@ class TaskBadgesTwo extends StatefulWidget {
   _TaskBadgesTwoState createState() => _TaskBadgesTwoState();
 }
 
-
-class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateMixin{
-
+class _TaskBadgesTwoState extends State<TaskBadgesTwo>
+    with TickerProviderStateMixin {
   late ConfettiController _controllerTopCenter;
-
+  final conPlayer = AudioCache();
   @override
   void initState() {
+    conPlayer.play("music/confittee.wav");
     // TODO: implement initState
     super.initState();
     _controllerTopCenter =
         ConfettiController(duration: const Duration(seconds: 2));
     _controllerTopCenter.play();
-    Future.delayed(Duration(seconds: 4), (){
+    Future.delayed(Duration(seconds: 4), () {
       _controllerTopCenter.stop();
     });
   }
@@ -136,28 +136,50 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(25),
-                                          color: Colors.purple,
-                                        ),
-                                        child: const MyAnimatedLoading(
-                                          offsetSpeed: Offset(1, 0),
-                                          width: 220,
-                                          height: 20,
-                                          colors: [
-                                            Color(0xffff2500),
-                                            Color(0xffff2500),
-                                            Color(0xffff6600),
-                                            Color(0xffff6600),
-                                            Colors.orange,
-                                            Colors.orange,
-                                            Color(0xffF361AC),
-                                            Color(0xffF361AC),
-                                            Colors.purple,
-                                            Colors.purple,
-                                          ],
-                                        ),
+                                          color: Colors.black,
+                                          border: Border.all(
+                                            width:
+                                                5, //                   <--- border width here
+                                          )),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
+                                              color: Colors.purple,
+                                            ),
+                                            child: const MyAnimatedLoading(
+                                              offsetSpeed: Offset(1, 0),
+                                              width: 220,
+                                              height: 20,
+                                              colors: [
+                                                Color(0xffff2500),
+                                                Color(0xffff2500),
+                                                Color(0xffff6600),
+                                                Color(0xffff6600),
+                                                Colors.orange,
+                                                Colors.orange,
+                                                Color(0xffF361AC),
+                                                Color(0xffF361AC),
+                                                Colors.purple,
+                                                Colors.purple,
+                                              ],
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    Flexible(
+                                        child: Align(
+                                            alignment: Alignment.centerRight,
+                                            child: Text(
+                                              "Rank 12",
+                                              style: pointsHeaderTextStyle,
+                                            ))),
+                                  ],
                                 ),
                                 Flexible(
                                     child: Align(
@@ -215,10 +237,27 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
                                   color: Colors.white,
                                   //fontWeight: FontWeight.bold,
                                   letterSpacing: 1),
+
                             ),
                           ),
+                          Container(
+                            alignment: Alignment.centerRight,
+                            child: InkWell(
+                                onTap: awardTapped,
+                                child: Image.asset(
+                                    "assets/pictures/praise_crews.png")),
+                          ),
+                        ],
+                      ),
+                      // third section table
+                      Expanded(
+                        flex: 6,
+                        child: Container(
+                          child: Image.asset(
+                            "assets/pictures/badges.png",
+                            fit: BoxFit.cover,
+                          ),
                         ),
-
                         Container(
                           alignment: Alignment.centerRight,
                           child: InkWell(
@@ -236,7 +275,6 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
                     SizedBox(height: 50,),
                   ],
                 ),
-              ),
                 Align(
                   alignment: Alignment.topCenter,
                   child: ConfettiWidget(
@@ -244,7 +282,7 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
                     blastDirectionality: BlastDirectionality
                         .explosive, // don't specify a direction, blast randomly
                     shouldLoop:
-                    true, // start again as soon as the animation is finished
+                        true, // start again as soon as the animation is finished
                     colors: const [
                       Colors.green,
                       Colors.blue,
@@ -255,14 +293,13 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
                     createParticlePath: drawStar, // define a custom shape/path.
                   ),
                 ),
-  ],
+              ],
             ),
           ),
         ),
       ),
     );
   }
-
 
   /// A custom Path to paint stars.
   Path drawStar(Size size) {
@@ -289,7 +326,8 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
     return path;
   }
 
-  Future<dynamic> awardTapped(){
+  Future<dynamic> awardTapped() {
+    final sendPlayer = AudioCache();
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -300,7 +338,11 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
                 filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                 child: InkWell(
                     onTap: () {
-                      Navigator.pop(context);
+                      sendPlayer.play("music/sendBadge.wav");
+                      Future.delayed(Duration(seconds: 2), () {
+                        Navigator.pop(context);
+                      });
+
                       // Navigate to Next User Screen
                       // Navigator.push(context, MaterialPageRoute(builder: (context) => ()));
                     },
