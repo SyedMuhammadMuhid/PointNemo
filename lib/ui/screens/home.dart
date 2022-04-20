@@ -114,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       });
     }
     if (isPlaying) {
-      player.loop("music/homeMusic.mp3", volume: 0.2);
+      player.loop("music/homeMusic.mp3", volume: soundVolume);
     }
 
   }
@@ -788,7 +788,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
 
 
-    newPlayer.play("music/message.wav");
+    newPlayer.play("music/message.wav", volume: soundVolume);
 
     return showGeneralDialog(
         // barrierColor: Colors.black.withOpacity(0.5),
@@ -849,7 +849,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         });
   }
   void func () {
-    newPlayer.play("music/message.wav");
+    newPlayer.play("music/message.wav", volume: soundVolume);
     showToastWidget(
       Image.asset(
         "assets/pictures/manager_toast_message.png",

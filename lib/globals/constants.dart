@@ -1,10 +1,10 @@
 
 
 
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:animated_background/animated_background.dart';
 
+const double soundVolume = 0.1;
 
 ParticleOptions particleOptions = ParticleOptions(
   image: Image.asset('assets/images/Rectangle3818.png'),

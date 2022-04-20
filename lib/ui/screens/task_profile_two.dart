@@ -31,7 +31,10 @@ class _TaskProfileTwoState extends State<TaskProfileTwo>
   // >> Globals
   // styles
   // static const TextStyle backNavigationTextStyle = TextStyle(color: Colors.white, fontSize: 18, fontFamily: "Adelle");
-  final List<Image> commentsList = [
+  final List<Image> commentsList = missionTextList.length != 9 ? [
+  Image.asset("assets/pictures/user_two_task_comment1.png"),
+      Image.asset("assets/pictures/user_one_task_comment2.png")
+  ] : [
     Image.asset("assets/pictures/user_two_task_comment1.png"),
     Image.asset("assets/pictures/user_one_task_comment1.png")
   ];
@@ -46,7 +49,7 @@ class _TaskProfileTwoState extends State<TaskProfileTwo>
     super.initState();
     // TODO: implement initState
     advancePlayer.pause();
-    leaderPlayer.play("music/loadLeader.wav");
+    leaderPlayer.play("music/loadLeader.wav", volume: soundVolume);
 
   }
 
@@ -341,7 +344,7 @@ class _TaskProfileTwoState extends State<TaskProfileTwo>
                 child: InkWell(
                     onTap: () {
                       final sendPlayer = AudioCache();
-                      sendPlayer.play("music/sendingMessage.wav");
+                      sendPlayer.play("music/sendingMessage.wav", volume: soundVolume);
                       Navigator.pop(context);
                     },
                     child: Center(

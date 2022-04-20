@@ -36,7 +36,7 @@ class _LeadershipBoardState extends State<LeadershipBoard>
   void initState() {
     // TODO: implement initState
     super.initState();
-    leaderPlayer.play("music/loadLeader.wav");
+    leaderPlayer.play("music/loadLeader.wav", volume: soundVolume);
     controller = AnimationController(
       vsync: this,
       duration: Duration(

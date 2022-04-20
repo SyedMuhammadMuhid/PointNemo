@@ -30,7 +30,7 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
   void initState() {
     // TODO: implement initState
     super.initState();
-    conPlayer.play("music/confittee.wav");
+    conPlayer.play("music/confittee.wav", volume: soundVolume);
     _controllerTopCenter =
         ConfettiController(duration: const Duration(seconds: 2));
     _controllerTopCenter.play();
@@ -308,7 +308,7 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
                 filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                 child: InkWell(
                     onTap: () {
-                      sendPlayer.play("music/sendBadge.wav");
+                      sendPlayer.play("music/sendBadge.wav", volume: soundVolume);
                       Future.delayed(Duration(seconds: 2), () {
                         Navigator.pop(context);
                       });

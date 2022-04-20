@@ -33,7 +33,7 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin{
   @override
   void initState() {
     super.initState();
-    playerBadges.play("music/badgesScreen.wav");
+    playerBadges.play("music/badgesScreen.wav", volume: soundVolume);
     // TODO: implement initState
 
   }
@@ -238,7 +238,7 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin{
                       Navigator.pop(context);
                       // // Navigate to Next User Screen
                       philipBadgeWon = true;
-                      sendPlayer.play("music/sendBadge.wav");
+                      sendPlayer.play("music/sendBadge.wav", volume: soundVolume);
                       showToastWidget(
                           Image.asset(
                             "assets/pictures/badge_sent_toast.png",

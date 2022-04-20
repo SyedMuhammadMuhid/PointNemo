@@ -58,7 +58,7 @@ class _TaskProfileState extends State<TaskProfile>
     super.initState();
     advancePlayer.pause();
     final leaderPlayer = AudioCache();
-    leaderPlayer.play("music/loadLeader.wav");
+    leaderPlayer.play("music/loadLeader.wav", volume: soundVolume);
     keyboard = simpleKeyboard;
     commentsList = taskComments;
   }
@@ -382,7 +382,7 @@ class _TaskProfileState extends State<TaskProfile>
         accomplishmentTextList.removeLast();
       }
       // Call here music
-      player.play("music/sendBadge.wav");
+      player.play("music/sendBadge.wav", volume: soundVolume);
       showToastWidget(
         Image.asset(
           "assets/pictures/points_win_toast_message.png",
@@ -391,13 +391,13 @@ class _TaskProfileState extends State<TaskProfile>
         ),
         position: StyledToastPosition.center,
         // alignment: Alignment.centerRight,
-        animDuration: Duration(seconds: 1),
-        duration: Duration(seconds: 5),
+        animDuration: Duration(milliseconds: 500),
+        duration: Duration(milliseconds: 3500),
         curve: Curves.easeInOut,
         context: context,
         onDismiss: (){
-          Future.delayed( Duration(seconds: 1), (){
-            player.play("music/wooHoo.wav");
+          Future.delayed( Duration(milliseconds: 200), (){
+            player.play("music/wooHoo.wav", volume: soundVolume);
             setState(() {
               userOnePoints = keyboard == simpleKeyboard && commentsList == newTaskComments ? userOnePoints + 30 : userOnePoints;
               userOneRank = keyboard == simpleKeyboard && commentsList == newTaskComments ? userOneRank - 1 : userOneRank;
@@ -440,7 +440,7 @@ class _TaskProfileState extends State<TaskProfile>
                 child: InkWell(
                     onTap: () {
                       final sendPlayer = AudioCache();
-                      sendPlayer.play("music/sendingMessage.wav");
+                      sendPlayer.play("music/sendingMessage.wav", volume: soundVolume);
                       Navigator.pop(context);
                     },
                     child: Center(
