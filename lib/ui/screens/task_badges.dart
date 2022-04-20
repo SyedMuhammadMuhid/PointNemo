@@ -4,9 +4,11 @@ import 'dart:ui';
 
 import 'package:animated_background/animated_background.dart';
 import 'package:animated_flip_counter/animated_flip_counter.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:point_nemo/globals/constants.dart';
 import 'package:point_nemo/globals/textStyles.dart';
@@ -26,6 +28,16 @@ class TaskBadges extends StatefulWidget {
 }
 
 class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin{
+
+  final playerBadges = AudioCache();
+  @override
+  void initState() {
+    super.initState();
+    playerBadges.play("music/badgesScreen.wav");
+    // TODO: implement initState
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -212,6 +224,7 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin{
   }
 
   Future<dynamic> awardTapped(){
+    final sendPlayer = AudioCache();
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -222,13 +235,37 @@ class _TaskBadgesState extends State<TaskBadges> with TickerProviderStateMixin{
                 filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                 child: InkWell(
                     onTap: (){
-                      // Navigator.pop(context);
+                      Navigator.pop(context);
                       // // Navigate to Next User Screen
                       philipBadgeWon = true;
-                       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> HomeScreen()), (Route<dynamic> route) => false);
+                      sendPlayer.play("music/sendBadge.wav");
+                      showToastWidget(
+                          Image.asset(
+                            "assets/pictures/badge_sent_toast.png",
+                            width: MediaQuery.of(context)
+                                .size
+                                .width /
+                                2,
+                            height: 200,
+                          ),
+                          position: StyledToastPosition.center,
+                          // alignment: Alignment.centerRight,
+                          animDuration: Duration(seconds: 1),
+                          duration: Duration(seconds: 3),
+                          curve: Curves.easeInOut,
+                          context: context,
+                        onDismiss: (){
+                          // Future.delayed(Duration(milliseconds: 750), () {
+                          //   Navigator.pushAndRemoveUntil(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //           builder: (context) => HomeScreen()),
+                          //           (Route<dynamic> route) => false);
+                          // });
+                        }
+                        );
                       // Navigator.push(context, MaterialPageRoute(builder: (context) => TaskBadgesTwo()));
                     },
-
                     child: Container(
                         decoration: BoxDecoration(
                           color: Color(0xFF370647),

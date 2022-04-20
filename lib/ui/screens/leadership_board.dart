@@ -1,4 +1,5 @@
 import 'package:animated_background/animated_background.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,11 +31,12 @@ class _LeadershipBoardState extends State<LeadershipBoard>
   ), ];
 
   CarouselController buttonCarouselController = CarouselController();
-
+  final leaderPlayer = AudioCache();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    leaderPlayer.play("music/loadLeader.wav");
     controller = AnimationController(
       vsync: this,
       duration: Duration(

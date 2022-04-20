@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:animated_background/animated_background.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -24,11 +25,12 @@ class TaskBadgesTwo extends StatefulWidget {
 class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateMixin{
 
   late ConfettiController _controllerTopCenter;
-
+  final conPlayer = AudioCache();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    conPlayer.play("music/confittee.wav");
     _controllerTopCenter =
         ConfettiController(duration: const Duration(seconds: 2));
     _controllerTopCenter.play();
@@ -40,8 +42,9 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
   @override
   void dispose() {
     // TODO: implement dispose
-    super.dispose();
     _controllerTopCenter.dispose();
+    super.dispose();
+
   }
 
   @override
@@ -290,6 +293,11 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
   }
 
   Future<dynamic> awardTapped(){
+
+    final sendPlayer = AudioCache();
+
+
+
     return showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -300,7 +308,10 @@ class _TaskBadgesTwoState extends State<TaskBadgesTwo> with TickerProviderStateM
                 filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                 child: InkWell(
                     onTap: () {
-                      Navigator.pop(context);
+                      sendPlayer.play("music/sendBadge.wav");
+                      Future.delayed(Duration(seconds: 2), () {
+                        Navigator.pop(context);
+                      });
                       // Navigate to Next User Screen
                       // Navigator.push(context, MaterialPageRoute(builder: (context) => ()));
                     },

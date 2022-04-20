@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:animated_background/animated_background.dart';
 import 'package:animated_flip_counter/animated_flip_counter.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:point_nemo/globals/constants.dart';
 import 'package:point_nemo/globals/textStyles.dart';
 import 'package:point_nemo/globals/variabes.dart';
+import 'package:point_nemo/ui/screens/home.dart';
 import 'package:point_nemo/ui/screens/task_badges.dart';
 import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 import 'package:point_nemo/ui/widgets/points_animated.dart';
@@ -49,10 +51,14 @@ class _TaskProfileState extends State<TaskProfile>
   late List<Image> commentsList;
   CarouselController buttonCarouselController = CarouselController();
 
+  final player = AudioCache();
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    advancePlayer.pause();
+    final leaderPlayer = AudioCache();
+    leaderPlayer.play("music/loadLeader.wav");
     keyboard = simpleKeyboard;
     commentsList = taskComments;
   }
@@ -71,7 +77,10 @@ class _TaskProfileState extends State<TaskProfile>
             backgroundColor: Colors.transparent,
             foregroundColor: Colors.transparent,
             leading: InkWell(
-              onTap: () => Navigator.pop(context),
+              onTap: () =>  Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                      (Route<dynamic> route) => false),
               child: Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: SvgPicture.asset(
@@ -90,242 +99,254 @@ class _TaskProfileState extends State<TaskProfile>
             ),
           ),
           backgroundColor: Colors.transparent,
-          body: AnimatedBackground(
-            behaviour: RandomParticleBehaviour(
-              options: particleOptions,
-              paint: particlePaint,
-            ),
-            vsync: this,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Container(
-                  width: 100,
-                  height: double.infinity,
-                  child: Center(
-                    child: InkWell(
-                      onTap: () => buttonCarouselController.previousPage(
-                          duration: Duration(milliseconds: 600),
-                          curve: Curves.linear),
-                      child: Container(
-                        // decoration: const BoxDecoration(
-                        //     gradient: LinearGradient(
-                        //         begin: Alignment.bottomLeft,
-                        //         end: Alignment.topRight,
-                        //         colors: [Color(0xff160647), Color(0xff370647)])),
-                        child: CircleAvatar(
-                          radius: 25,
-                          backgroundColor: Color(0xff730AAF),
-                          child: FaIcon(
-                            FontAwesomeIcons.anglesLeft,
-                            color: Colors.white,
-                            size: 25,
+          body: WillPopScope(
+            onWillPop: () {
+              if (isPlaying) {
+                advancePlayer.resume();
+              }
+              Navigator.pop(context);
+              return Future.value(true);
+            },
+            child: AnimatedBackground(
+              behaviour: RandomParticleBehaviour(
+                options: particleOptions,
+                paint: particlePaint,
+              ),
+              vsync: this,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Container(
+                    width: 100,
+                    height: double.infinity,
+                    child: Center(
+                      child: InkWell(
+                        onTap: () => buttonCarouselController.previousPage(
+                            duration: Duration(milliseconds: 600),
+                            curve: Curves.linear),
+                        child: Container(
+                          // decoration: const BoxDecoration(
+                          //     gradient: LinearGradient(
+                          //         begin: Alignment.bottomLeft,
+                          //         end: Alignment.topRight,
+                          //         colors: [Color(0xff160647), Color(0xff370647)])),
+                          child: CircleAvatar(
+                            radius: 25,
+                            backgroundColor: Color(0xff730AAF),
+                            child: FaIcon(
+                              FontAwesomeIcons.anglesLeft,
+                              color: Colors.white,
+                              size: 25,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      // First section
-                      Container(height: 25,),
-                      Expanded(
-                        flex: 2,
-                        child: Container(
-                          height: 250,
-                          width: double.maxFinite,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: InkWell(
-                                  onTap: userCardTap,
-                                  // child: Container(
-                                  //   alignment: Alignment.centerLeft,
-                                  //   child: Image.asset(
-                                  //       "assets/pictures/userDetails.png"),
-                                  // ),
-                                  child:
-                                      // Container(
-                                      //   decoration: BoxDecoration(
-                                      //     image: DecorationImage(image: AssetImage("assets/pictures/userDetails.png") , scale: 2.0),
-                                      //   ),
-                                      // )//
-                                      Container(
-                                          // padding: EdgeInsets.only(right: 100),
-                                          // alignment: Alignment.centerLeft,
-                                          child: Image.asset(
-                                    "assets/pictures/user_one_task_profile.png",
-                                    // fit: BoxFit.cover,
-                                  )),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        // First section
+                        Container(height: 25,),
+                        Expanded(
+                          flex: 2,
+                          child: Container(
+                            height: 250,
+                            width: double.maxFinite,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: userCardTap,
+                                    // child: Container(
+                                    //   alignment: Alignment.centerLeft,
+                                    //   child: Image.asset(
+                                    //       "assets/pictures/userDetails.png"),
+                                    // ),
+                                    child:
+                                        // Container(
+                                        //   decoration: BoxDecoration(
+                                        //     image: DecorationImage(image: AssetImage("assets/pictures/userDetails.png") , scale: 2.0),
+                                        //   ),
+                                        // )//
+                                        Container(
+                                            // padding: EdgeInsets.only(right: 100),
+                                            // alignment: Alignment.centerLeft,
+                                            child: Image.asset(
+                                      "assets/pictures/user_one_task_profile.png",
+                                      // fit: BoxFit.cover,
+                                    )),
+                                  ),
                                 ),
-                              ),
-                              // Expanded(child: Container()),
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Flexible(
-                                        child: Align(
+                                // Expanded(child: Container()),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Flexible(
+                                          child: Align(
+                                              alignment: Alignment.centerRight,
+                                              child: Shimmer.fromColors(
+                                                baseColor: Colors.white,
+                                                highlightColor: Color(0xffff6600),
+                                                period: Duration(seconds: 10),
+                                                child: AnimatedFlipCounter(
+                                                  duration: Duration(milliseconds: 1000),
+                                                  value: userOnePoints,
+                                                  textStyle: pointsHeaderTextStyle,
+                                                  prefix: "Total Points ",
+                                                  // pass in a value like 2014
+                                                ),
+                                              ),
+                                          ),),
+                                      // Linear Progress Animator
+                                      Container(
+                                        width: 320,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(25),
+                                            color: Colors.black,
+                                            border: Border.all(
+                                              width:
+                                                  5, //                   <--- border width here
+                                            )),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(25),
+                                                color: Colors.purple,
+                                              ),
+                                              child: const MyAnimatedLoading(
+                                                offsetSpeed: Offset(1, 0),
+                                                width: 220,
+                                                height: 20,
+                                                colors: [
+                                                  Color(0xffff2500),
+                                                  Color(0xffff2500),
+                                                  Color(0xffff6600),
+                                                  Color(0xffff6600),
+                                                  Colors.orange,
+                                                  Colors.orange,
+                                                  Color(0xffF361AC),
+                                                  Color(0xffF361AC),
+                                                  Colors.purple,
+                                                  Colors.purple,
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+
+                                      Flexible(
+                                          child: Align(
                                             alignment: Alignment.centerRight,
                                             child: Shimmer.fromColors(
                                               baseColor: Colors.white,
                                               highlightColor: Color(0xffff6600),
-                                              period: Duration(seconds: 10),
+                                              period: Duration(seconds: 15),
                                               child: AnimatedFlipCounter(
-                                                duration: Duration(milliseconds: 1000),
-                                                value: userOnePoints,
+                                                duration: Duration(milliseconds: 500),
+                                                value: userOneRank,
                                                 textStyle: pointsHeaderTextStyle,
-                                                prefix: "Total Points ",
+                                                prefix: "Rank ",
                                                 // pass in a value like 2014
                                               ),
                                             ),
-                                        ),),
-                                    // Linear Progress Animator
-                                    Container(
-                                      width: 320,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(25),
-                                          color: Colors.black,
-                                          border: Border.all(
-                                            width:
-                                                5, //                   <--- border width here
-                                          )),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(25),
-                                              color: Colors.purple,
-                                            ),
-                                            child: const MyAnimatedLoading(
-                                              offsetSpeed: Offset(1, 0),
-                                              width: 220,
-                                              height: 20,
-                                              colors: [
-                                                Color(0xffff2500),
-                                                Color(0xffff2500),
-                                                Color(0xffff6600),
-                                                Color(0xffff6600),
-                                                Colors.orange,
-                                                Colors.orange,
-                                                Color(0xffF361AC),
-                                                Color(0xffF361AC),
-                                                Colors.purple,
-                                                Colors.purple,
-                                              ],
-                                            ),
                                           ),
-                                        ],
                                       ),
-                                    ),
-
-                                    Flexible(
-                                        child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Shimmer.fromColors(
-                                            baseColor: Colors.white,
-                                            highlightColor: Color(0xffff6600),
-                                            period: Duration(seconds: 15),
-                                            child: AnimatedFlipCounter(
-                                              duration: Duration(milliseconds: 500),
-                                              value: userOneRank,
-                                              textStyle: pointsHeaderTextStyle,
-                                              prefix: "Rank ",
-                                              // pass in a value like 2014
-                                            ),
-                                          ),
-                                        ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      // second section table
-                      Expanded(
-                        flex: 6,
-                        child: InkWell(
-                          onTap: noteTapped,
-                          child: Container(
-                            child: CarouselSlider.builder(
-                                options: CarouselOptions(
-                                  // height: 400,
-                                  // aspectRatio: 16/9,
-                                  viewportFraction: 1.0,
-                                  initialPage: 0,
-                                  enableInfiniteScroll: false,
-                                  reverse: false,
-                                  autoPlay: false,
-                                  // autoPlayInterval: Duration(seconds: 3),
-                                  // autoPlayAnimationDuration: Duration(milliseconds: 800),
-                                  // autoPlayCurve: Curves.fastOutSlowIn,
-                                  // enlargeCenterPage: true,
-                                  // onPageChanged: callbackFunction,
-                                  scrollDirection: Axis.horizontal,
-                                ),
-                                carouselController: buttonCarouselController,
-                                itemCount: commentsList.length,
-                                itemBuilder: (BuildContext context,
-                                        int itemIndex, int pageViewIndex) =>
-                                    Container(child: commentsList[itemIndex])
-                                // Image.asset("assets/pictures/TaskComments.png")
+                        // second section table
+                        Expanded(
+                          flex: 6,
+                          child: InkWell(
+                            onTap: noteTapped,
+                            onDoubleTap: expandImage,
+                            onLongPress: null,
+                            child: Container(
+                              child: CarouselSlider.builder(
+                                  options: CarouselOptions(
+                                    // height: 400,
+                                    // aspectRatio: 16/9,
+                                    viewportFraction: 1.0,
+                                    initialPage: 0,
+                                    enableInfiniteScroll: false,
+                                    reverse: false,
+                                    autoPlay: false,
+                                    // autoPlayInterval: Duration(seconds: 3),
+                                    // autoPlayAnimationDuration: Duration(milliseconds: 800),
+                                    // autoPlayCurve: Curves.fastOutSlowIn,
+                                    // enlargeCenterPage: true,
+                                    // onPageChanged: callbackFunction,
+                                    scrollDirection: Axis.horizontal,
+                                  ),
+                                  carouselController: buttonCarouselController,
+                                  itemCount: commentsList.length,
+                                  itemBuilder: (BuildContext context,
+                                          int itemIndex, int pageViewIndex) =>
+                                      Container(child: commentsList[itemIndex])
+                                  // Image.asset("assets/pictures/TaskComments.png")
 
-                                ),
+                                  ),
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      // Input keyboard
-                      Expanded(
-                        flex: 1,
-                        child: InkWell(onTap: toggleKeyboard, child: keyboard),
-                      ), // SvgPicture.asset("assets/pictures/input.svg")),
-                    ],
+
+                        // Input keyboard
+                        Expanded(
+                          flex: 1,
+                          child: InkWell(onTap: toggleKeyboard, child: keyboard),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),// SvgPicture.asset("assets/pictures/input.svg")),
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  width: 100,
-                  height: double.infinity,
-                  child: Center(
-                    child: InkWell(
-                      onTap: () => buttonCarouselController.nextPage(
-                          duration: Duration(milliseconds: 600),
-                          curve: Curves.linear),
-                      child: Container(
-                        // decoration: const BoxDecoration(
-                        //     gradient: LinearGradient(
-                        //         begin: Alignment.bottomLeft,
-                        //         end: Alignment.topRight,
-                        //         colors: [Color(0xff160647), Color(0xff370647)])),
-                        child: CircleAvatar(
-                          radius: 25,
-                          backgroundColor: Color(0xff730AAF),
-                          child: FaIcon(
-                            FontAwesomeIcons.anglesRight,
-                            color: Colors.white,
-                            size: 25,
+                  Container(
+                    width: 100,
+                    height: double.infinity,
+                    child: Center(
+                      child: InkWell(
+                        onTap: () => buttonCarouselController.nextPage(
+                            duration: Duration(milliseconds: 600),
+                            curve: Curves.linear),
+                        child: Container(
+                          // decoration: const BoxDecoration(
+                          //     gradient: LinearGradient(
+                          //         begin: Alignment.bottomLeft,
+                          //         end: Alignment.topRight,
+                          //         colors: [Color(0xff160647), Color(0xff370647)])),
+                          child: CircleAvatar(
+                            radius: 25,
+                            backgroundColor: Color(0xff730AAF),
+                            child: FaIcon(
+                              FontAwesomeIcons.anglesRight,
+                              color: Colors.white,
+                              size: 25,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -342,14 +363,13 @@ class _TaskProfileState extends State<TaskProfile>
       keyboard = keyboard == simpleKeyboard && commentsList != newTaskComments
           ? keyboardWithMessage
           : simpleKeyboard;
-
-      userOnePoints = keyboard == simpleKeyboard && commentsList == newTaskComments ? userOnePoints + 30 : userOnePoints;
-      userOneRank = keyboard == simpleKeyboard && commentsList == newTaskComments ? userOneRank - 1 : userOneRank;
-
     });
-    print("${keyboard},${commentsList}");
+
+
+    // print("${keyboard},${commentsList}");
     if (keyboard == simpleKeyboard && commentsList == newTaskComments) {
       if(missionTextList.length == 9){
+
         // removing mission
         missionTextList.removeAt(4);
         // removing and adding user pic in wins column
@@ -362,7 +382,7 @@ class _TaskProfileState extends State<TaskProfile>
         accomplishmentTextList.removeLast();
       }
       // Call here music
-
+      player.play("music/sendBadge.wav");
       showToastWidget(
         Image.asset(
           "assets/pictures/points_win_toast_message.png",
@@ -372,11 +392,40 @@ class _TaskProfileState extends State<TaskProfile>
         position: StyledToastPosition.center,
         // alignment: Alignment.centerRight,
         animDuration: Duration(seconds: 1),
-        duration: Duration(seconds: 6),
+        duration: Duration(seconds: 5),
         curve: Curves.easeInOut,
         context: context,
+        onDismiss: (){
+          Future.delayed( Duration(seconds: 1), (){
+            player.play("music/wooHoo.wav");
+            setState(() {
+              userOnePoints = keyboard == simpleKeyboard && commentsList == newTaskComments ? userOnePoints + 30 : userOnePoints;
+              userOneRank = keyboard == simpleKeyboard && commentsList == newTaskComments ? userOneRank - 1 : userOneRank;
+            });
+           });
+        }
       );
+
     }
+  }
+
+  Future<dynamic> expandImage(){
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              backgroundColor: Colors.transparent,
+              scrollable: false,
+              content: InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Center(
+                      child: Image.asset(
+                        "assets/pictures/task_comment_image.png",
+                        scale: 1.5,
+                      ))));
+        });
   }
 
   Future<dynamic> noteTapped() {
@@ -390,9 +439,9 @@ class _TaskProfileState extends State<TaskProfile>
                 filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                 child: InkWell(
                     onTap: () {
-                      // Play Music here
+                      final sendPlayer = AudioCache();
+                      sendPlayer.play("music/sendingMessage.wav");
                       Navigator.pop(context);
-
                     },
                     child: Center(
                         child: Image.asset(

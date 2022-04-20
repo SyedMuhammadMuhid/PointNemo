@@ -13,7 +13,7 @@ class Avatar extends StatefulWidget {
 
 class _Avatar extends State<Avatar> with TickerProviderStateMixin {
   // >> Global Constants
-  static const double kAvatarRadius = 35.0;
+  static double kAvatarRadius = deviceHeight > 800 ? 42.0 : 35;
   static const double kAddFactor = 2.0;
   static const double kSmallAvatarRadius = 16.0;
   static const Color kCrownRingColor = Color(0xFFC2AB11);
@@ -37,8 +37,8 @@ class _Avatar extends State<Avatar> with TickerProviderStateMixin {
   @override
   void dispose() {
     // TODO: implement dispose
-    super.dispose();
     _controller.dispose();
+    super.dispose();
   }
 
   @override

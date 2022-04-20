@@ -11,3 +11,11 @@ const TextStyle pointsHeaderTextStyle = TextStyle(
   fontFamily: "Adelle",
   fontWeight: FontWeight.bold,
 );
+
+const kSplashScreenHeaderTextStyle = TextStyle(
+  color: Color(0xffF2B82C),
+  fontSize: 120,
+  fontFamily: "Meteoric",
+  fontWeight: FontWeight.bold,
+  letterSpacing: 2,
+);
